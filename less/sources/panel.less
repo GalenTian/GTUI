@@ -1,0 +1,32 @@
+﻿.panel-block {
+    display: block;
+    position: relative;
+    min-height: 60px;
+    border-width: @link-panel-border-width-normal;
+    border-style: @link-panel-border-style-normal;
+    border-color: @link-panel-border-color-normal;
+    border-radius: @link-panel-border-raduis;
+
+    margin: @link-panel-margin;
+    padding: @link-panel-padding;
+    
+    color: @link-panel-font-color-normal;
+    
+    .clearfix();
+
+    & .icon {
+        font-size: 60px;
+        float: left;
+
+        color: @link-panel-icon-color-normal;
+    }
+
+    & .content {
+        margin-left: (@link-panel-icon-size + 15);
+
+        & .h1, & .h2, & .h3, & .h4, & .h5, & .h6 {
+            margin-top: 0;
+            font-weight: bold;
+        }
+    }
+}

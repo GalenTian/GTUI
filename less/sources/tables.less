@@ -1,0 +1,269 @@
+﻿table {
+    background: @table-bg;
+    margin: 0;
+    padding: 0;
+}
+
+caption {
+    padding-top: @table-cell-padding;
+    padding-bottom: @table-cell-padding;
+    color: @text-muted;
+    text-align: left;
+}
+
+th {
+    text-align: left;
+}
+
+// Table border, outter border & inner border
+
+.table-bordered {
+    border: 1px solid @table-border-color;
+}
+
+.table-cell-horizontal-bordered {
+    > thead,
+    > tbody,
+    > tfoot {
+        > tr {
+            > th,
+            > td {
+                border-top: 1px solid @table-cell-border-color;
+                border-bottom: 1px solid @table-cell-border-color;
+            }
+        }
+    }
+}
+
+.table-cell-vertical-bordered {
+    > thead,
+    > tbody,
+    > tfoot {
+        > tr {
+            > th,
+            > td {
+                border-left: 1px solid @table-cell-border-color;
+                border-right: 1px solid @table-cell-border-color;
+            }
+        }
+    }
+}
+
+.table {
+    width: 100%;
+    min-width: 100%;
+    margin-bottom: @line-height-computed;
+
+    // Cells
+    > thead,
+    > tbody,
+    > tfoot {
+        > tr {
+            > th,
+            > td {
+                padding: @table-cell-padding;
+                line-height: @line-height-base;
+                vertical-align: top;
+                text-align: @table-cell-text-align;
+            }
+        }
+    }
+
+    // Header styles
+    > thead {
+        background: @table-header-bg;
+
+        > tr {
+            > th {
+                text-align: @table-header-text-align;
+                border-bottom: 2px solid @table-cell-border-color;
+            }
+        }
+    }
+
+    // Nesting
+    .table {
+        background-color: @body-bg;
+    }
+}
+
+
+// Condensed table w/ half padding
+
+.table-condensed {
+    > thead,
+    > tbody,
+    > tfoot {
+        > tr {
+            > th,
+            > td {
+                padding: @table-cell-padding-condensed;
+            }
+        }
+    }
+}
+
+
+// Border striped
+
+// odd
+.table-striped,
+.table-striped-odd {
+    > tbody {
+        > tr:nth-of-type(odd) {
+            background: @table-bg-accent;
+        }
+    }
+}
+
+// even
+.table-striped-even {
+    > tbody {
+        > tr:nth-of-type(even) {
+            background: @table-bg-accent;
+        }
+    }
+}
+
+.table-orderable {
+    > thead {
+        > tr {
+            > th.orderable {
+                cursor: pointer;
+                position: relative;
+
+                & .glyphicon {
+                    color: @table-order-icon-color;
+                }
+
+                & .glyphicon-triangle-top {
+                    position: absolute;
+                    bottom: 50%;
+                    right: 7px;
+                }
+                & .glyphicon-triangle-bottom {
+                    position: absolute;
+                    top: 50%;
+                    right: 7px;
+
+                    &:before {
+                        position: absolute;
+                        top: 50%;
+                        right: 0;
+                    }
+                }
+
+                &.asc {
+                    & .glyphicon-triangle-top {
+                        color: @table-order-icon-color-select;
+                    }
+                }
+                &.desc {
+                    & .glyphicon-triangle-bottom {
+                        color: @table-order-icon-color-select;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.table-group {
+    > tbody {
+        > tr {
+            > td {
+                text-align: left;
+                padding: 0;
+
+                & .table {
+                    margin-bottom: 0;
+
+                    > thead {
+                        display: none;
+
+                        > tr {
+                            > th {
+                                
+                            }
+                        }
+                    }
+                }
+
+                &.group-header {
+                    padding: @table-cell-padding;
+                }
+            }
+        }
+    }
+}
+
+
+.table-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+
+    > div {
+        overflow: auto;
+
+        > table {
+            margin-bottom: 0;
+
+            > thead {
+                > tr {
+                    > th {
+
+                        > .fill-span {
+                            display: block;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .table-content {
+        height: 100%;
+    }
+
+    .table-frozen-header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+
+        > table {
+            > thead {
+                > tr {
+                    > th {
+                        > .fill-span {
+                            display: block;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .table-frozen-columns {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: auto;
+        height: 100%;
+        overflow: hidden;
+
+        > table {
+
+        }
+    }
+
+    .table-frozen-columns-header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: auto;
+        overflow: hidden;
+    }
+}
