@@ -1,0 +1,6 @@
+/.vs
+/GTUI/obj
+/GTUI/bin
+/GTUI/GTUI.csproj.user
+/GTUI/Web.Debug.config
+/GTUI/Web.Release.config
