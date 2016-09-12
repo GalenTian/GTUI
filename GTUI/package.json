@@ -1,0 +1,27 @@
+{
+  "name": "gtui",
+  "version": "0.1.0",
+  "description": "A framework, includes UI widgets and themes, for web development by GUI, AvePoint Inc. ",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "homepage": "",
+  "author": "Galen Tian",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-cleancss": "^0.2.2",
+    "gulp-filenames": "^2.0.0",
+    "gulp-header": "^1.8.7",
+    "gulp-less": "^3.0.5",
+    "gulp-nuget": "^1.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sequence": "^0.4.5",
+    "gulp-uglify": "^1.5.3",
+    "gulp-zip": "^3.2.0",
+    "webpack": "^1.13.0",
+    "webpack-stream": "^3.1.0",
+    "yargs": "^4.7.1"
+  }
+}

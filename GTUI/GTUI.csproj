@@ -65,9 +65,103 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="build\gtui\gtui.js" />
+    <Content Include="examples\lib\angular-1.28.js" />
+    <Content Include="examples\lib\angular.js" />
+    <Content Include="examples\lib\jquery-1.9.0.js" />
+    <Content Include="examples\lib\jquery-ui-1.9.2.js" />
+    <Content Include="examples\tables.html" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="gulpfile.js" />
+    <Content Include="index.html" />
+    <Content Include="js\directives\gtui.directive.js" />
+    <Content Include="js\directives\table.directive.js" />
+    <Content Include="js\directives\table.tbody.directive.js" />
+    <Content Include="js\directives\table.thead.directive.js" />
+    <Content Include="js\directives\verticaltile.directive.js" />
+    <Content Include="js\gtui.js" />
+    <Content Include="js\table.js" />
+    <Content Include="js\verticaltile.js" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="build\gtui\gtui.less" />
+    <Content Include="less\sources\alerts.less" />
+    <Content Include="less\sources\badges.less" />
+    <Content Include="less\gtui.less" />
+    <Content Include="less\sources\breadcrumbs.less" />
+    <Content Include="less\sources\button-groups.less" />
+    <Content Include="less\sources\buttons.less" />
+    <Content Include="less\sources\carousel.less" />
+    <Content Include="less\sources\close.less" />
+    <Content Include="less\sources\code.less" />
+    <Content Include="less\sources\component-animations.less" />
+    <Content Include="less\sources\dropdowns.less" />
+    <Content Include="less\sources\forms.less" />
+    <Content Include="less\sources\glyphicons.less" />
+    <Content Include="less\sources\grid.less" />
+    <Content Include="less\sources\input-groups.less" />
+    <Content Include="less\sources\jumbotron.less" />
+    <Content Include="less\sources\labels.less" />
+    <Content Include="less\sources\list-group.less" />
+    <Content Include="less\sources\media.less" />
+    <Content Include="less\sources\mixins.less" />
+    <Content Include="less\sources\modals.less" />
+    <Content Include="less\sources\navbar.less" />
+    <Content Include="less\sources\navs.less" />
+    <Content Include="less\sources\normalize.less" />
+    <Content Include="less\sources\pager.less" />
+    <Content Include="less\sources\pagination.less" />
+    <Content Include="less\sources\panels.less" />
+    <Content Include="less\sources\popovers.less" />
+    <Content Include="less\sources\print.less" />
+    <Content Include="less\sources\progress-bars.less" />
+    <Content Include="less\sources\responsive-embed.less" />
+    <Content Include="less\sources\responsive-utilities.less" />
+    <Content Include="less\sources\scaffolding.less" />
+    <Content Include="less\sources\tables.less" />
+    <Content Include="less\sources\theme.less" />
+    <Content Include="less\sources\thumbnails.less" />
+    <Content Include="less\sources\tooltip.less" />
+    <Content Include="less\sources\type.less" />
+    <Content Include="less\sources\utilities.less" />
+    <Content Include="less\variables.less" />
+    <Content Include="less\sources\wells.less" />
+    <Content Include="less\sources\mixins\alerts.less" />
+    <Content Include="less\sources\mixins\background-variant.less" />
+    <Content Include="less\sources\mixins\border-radius.less" />
+    <Content Include="less\sources\mixins\buttons.less" />
+    <Content Include="less\sources\mixins\center-block.less" />
+    <Content Include="less\sources\mixins\clearfix.less" />
+    <Content Include="less\sources\mixins\forms.less" />
+    <Content Include="less\sources\mixins\gradients.less" />
+    <Content Include="less\sources\mixins\grid-framework.less" />
+    <Content Include="less\sources\mixins\grid.less" />
+    <Content Include="less\sources\mixins\hide-text.less" />
+    <Content Include="less\sources\mixins\image.less" />
+    <Content Include="less\sources\mixins\labels.less" />
+    <Content Include="less\sources\mixins\list-group.less" />
+    <Content Include="less\sources\mixins\nav-divider.less" />
+    <Content Include="less\sources\mixins\nav-vertical-align.less" />
+    <Content Include="less\sources\mixins\opacity.less" />
+    <Content Include="less\sources\mixins\pagination.less" />
+    <Content Include="less\sources\mixins\panels.less" />
+    <Content Include="less\sources\mixins\progress-bar.less" />
+    <Content Include="less\sources\mixins\reset-filter.less" />
+    <Content Include="less\sources\mixins\reset-text.less" />
+    <Content Include="less\sources\mixins\resize.less" />
+    <Content Include="less\sources\mixins\responsive-visibility.less" />
+    <Content Include="less\sources\mixins\size.less" />
+    <Content Include="less\sources\mixins\tab-focus.less" />
+    <Content Include="less\sources\mixins\table-row.less" />
+    <Content Include="less\sources\mixins\text-emphasis.less" />
+    <Content Include="less\sources\mixins\text-overflow.less" />
+    <Content Include="less\sources\mixins\vendor-prefixes.less" />
+    <Content Include="package.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -81,9 +175,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
