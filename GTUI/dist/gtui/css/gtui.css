@@ -1,4 +1,4 @@
-/* Packaged at 19:14 Sep 12, 2016. Version: None */
+/* Packaged at 17:20 Sep 19, 2016. Version: None */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 html {
   font-family: sans-serif;
@@ -2233,7 +2233,7 @@ pre code {
   }
 }
 table {
-  background-color: transparent;
+  background-color: white;
 }
 caption {
   padding-top: 8px;
@@ -2471,6 +2471,48 @@ table th[class*="col-"] {
   .table-responsive > .table-bordered > tfoot > tr:last-child > td {
     border-bottom: 0;
   }
+}
+.table-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+.table-container > div {
+  overflow: auto;
+}
+.table-container > div > table {
+  margin-bottom: 0;
+}
+.table-container > div > table > thead > tr > th > .fill-span {
+  display: block;
+}
+.table-container .table-content {
+  height: 100%;
+}
+.table-container .table-frozen-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+}
+.table-container .table-frozen-header > table > thead > tr > th > .fill-span {
+  display: block;
+}
+.table-container .table-frozen-columns {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: auto;
+  height: 100%;
+  overflow: hidden;
+}
+.table-container .table-frozen-columns-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: auto;
+  overflow: hidden;
 }
 fieldset {
   padding: 0;

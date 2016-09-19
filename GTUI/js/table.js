@@ -14,6 +14,7 @@
                 TABLE_CELL_HORIZONTAL_BORDERED_CLASS: 'table-cell-horizontal-bordered',
                 TABLE_CELL_VERTICAL_BORDERED_CLASS: 'table-cell-vertical-bordered',
 
+                TABLE_STRIPED: 'table-striped',
                 TABLE_STRIPED_ODD: 'table-striped-odd',
                 TABLE_STRIPED_EVEN: 'table-striped-even',
 
@@ -34,165 +35,122 @@
 
     $.widget("gtui.table", {
         options: {
-            originTableContainerClass: 'table-content',
-            frozenHeaderTableContainerClass: 'table-frozen-header',
-            frozenColumnsTableContainerClass: 'table-frozen-columns',
-            frozenColumnsTableHeaderContainerClass: 'table-frozen-columns-header',
-
-            tableClass: 'table',
             fillSpanClass: 'fill-span',
 
-            frozenColumnsCount: 0
+            frozenColumnsCount: 3
         },
 
         _create: function () {
             var _self = this,
-                _options = _self.options,
-                _el = _self.element,
-                _origin = _el.children('table');
+                _el = _self.element;
 
-            _origin.wrap($('<div></div>').addClass(_options.originTableContainerClass));
+            _self._getContainers();
 
-            _self._originTable = _origin;
-            _self._originTableContainer = _self._originTable.parent();
-
-            _self._createFrozenHeader();
-            _self._createFrozenColumns();
-            _self._createFrozenColumnsHeader();
+            _self._getTables();
 
             _self.updateLayout();
 
             _self._initEvents();
         },
+        _getContainers: function () {
+            var _self = this,
+                _el = _self.element,
+                _constants = gtui.table.constant;
+
+            _self._originTableContainer = _el.children('.' + _constants.ORIGIN_TABLE_CONTAINER_CLASS);
+            _self._frozenHeaderContainer = _el.children('.' + _constants.FROZEN_HEADER_TABLE_CONTAINER_CLASS);
+            _self._frozenColumnsContainer = _el.children('.' + _constants.FROZEN_COLUMNS_TABLE_CONTAINER_CLASS);
+            _self._frozenColumnsHeaderContainer = _el.children('.' + _constants.FROZEN_COLUMNS_TABLE_HEADER_CONTAINER_CLASS);
+        },
+        _getTables: function () {
+            var _self = this;
+
+            _self._originTable = _self._originTableContainer.children('table');
+            _self._originTableHeaders = _self._originTable.find('> thead > tr > th');
+            _self._originTableRows = _self._originTable.find('> tbody > tr');
+            _self._frozenHeaderTable = _self._frozenHeaderContainer.children('table');
+            _self._frozenColumnsTable = _self._frozenColumnsContainer.children('table');
+            _self._frozenColumnsHeaderTable = _self._frozenColumnsHeaderContainer.children('table');
+        },
         _initEvents: function () {
             var _self = this,
                 _eventNamespace = _self.eventNamespace;
+            
+            // Do scroll when origin table is scrolled.
             _self._originTableContainer
                 .off(_eventNamespace)
                 .on('scroll' + _eventNamespace, _self, function (e) {
-                    e.data._frozenHeaderTableContainer.scrollLeft(e.data._originTableContainer.scrollLeft());
-                    e.data._frozenColumnsTableContainer.scrollTop(e.data._originTableContainer.scrollTop());
+                    e.data._frozenHeaderContainer.scrollLeft(e.data._originTableContainer.scrollLeft());
+                    e.data._frozenColumnsContainer.scrollTop(e.data._originTableContainer.scrollTop());
                 })
+
+            // Reset layout when window is resized.
             _self.element.on('resize' + _eventNamespace, _self, function (e) {
                 e.data.updateLayout();
-                e.data.updateTableLayout();
+            });
+
+            // Scroll origin table when table holds the frozen columns is scrolled.
+            _self._frozenColumnsTable.on('mousewheel' + _eventNamespace, _self, function (e) {
+                _self._originTableContainer.scrollTop(_self._originTableContainer.scrollTop() + e.deltaY * -1);
             });
         },
         _dealWithFrozenColumnsHeader: function () {
-            this._frozenColumnsHeaderTableContainer.width(this._frozenColumnsTableContainer.width());
+            var _self = this,
+                    _oth = _self._originTableHeaders;
+
+            _self._frozenColumnsHeaderTable.find('> thead > tr > th').map(function (i, th) {
+                $(th).outerWidth(_oth[i].offsetWidth).outerHeight(_oth[i].offsetHeight);
+            });
+
+            _self._frozenColumnsHeaderContainer.outerWidth(_self._frozenColumnsContainer.width());
         },
         _dealWithFrozenColumns: function () {
-            this._frozenColumnsTableContainer.height(this._originTableContainer[0].clientHeight +
-                this._originTable.find('thead').outerHeight());
+            var _self = this,
+                _oth = _self._originTableHeaders,
+                _otr = _self._originTableRows,
+                _width = 0;
+
+            _self._frozenColumnsTable.find('> thead > tr > th').map(function (i, th) {
+                if (i < _self._getFrozenColumnsCount()) {
+                    _width += _oth[i].offsetWidth;
+                    $(th).outerWidth(_oth[i].offsetWidth).outerHeight(_oth[i].offsetHeight);
+                }
+            });
+            _self._frozenColumnsTable.find('> tbody > tr').map(function (i, tr) {
+                $(tr).outerHeight(tr.offsetHeight);
+            });
+
+            _self._frozenColumnsContainer
+                .outerHeight(_self._originTableContainer[0].clientHeight +
+                    _self._originTable.find('thead').outerHeight())
+                .outerWidth(_width + 2);
         },
         _dealWithFrozenHeader: function () {
-            this._frozenHeaderTableContainer.width(this._originTableContainer[0].clientWidth);
+            var _self = this,
+                _oth = _self._originTableHeaders;
+
+            _self._frozenHeaderTable.find('> thead > tr > th').map(function (i, th) {
+                $(th).outerWidth(_oth[i].offsetWidth).outerHeight(_oth[i].offsetHeight);
+            });
+
+            _self._frozenHeaderContainer.outerWidth(_self._originTableContainer[0].clientWidth);
         },
         _dealWithOriginHeader: function () {
             var _marginTop = this._originTable.find('thead').outerHeight();
             this._originTable.css({ 'margin-top': _marginTop * -1 });
 
             this.element.css({ 'padding-top': _marginTop });
+
+            this._originTable.find('> tbody > tr').map(function (i, tr) {
+                $(tr).outerHeight(tr.offsetHeight);
+            });
         },
-        _createFrozenColumnsHeader: function () {
-            var _self = this,
-                _options = _self.options,
-                _frozenColumnsHeader = _self._frozenColumnsTable.clone();
-
-            _frozenColumnsHeader.children('tbody').remove();
-
-            _self._frozenColumnsHeaderTableContainer = $('<div></div>').addClass(_options.frozenColumnsTableHeaderContainerClass);
-            _self._frozenColumnsHeaderTable = _frozenColumnsHeader;
-            _self.element.append(_self._frozenColumnsHeaderTableContainer.append(_self._frozenColumnsHeaderTable));
-        },
-        _createFrozenColumns: function () {
-            var _self = this,
-                _options = _self.options,
-                _table = $('<table></table>'),
-                _frozenColumns, _tempRows, _origin, _originRows;
-
-            _frozenColumns = _self._originTable.clone();
-            _tempRows = _frozenColumns.find('> tbody > tr');
-            _origin = _self._originTable;
-            _originRows = _origin.find('> tbody > tr');
-
-            for (var i = 0, length = _tempRows.length; i < length; i++) {
-                var _row = $(_tempRows[i]),
-                    _cloneRow = _row.clone(),
-                    _cells = _cloneRow.children('td'),
-                    _height = $(_originRows[i]).height();
-
-                _row.html('');
-
-                for (var j = 0; j < _options.frozenColumnsCount; j++) {
-                    _row.append($(_cells[j]).height(_height));
-                }
-
-                $('td', _originRows[i]).outerHeight(_height);
-            }
-
-            _tempRows = _frozenColumns.find('> thead > tr');
-            _originRows = _self._frozenHeaderTable.find('> thead > tr');
-            var containerWidth = 0;
-
-            for (var i = 0, length = _tempRows.length; i < length; i++) {
-                var _row = $(_tempRows[i]),
-                    _cloneRow = $(_originRows[i]),
-                    _cells = _cloneRow.children('th'),
-                    _height = _cloneRow.outerHeight();
-
-                _row.html('');
-
-                var width = 0;
-                for (var j = 0; j < _options.frozenColumnsCount; j++) {
-                    _row.append($(_cells[j]).clone().outerHeight(_height));
-                    width += _cells[j].offsetWidth;
-                }
-
-                containerWidth = Math.max(width, containerWidth);
-            }
-
-            _self._frozenColumnsTableContainer = $('<div></div>').addClass(_options.frozenColumnsTableContainerClass).width(containerWidth ? containerWidth + 2 : 0);
-            _self._frozenColumnsTable = _frozenColumns;
-            _self.element.append(_self._frozenColumnsTableContainer.append(_self._frozenColumnsTable));
-        },
-        _createFrozenHeader: function () {
-            var _self = this,
-                _options = _self.options,
-                _frozenHeader,
-                _originHeaders, _frozenHeaders;
-
-            _frozenHeader = _self._originTable.clone();
-            _frozenHeader.children('tbody').remove();
-
-            _originHeaders = _self._originTable.find('th');
-            _frozenHeaders = _frozenHeader.find('th');
-
-            for (var i = 0, length = _originHeaders.length; i < length; i++) {
-                $(_frozenHeaders[i]).append(
-                    $('<span></span>').addClass(_options.fillSpanClass).width($(_originHeaders[i]).width())
-                );
-                //$(_frozenHeaders[i]).outerWidth($(_originHeaders[i]).outerWidth());
-            }
-
-            _self._originHeaders = _originHeaders;
-            _self.element.append($('<div></div>').addClass(_options.frozenHeaderTableContainerClass).append(_frozenHeader));
-            _self._frozenHeaderTable = _frozenHeader;
-            _self._frozenHeaderTableContainer = _self._frozenHeaderTable.parent();
+        _getFrozenColumnsCount: function () {
+            var count = parseInt(this.options.frozenColumnsCount);
+            return count ? count : 0;
         },
         _destroy: function () {
 
-        },
-        _updateFrozenHeaderLayout: function () {
-            var _self = this,
-                _options = _self.options,
-                fillSapns = _self._frozenHeaderTable.find('th > span.' + _options.fillSpanClass);
-
-            for (var i = 0, length = _self._originHeaders.length; i < length; i++) {
-                var _width = $(_self._originHeaders[i]).width();
-                $(fillSapns[0]).width(_width);
-                $(_self._originHeaders[i]).width(_width)
-            }
         },
 
         updateLayout: function () {
@@ -203,10 +161,12 @@
             _self._dealWithFrozenColumns();
             _self._dealWithFrozenColumnsHeader();
         },
-        updateTableLayout: function () {
+        updateItemsSource: function () {
             var _self = this;
 
-            _self._updateFrozenHeaderLayout();
+            _self._getTables();
+
+            _self.updateLayout();
         }
     });
 })(jQuery);

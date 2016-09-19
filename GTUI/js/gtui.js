@@ -24,5 +24,7 @@
     window.gtui = _gtui;
 })(jQuery);
 
+require('./mousewheel.js');
+
 require('./table.js');
 require('./verticaltile.js');
