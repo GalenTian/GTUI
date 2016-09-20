@@ -111,6 +111,10 @@
                         scope.metaTable = element;
                     }
 
+                    element.on('sort', scope, function (e) {
+                        e.data.$emit('sort', e);
+                    });
+
                     $(document).ready(function () {
                         element.table({
                             frozenColumnsCount: _config.frozenColumnsCount

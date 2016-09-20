@@ -62,7 +62,7 @@
         };
 
         // Tables
-        var MyTableController = function () {
+        var MyTableController = function ($scope) {
             var vm = this,
                 columnCount = 20,
                 rowCount = 30;
@@ -81,26 +81,9 @@
                 }
             }
 
-            return vm;
-        };
-        var MySmallTableController = function () {
-            var vm = this,
-                columnCount = 7,
-                rowCount = 5;
-
-            vm.headers = [];
-            for (var i = 0; i < columnCount; i++) {
-                vm.headers.push({ title: 'Header' + i });
-            }
-
-            vm.items = [];
-            for (var i = 0; i < rowCount; i++) {
-                var obj = { cols: [] };
-                vm.items.push(obj);
-                for (var j = 0; j < columnCount; j++) {
-                    obj.cols.push({ content: 'Row-' + i + '-' + j });
-                }
-            }
+            $scope.$on('sort', function (e, data) {
+                console.log(e.name + ': Index "' + data.index + '" was clicked.')
+            });
 
             return vm;
         };

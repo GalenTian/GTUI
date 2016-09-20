@@ -1,4 +1,4 @@
-/* Packaged at 17:20 Sep 19, 2016. Version: None */
+/* Packaged at 10:14 Sep 20, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -381,11 +381,21 @@
 	            // Reset layout when window is resized.
 	            _self.element.on('resize' + _eventNamespace, _self, function (e) {
 	                e.data.updateLayout();
+	            })
+	            .on('click' + _eventNamespace, 'th', _self, function (e) {
+	                var _target = $(e.target);
+	                if (_target[0].nodeName !== 'TH') {
+	                    _target = _target.closest('th');
+	                }
+	                var _position = _target.parent().children('th').index(e.target),
+	                    _event = $.Event('sort', { index: _position });
+
+	                e.data.element.trigger(_event);
 	            });
 
 	            // Scroll origin table when table holds the frozen columns is scrolled.
 	            _self._frozenColumnsTable.on('mousewheel' + _eventNamespace, _self, function (e) {
-	                _self._originTableContainer.scrollTop(_self._originTableContainer.scrollTop() + e.deltaY * -1);
+	                e.data._originTableContainer.scrollTop(e.data._originTableContainer.scrollTop() + e.deltaY * -1);
 	            });
 	        },
 	        _dealWithFrozenColumnsHeader: function () {
@@ -661,6 +671,10 @@
 	                    else {
 	                        scope.metaTable = element;
 	                    }
+
+	                    element.on('sort', scope, function (e) {
+	                        e.data.$emit('sort', e);
+	                    });
 
 	                    $(document).ready(function () {
 	                        element.table({
