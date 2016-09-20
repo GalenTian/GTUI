@@ -25,7 +25,7 @@ gulp.task('clean', function () {
 
 gulp.task('js', ['clean'], function () {
 
-    return gulp.src('./build/gtui/gtui.js')
+    return gulp.src('./build/gtui.js')
         .pipe(webpack({
             output: {
                 filename: 'gtui.js'
@@ -42,7 +42,7 @@ gulp.task('js', ['clean'], function () {
 
 gulp.task('css', ['clean'], function () {
     
-    return gulp.src('./build/gtui/gtui.less')
+    return gulp.src('./build/gtui.less')
         .pipe(less())
         .pipe(header(banner, bannerJson))
         .pipe(rename('gtui.css'))
