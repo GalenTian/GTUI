@@ -1,4 +1,4 @@
-/* Packaged at 17:9 Sep 20, 2016. Version: None */
+/* Packaged at 11:25 Sep 21, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -462,6 +462,30 @@
 	            var count = parseInt(this.options.frozenColumnsCount);
 	            return count ? count : 0;
 	        },
+	        _hideRedundancy: function () {
+	            var _self = this,
+	                _frozenColumnCount = _self.options.frozenColumnsCount;
+
+	            // Hide unfrozen columns of _frozenColumnsTable.
+	            _self._frozenColumnsTable.find('> thead > tr > th').map(function (i, th) {
+	                if (i >= _frozenColumnCount) {
+	                    th.style.display = 'none';
+	                }
+	            });
+	            _self._frozenColumnsTable.find('> tbody > tr').map(function (i, tr) {
+	                $(tr).find('> td').map(function (j, td) {
+	                    if (j >= _frozenColumnCount) {
+	                        td.style.display = 'none';
+	                    }
+	                });
+	            });
+	            // Hide unfrozen columns of _frozenColumnsHeaderTable.
+	            _self._frozenColumnsHeaderTable.find('> thead > tr > th').map(function (i, th) {
+	                if (i >= _frozenColumnCount) {
+	                    th.style.display = 'none';
+	                }
+	            });
+	        },
 	        _destroy: function () {
 
 	        },
@@ -473,6 +497,8 @@
 	            _self._dealWithFrozenHeader();
 	            _self._dealWithFrozenColumns();
 	            _self._dealWithFrozenColumnsHeader();
+
+	            _self._hideRedundancy();
 	        },
 	        updateItemsSource: function () {
 	            var _self = this;
@@ -635,15 +661,15 @@
 	                // Generate table which holds the frozen columns on left of this table-ish component based on the original table.
 	                _frozenColumnsTemplate = _originTableTemplate.clone();
 	                
-	                // Deal with table that holds the frozen columns: Hide the non-frozen columns with ng-class attribute.
-	                var _th = _frozenColumnsTemplate.find('> thead > tr > th');
-	                if (_th.length === 1 && _th.attr('ng-repeat')) {
-	                    _th.attr('ng-if', '$index < ' + _frozenColumnsCount);
-	                }
-	                var _td = _frozenColumnsTemplate.find('> tbody > tr > td');
-	                if (_td.length === 1 && _td.attr('ng-repeat')) {
-	                    _td.attr('ng-if', '$index < ' + _frozenColumnsCount);
-	                }
+	                //// Deal with table that holds the frozen columns: Hide the non-frozen columns with ng-if attribute.
+	                //var _th = _frozenColumnsTemplate.find('> thead > tr > th');
+	                //if (_th.length === 1 && _th.attr('ng-repeat')) {
+	                //    _th.attr('ng-if', '$index < ' + _frozenColumnsCount);
+	                //}
+	                //var _td = _frozenColumnsTemplate.find('> tbody > tr > td');
+	                //if (_td.length === 1 && _td.attr('ng-repeat')) {
+	                //    _td.attr('ng-if', '$index < ' + _frozenColumnsCount);
+	                //}
 
 	                // Generate the table holds the headers of the table holds the frozen columns.
 	                // This table is fixed on top, and fixed on left.

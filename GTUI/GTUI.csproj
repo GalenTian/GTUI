@@ -80,7 +80,6 @@
     <Content Include="js\directives\pager.directive.js" />
     <Content Include="js\directives\table.directive.js" />
     <Content Include="js\directives\table.tbody.directive.js" />
-    <Content Include="js\directives\table.td.directive.js" />
     <Content Include="js\directives\table.thead.directive.js" />
     <Content Include="js\directives\verticaltile.directive.js" />
     <Content Include="js\gtui.js" />
