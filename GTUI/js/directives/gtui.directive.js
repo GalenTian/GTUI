@@ -1,10 +1,8 @@
-﻿(function ($) {
-    if (window.angular) {
-        angular.module('gtui', []);
-    }
-})(jQuery);
+﻿// Core
+require('./core.directive.js');
 
 // Directives
+require('./pager.directive.js');
 require('./table.directive.js');
 require('./table.thead.directive.js');
 require('./table.tbody.directive.js');

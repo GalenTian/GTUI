@@ -6,7 +6,7 @@
             _divHTML = '<div></div>',
             _tbodyHTML = 'tbody',
 
-            getTableClass = function (config) {
+            _getTableClass = function (config) {
                 var _tableClass = [gtui.table.constant.TABLE_CLASS];
 
                 if (config.tableBordered) {
@@ -18,7 +18,7 @@
 
                 return _tableClass.join(' ');
             },
-            getTemplate = function (el, config) {
+            _getTemplate = function (el, config) {
                 // Template outer element
                 var _div = $(_divHTML).addClass(gtui.table.constant.TABLE_CONTAINER_CLASS),
 
@@ -39,7 +39,7 @@
                 // Deal with frozenColumnsCount.
                 _frozenColumnsCount = _frozenColumnsCount ? _frozenColumnsCount : 0;
 
-                var _tableClass = getTableClass(config);
+                var _tableClass = _getTableClass(config);
 
                 // Add classes to original table template.
                 _originTableTemplate.addClass(_tableClass);
@@ -79,11 +79,6 @@
                 restrict: "EA",
                 scope: false,
                 template: function (element, attrs) {
-                    var _tableBordered = attrs.tableBordered,
-                        _frozenCols = attrs.frozenCols,
-                        _tableClass = [gtui.table.constant.TABLE_CLASS],
-                        _template = [];
-
                     // Deal with data-config
                     if (!attrs.config) {
                         console.error('gtui-table: "data-config" attribute is missing.');
@@ -94,7 +89,7 @@
                         element.data(_dataConfigField, _config)
                     }
 
-                    return getTemplate(element, _config).prop("outerHTML");
+                    return _getTemplate(element, _config).prop("outerHTML");
                 },
                 replace: true,
                 transclude: false,

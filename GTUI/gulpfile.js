@@ -19,47 +19,66 @@ var banner = '/* Packaged at <%= date %>. Version: <%= version %> */\n',
         version: argv.v ? argv.v : 'None'
     };
 
-gulp.task('clean', function () {
-    return gulp.src('./dist/', { read: false }).pipe(clean());
+var projectName = 'gtui',
+
+    buildFolder = './build/',
+    fontsSrcFolder = './fonts/',
+
+    distFolder = './dist/',
+    cssFolder = distFolder + 'css/',
+    jsFolder = distFolder + 'js/',
+    fontsFolder = distFolder + 'fonts/',
+        
+    jsExt = '.js',
+    minJsExt = '.min.js',
+    lessExt = '.less',
+    cssExt = '.css',
+    minCssExt = '.min.css',
+        
+    allFiles = '*.*';
+
+var tasks = ['clean', 'js', 'css', 'fonts'];
+
+gulp.task(tasks[0], function () {
+    return gulp.src(distFolder, { read: false }).pipe(clean());
 });
 
-gulp.task('js', ['clean'], function () {
+gulp.task(tasks[1], [tasks[0]], function () {
 
-    return gulp.src('./build/gtui.js')
+    return gulp.src(buildFolder + projectName + jsExt)
         .pipe(webpack({
             output: {
-                filename: 'gtui.js'
+                filename: projectName + jsExt
             }
         }))
         .pipe(header(banner, bannerJson))
-        .pipe(gulp.dest('./dist/gtui/js/'))
-        .pipe(rename('gtui.min.js'))
-        .pipe(gulp.dest('./dist/gtui/js/'))
+        .pipe(gulp.dest(jsFolder))
+        .pipe(rename(projectName + minJsExt))
+        .pipe(gulp.dest(jsFolder))
         .pipe(uglify())
         .pipe(header(banner, bannerJson))
-        .pipe(gulp.dest('./dist/gtui/js/'));
+        .pipe(gulp.dest(jsFolder));
 });
 
-gulp.task('css', ['clean'], function () {
+gulp.task(tasks[2], [tasks[0]], function () {
     
-    return gulp.src('./build/gtui.less')
+    return gulp.src(buildFolder + projectName + lessExt)
         .pipe(less())
         .pipe(header(banner, bannerJson))
-        .pipe(rename('gtui.css'))
-        .pipe(gulp.dest('./dist/gtui/css/'))
-        .pipe(rename('gtui.min.css'))
+        .pipe(rename(projectName + cssExt))
+        .pipe(gulp.dest(cssFolder))
+        .pipe(rename(projectName + minCssExt))
         .pipe(cleancss())
         .pipe(header(banner, bannerJson))
-        .pipe(gulp.dest('./dist/gtui/css/'));
+        .pipe(gulp.dest(cssFolder));
 });
 
-gulp.task('fonts', ['clean'], function () {
-    var FONT_ROOT = './fonts/';
+gulp.task(tasks[3], [tasks[0]], function () {
 
-    return gulp.src(FONT_ROOT + '*.*')
-        .pipe(gulp.dest('./dist/gtui/fonts/'));
+    return gulp.src(fontsSrcFolder + allFiles)
+        .pipe(gulp.dest(fontsFolder));
 });
 
-gulp.task('default', ['clean', 'css', 'fonts', 'js'], function () {
+gulp.task('default', tasks, function () {
     return gulp;
 });

@@ -1,4 +1,4 @@
-/* Packaged at 14:46 Sep 20, 2016. Version: None */
+/* Packaged at 17:9 Sep 20, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -48,11 +48,25 @@
 	'use strict';
 
 	__webpack_require__(1);
-	__webpack_require__(5);
+	__webpack_require__(6);
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
+
+	// Core
+	__webpack_require__(2);
+
+	// Util-ish widgets
+	__webpack_require__(3);
+
+	// Widgets
+	__webpack_require__(4);
+	__webpack_require__(5);
+
+/***/ },
+/* 2 */
+/***/ function(module, exports) {
 
 	(function ($) {
 	    var _gtui = {};
@@ -80,13 +94,8 @@
 	    window.gtui = _gtui;
 	})(jQuery);
 
-	__webpack_require__(2);
-
-	__webpack_require__(3);
-	__webpack_require__(4);
-
 /***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -289,7 +298,7 @@
 	})(jQuery);
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports) {
 
 	/**
@@ -476,7 +485,7 @@
 	})(jQuery);
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 	/**
@@ -540,8 +549,22 @@
 	})(jQuery);
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
+
+	// Core
+	__webpack_require__(7);
+
+	// Directives
+	__webpack_require__(8);
+	__webpack_require__(9);
+	__webpack_require__(10);
+	__webpack_require__(11);
+	__webpack_require__(12);
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
 
 	(function ($) {
 	    if (window.angular) {
@@ -549,14 +572,14 @@
 	    }
 	})(jQuery);
 
-	// Directives
-	__webpack_require__(6);
-	__webpack_require__(7);
-	__webpack_require__(8);
-	__webpack_require__(9);
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	
 
 /***/ },
-/* 6 */
+/* 9 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -567,7 +590,7 @@
 	            _divHTML = '<div></div>',
 	            _tbodyHTML = 'tbody',
 
-	            getTableClass = function (config) {
+	            _getTableClass = function (config) {
 	                var _tableClass = [gtui.table.constant.TABLE_CLASS];
 
 	                if (config.tableBordered) {
@@ -579,7 +602,7 @@
 
 	                return _tableClass.join(' ');
 	            },
-	            getTemplate = function (el, config) {
+	            _getTemplate = function (el, config) {
 	                // Template outer element
 	                var _div = $(_divHTML).addClass(gtui.table.constant.TABLE_CONTAINER_CLASS),
 
@@ -600,7 +623,7 @@
 	                // Deal with frozenColumnsCount.
 	                _frozenColumnsCount = _frozenColumnsCount ? _frozenColumnsCount : 0;
 
-	                var _tableClass = getTableClass(config);
+	                var _tableClass = _getTableClass(config);
 
 	                // Add classes to original table template.
 	                _originTableTemplate.addClass(_tableClass);
@@ -640,11 +663,6 @@
 	                restrict: "EA",
 	                scope: false,
 	                template: function (element, attrs) {
-	                    var _tableBordered = attrs.tableBordered,
-	                        _frozenCols = attrs.frozenCols,
-	                        _tableClass = [gtui.table.constant.TABLE_CLASS],
-	                        _template = [];
-
 	                    // Deal with data-config
 	                    if (!attrs.config) {
 	                        console.error('gtui-table: "data-config" attribute is missing.');
@@ -655,7 +673,7 @@
 	                        element.data(_dataConfigField, _config)
 	                    }
 
-	                    return getTemplate(element, _config).prop("outerHTML");
+	                    return _getTemplate(element, _config).prop("outerHTML");
 	                },
 	                replace: true,
 	                transclude: false,
@@ -688,7 +706,7 @@
 	})(jQuery);
 
 /***/ },
-/* 7 */
+/* 10 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -725,7 +743,7 @@
 	})(jQuery);
 
 /***/ },
-/* 8 */
+/* 11 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -764,7 +782,7 @@
 	})(jQuery);
 
 /***/ },
-/* 9 */
+/* 12 */
 /***/ function(module, exports) {
 
 	(function ($) {
