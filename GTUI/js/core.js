@@ -14,10 +14,23 @@
         }
         return obj;
     };
+    var getClosestEementByNodeName = function (element, nodeName) {
+        if (!(element instanceof jQuery)) {
+            element = $(element);
+        }
+
+        if (element[0].nodeName === nodeName.toUpperCase()) {
+            return element;
+        }
+        else {
+            return element.closest(nodeName);
+        }
+    };
 
     $.extend(_gtui, {
         utils: {
-            parseObj: _parseObj
+            parseObj: _parseObj,
+            getClosestEementByNodeName: getClosestEementByNodeName
         }
     });
 
