@@ -88,7 +88,7 @@
                 </form>
             </div>
             <div id="demo-content" gtui-panel-content data-config="{ hasFooter: false}" data-footer="false">
-                <div id="demo-charts" style="position: relative;" gtui-vertical-tile>
+                <div gtui-vertical-tile id="demo-charts" style="position: relative;">
                     <div id="demo-chart1" style="position: absolute; left: 0; top: 0; width: 50%; height: 50%;"></div>
                     <div id="demo-chart2" style="position: absolute; left: 50%; top: 0; width: 50%; height: 50%;"></div>
                     <div id="demo-chart3" style="position: absolute; left: 0; top: 50%; width: 100%; height: 50%;"></div>
@@ -252,7 +252,7 @@
                 var chart3 = echarts.init($('#demo-chart3')[0], 'macarons');
                 chart3.setOption($('#demo-chart3').scope().vm.char3option);
 
-                $(window).on('resize', function () {
+                $(window).resize(function () {
                     chart1.resize();
                     chart2.resize();
                     chart3.resize();
