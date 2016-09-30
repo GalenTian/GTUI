@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>统计报表（费用类）</title>
+	<meta charset="utf-8" />
+
+    <link type="text/css" rel="stylesheet" href="../../dist/css/gtui.css" />
+    <link type="text/css" rel="stylesheet" href="../lib/bootstrap-datepicker/css/bootstrap-datepicker.css" />
+</head>
+<body ng-app="GTUIComponent">
+    <div class="container">
+        <div ng-controller="DemoController as vm">
+            <div gtui-panel-search data-config="{ titleField: 'title', controllerAs: 'vm' }">
+                <form class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group form-group-sm">
+                                <label for="demo-time" class="col-sm-4 control-label">需求时间</label>
+                                <div class="col-sm-8">
+                                    <div class="input-daterange input-group" id="datepicker">
+                                        <input type="text" class="form-control" name="start" />
+                                        <span class="input-group-addon">-</span>
+                                        <input type="text" class="form-control " name="end" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-4 control-label">需求总金额</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <label class="sr-only" for="demo-amount-start">起始需求总金额</label>
+                                        <input type="text" class="form-control" id="demo-amount-start" aria-describedby="inputGroupSuccess4Status">
+                                        <span class="input-group-addon">-</span>
+                                        <label class="sr-only" for="demo-amount-end">截止需求总金额</label>
+                                        <input type="text" class="form-control" id="demo-amount-start" aria-describedby="inputGroupSuccess4Status">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group form-group-sm">
+                                <label for="demo-time" class="col-sm-4 control-label">所属部门</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" ng-model="vm.selectedDepartment" ng-options="item.name for item in vm.departments">
+                                        <option value="">-- 请选择 --</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-4 control-label">所属专业</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" ng-model="vm.selectedDomain" ng-options="item.name for item in vm.domains">
+                                        <option value="">-- 请选择 --</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-4 control-label">子环节状态</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" ng-model="vm.selectedState" ng-options="item.name for item in vm.states">
+                                        <option value="">-- 请选择 --</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-default btn-sm">查询</button>
+                    </div>
+                </form>
+            </div>
+            <div id="demo-content" gtui-panel-content data-config="{ hasFooter: false}" data-footer="false">
+                <div id="demo-charts" style="position: relative;" gtui-vertical-tile>
+                    <div id="demo-chart1" style="position: absolute; left: 0; top: 0; width: 50%; height: 50%;"></div>
+                    <div id="demo-chart2" style="position: absolute; left: 50%; top: 0; width: 50%; height: 50%;"></div>
+                    <div id="demo-chart3" style="position: absolute; left: 0; top: 50%; width: 100%; height: 50%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../lib/jquery-1.9.0.js"></script>
+    <script src="../lib/jquery-ui-1.9.2.js"></script>
+    <script src="../lib/angular-1.28.js"></script>
+    <script src="../lib/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="../lib/echarts.js"></script>
+    <script src="../lib/theme/macarons.js"></script>
+    <script src="../../dist/js/gtui.js"></script>
+    <script>
+        // AnaularJS相关
+        var MyPagerController = function ($scope) {
+            var vm = this;
+            // 查询区域
+            // ------------------------------------------------------
+            // 标题
+            vm.title = '统计报表（投资类）';
+            // 部门
+            vm.departments = [
+                { name: '部门1', id: 'DEP0001' },
+                { name: '部门2', id: 'DEP0002' },
+                { name: '部门3', id: 'DEP0003' },
+                { name: '部门4', id: 'DEP0004' },
+                { name: '部门5', id: 'DEP0005' },
+                { name: '部门6', id: 'DEP0006' }
+            ];
+            vm.selectedDepartment = '';
+            // 专业
+            vm.domains = [
+                { name: '专业1.1', id: 'DOM10001' },
+                { name: '专业1.2', id: 'DOM10002' },
+                { name: '专业1.3', id: 'DOM10003' },
+                { name: '专业1.4', id: 'DOM10004' },
+                { name: '专业1.5', id: 'DOM10005' },
+                { name: '专业1.6', id: 'DOM10006' }
+            ];
+            vm.selectedDemain = '';
+            // 状态
+            vm.states = [
+                { name: '已完成', id: 'STATE01' },
+                { name: '已延误', id: 'STATE02' },
+                { name: '已报警', id: 'STATE03' }
+            ];
+            vm.selectedState = '';
+
+            // 内容区域
+            // ------------------------------------------------------
+            vm.char1option = {
+                title: {
+                    text: '各阶段完成数量统计',
+                    x: 'center'
+                },
+                tooltip: {},
+                legend: {
+                    data: ['数量'],
+                    left: 'left'
+                },
+                xAxis: {
+                    data: ["1.2 BM单", "1.3 商务", "1.4 实施", "1.5 验收", "1.6 记账"]
+                },
+                yAxis: {},
+                series: [{
+                    name: '数量',
+                    type: 'bar',
+                    data: [0, 27, 19, 12, 3],
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: true, position: 'top'
+                            }
+                        }
+                    }
+                }]
+            };
+            vm.char2option = {
+                title: {
+                    text: '各阶段平均完成时间分布',
+                    x: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data: ["1.2 BM单", "1.3 商务", "1.4 实施", "1.5 验收", "1.6 记账"]
+                },
+                series: [
+                    {
+                        name: '延误统计',
+                        type: 'pie',
+                        radius: '55%',
+                        center: ['50%', '60%'],
+                        data: [
+                            { value: 0, name: '1.2 BM单' },
+                            { value: 17, name: '1.3 商务' },
+                            { value: 45, name: '1.4 实施' },
+                            { value: 5, name: '1.5 验收' },
+                            { value: 1, name: '1.6 记账' }
+                        ],
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+            vm.char3option = {
+                title: {
+                    text: '各阶段延误数量统计',
+                    x: 'center'
+                },
+                tooltip: {},
+                legend: {
+                    data: ['数量'],
+                    left: 'left'
+                },
+                xAxis: {
+                    data: ["1.2 BM单", "1.3 商务", "1.4 实施", "1.5 验收", "1.6 记账"]
+                },
+                yAxis: {},
+                series: [{
+                    name: '数量',
+                    type: 'bar',
+                    data: [0, 2, 4, 5, 2],
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: true, position: 'top'
+                            }
+                        }
+                    }
+                }]
+            };
+
+            return vm;
+        };
+
+        // Page Controller
+        angular.module('GTUIComponent', ['gtui'])
+            // Controllers for Tables
+            .controller('DemoController', MyPagerController);
+
+        // 初始化图表
+        $(function () {
+            $('#demo-charts').on('resize', function (e) {
+                var chart1 = echarts.init($('#demo-chart1')[0], 'macarons');
+                chart1.setOption($('#demo-chart1').scope().vm.char1option);
+                var chart2 = echarts.init($('#demo-chart2')[0], 'macarons');
+                chart2.setOption($('#demo-chart2').scope().vm.char2option);
+                var chart3 = echarts.init($('#demo-chart3')[0], 'macarons');
+                chart3.setOption($('#demo-chart3').scope().vm.char3option);
+
+                $(window).on('resize', function () {
+                    chart1.resize();
+                    chart2.resize();
+                    chart3.resize();
+                });
+            });
+        });
+    </script>
+</body>
+</html>

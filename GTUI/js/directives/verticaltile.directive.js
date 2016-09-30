@@ -2,7 +2,7 @@
     if (window.angular) {
         var gta = angular.module('gtui');
 
-        gta.directive('gtuiVerticalTile', function ($compile, $timeout) {
+        gta.directive('gtuiVerticalTile', function () {
             return {
                 restrict: "EA",
                 template: '',

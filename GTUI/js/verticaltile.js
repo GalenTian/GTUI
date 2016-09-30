@@ -32,7 +32,7 @@
                 _el = _self.element,
                 _window = window;
 
-            var _top = _self._elementTop,
+            var _top = _el.position().top,
                 _docHeight = document.documentElement.clientHeight,
                 _offsetBottom = _self._elementOffsetBottom;
 

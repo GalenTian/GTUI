@@ -14,11 +14,11 @@
 @gray-light:             lighten(@gray-base, 46.7%); // #777
 @gray-lighter:           lighten(@gray-base, 93.5%); // #eee
 
-@brand-primary:         darken(#428bca, 6.5%); // #337ab7
-@brand-success:         #5cb85c;
-@brand-info:            #5bc0de;
-@brand-warning:         #f0ad4e;
-@brand-danger:          #d9534f;
+@brand-primary:             #1daafa;
+@brand-success:             #5cb85c;
+@brand-info:                #5bc0de;
+@brand-warning:             #f0ad4e;
+@brand-danger:              #d9534f;
 
 
 //== Scaffolding
@@ -48,7 +48,7 @@
 @font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace;
 @font-family-base:        @font-family-sans-serif;
 
-@font-size-base:          14px;
+@font-size-base:          13px;
 @font-size-large:         ceil((@font-size-base * 1.25)); // ~18px
 @font-size-small:         ceil((@font-size-base * 0.85)); // ~12px
 
@@ -702,39 +702,41 @@
 //
 //##
 
-@panel-bg:                    #fff;
-@panel-body-padding:          15px;
-@panel-heading-padding:       10px 15px;
-@panel-footer-padding:        @panel-heading-padding;
-@panel-border-radius:         @border-radius-base;
+@panel-bg:                      #fff;
+@panel-body-padding:            4px 7px;
+@panel-heading-padding:         4px 7px;
+@panel-heading-min-height:      28px;
+@panel-footer-padding:          @panel-heading-padding;
+@panel-footer-min-height:       28px;
+@panel-border-radius:           @border-radius-base;
 
 //** Border color for elements within panels
-@panel-inner-border:          #ddd;
-@panel-footer-bg:             #f5f5f5;
+@panel-inner-border:            #ddd;
+@panel-footer-bg:               #f5f5f5;
 
-@panel-default-text:          @gray-dark;
-@panel-default-border:        #ddd;
-@panel-default-heading-bg:    #f5f5f5;
+@panel-default-text:            @gray-dark;
+@panel-default-border:          #ddd;
+@panel-default-heading-bg:      #f5f5f5;
 
-@panel-primary-text:          #fff;
-@panel-primary-border:        @brand-primary;
-@panel-primary-heading-bg:    @brand-primary;
+@panel-primary-text:            #31708f;
+@panel-primary-border:          #1daafa;
+@panel-primary-heading-bg:      #b0dff0;
 
-@panel-success-text:          @state-success-text;
-@panel-success-border:        @state-success-border;
-@panel-success-heading-bg:    @state-success-bg;
+@panel-success-text:            @state-success-text;
+@panel-success-border:          @state-success-border;
+@panel-success-heading-bg:      @state-success-bg;
 
-@panel-info-text:             @state-info-text;
-@panel-info-border:           @state-info-border;
-@panel-info-heading-bg:       @state-info-bg;
+@panel-info-text:               @state-info-text;
+@panel-info-border:             @state-info-border;
+@panel-info-heading-bg:         @state-info-bg;
 
-@panel-warning-text:          @state-warning-text;
-@panel-warning-border:        @state-warning-border;
-@panel-warning-heading-bg:    @state-warning-bg;
+@panel-warning-text:            @state-warning-text;
+@panel-warning-border:          @state-warning-border;
+@panel-warning-heading-bg:      @state-warning-bg;
 
-@panel-danger-text:           @state-danger-text;
-@panel-danger-border:         @state-danger-border;
-@panel-danger-heading-bg:     @state-danger-bg;
+@panel-danger-text:             @state-danger-text;
+@panel-danger-border:           @state-danger-border;
+@panel-danger-heading-bg:       @state-danger-bg;
 
 
 //== Thumbnails
@@ -865,3 +867,20 @@
 @dl-horizontal-offset:        @component-offset-horizontal;
 //** Horizontal line color.
 @hr-border:                   @gray-lighter;
+
+
+//== Flow
+//
+//##
+
+//** 
+@flow-line-width:               5px;
+@flow-line-color:               @brand-primary;
+@flow-point-size:               32px;
+@flow-date-font-size:           14px;
+@flow-date-color:               #000;
+@flow-plan-bg:                  @gray-lighter;
+
+@flow-item-bg-ok:               @brand-success;
+@flow-item-bg-warning:          @brand-warning;
+@flow-item-bg-late:             @brand-danger;

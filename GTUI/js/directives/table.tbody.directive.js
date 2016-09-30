@@ -5,7 +5,7 @@
 
             };
 
-        gta.directive('gtuiTableBody', function ($compile, $timeout) {
+        gta.directive('gtuiTableBody', function () {
             return {
                 restrict: "EA",
                 scope: false,

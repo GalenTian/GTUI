@@ -2,7 +2,7 @@
     if (window.angular) {
         var gta = angular.module('gtui');
 
-        gta.directive('gtuiTableHead', function ($compile, $timeout) {
+        gta.directive('gtuiTableHead', function () {
             return {
                 restrict: "EA",
                 scope: false,

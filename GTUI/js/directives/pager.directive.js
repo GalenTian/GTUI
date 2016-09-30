@@ -2,7 +2,6 @@
     if (window.angular) {
         var gta = angular.module('gtui'),
 
-            _DATA_CONFIG_FIELD = 'pager-config',
             _DIV_HTML = '<div></div>',
             _UL_HTML = '<ul></ul>',
             _LI_HTML = '<li></li>',
@@ -74,7 +73,7 @@
 
         var _itemClick = function (e) {
             var _el = gtui.utils.getClosestEementByNodeName(e.target, 'a'),
-                _config = e.data.data(_DATA_CONFIG_FIELD),
+                _config = e.data.scope().$eval(e.data.attr('data-config')),
                 _scope = e.data.scope(),
                 _vm = _scope[_config.vm];
 
@@ -121,7 +120,7 @@
             }
         };
 
-        gta.directive('gtuiPager', function ($compile, $timeout) {
+        gta.directive('gtuiPager', function ($parse) {
             return {
                 restrict: "EA",
                 scope: false,
@@ -132,8 +131,7 @@
                         return _DIV_HTML;
                     }
                     else {
-                        var _config = gtui.utils.parseObj(attrs.config);
-                        element.data(_DATA_CONFIG_FIELD, _config);
+                        var _config = $parse(attrs.config)();
                     }
 
                     return _getTemplate(element, _config);
@@ -141,7 +139,7 @@
                 replace: true,
                 transclude: false,
                 link: function (scope, element, attrs) {
-                    var _config = element.data(_DATA_CONFIG_FIELD),
+                    var _config = scope.$eval(attrs.config),
                         _scope = scope;
 
                     if (_config.vm) {

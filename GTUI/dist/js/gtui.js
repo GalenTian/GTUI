@@ -1,4 +1,4 @@
-/* Packaged at 15:8 Sep 23, 2016. Version: None */
+/* Packaged at 9:49 Sep 30, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -71,19 +71,6 @@
 	(function ($) {
 	    var _gtui = {};
 
-	    var _parseObj = function (sourceStr) {
-	        var obj = {};
-	        sourceStr = sourceStr.replace(/^\s*{/, '').replace(/}\s*$/, '').split(',');
-
-	        for (var i = 0, length = sourceStr.length; i < length; i++) {
-	            var _temp = sourceStr[i].split(':'),
-	                _key = $.trim(_temp[0]).replace(/(^"\s*|^'\s*)/, '').replace(/(\s*"$|\s*'$)/, ''),
-	                _value = $.trim(_temp[1]).replace(/(^"\s*|^'\s*)/, '').replace(/(\s*"$|\s*'$)/, '');
-
-	            obj[_key] = _value
-	        }
-	        return obj;
-	    };
 	    var getClosestEementByNodeName = function (element, nodeName) {
 	        if (!(element instanceof jQuery)) {
 	            element = $(element);
@@ -99,7 +86,6 @@
 
 	    $.extend(_gtui, {
 	        utils: {
-	            parseObj: _parseObj,
 	            getClosestEementByNodeName: getClosestEementByNodeName
 	        }
 	    });
@@ -561,7 +547,7 @@
 	                _el = _self.element,
 	                _window = window;
 
-	            var _top = _self._elementTop,
+	            var _top = _el.position().top,
 	                _docHeight = document.documentElement.clientHeight,
 	                _offsetBottom = _self._elementOffsetBottom;
 
@@ -600,6 +586,8 @@
 	__webpack_require__(10);
 	__webpack_require__(11);
 	__webpack_require__(12);
+	__webpack_require__(13);
+	__webpack_require__(14);
 
 /***/ },
 /* 7 */
@@ -617,9 +605,55 @@
 
 	(function ($) {
 	    if (window.angular) {
+	        var gta = angular.module('gtui');
+
+
+	        gta.directive('gtuiEchart', function ($http, $window) {
+
+	            function link($scope, element, attrs) {
+	                $(document).ready(function () {
+	                    var myChart = echarts.init(element[0]);
+
+	                    $scope.$watch(attrs.chartOption, function () {
+	                        var option = $scope.$eval(attrs.chartOption);
+
+	                        if (angular.isObject(option)) {
+	                            myChart.setOption(option);
+	                        }
+	                    }, true);
+
+	                    $scope.getDom = function () {
+
+	                        return {
+	                            'height': element[0].offsetHeight,
+	                            'width': element[0].offsetWidth
+	                        };
+	                    };
+
+	                    $scope.$watch($scope.getDom, function () {
+	                        // resize echarts图表
+	                        myChart.resize();
+	                    }, true);
+	                });
+	                
+	            }
+
+	            return {
+	                restrict: 'A',
+	                link: link
+	            };
+	        });
+	    }
+	})(jQuery);
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	(function ($) {
+	    if (window.angular) {
 	        var gta = angular.module('gtui'),
 
-	            _DATA_CONFIG_FIELD = 'pager-config',
 	            _DIV_HTML = '<div></div>',
 	            _UL_HTML = '<ul></ul>',
 	            _LI_HTML = '<li></li>',
@@ -691,7 +725,7 @@
 
 	        var _itemClick = function (e) {
 	            var _el = gtui.utils.getClosestEementByNodeName(e.target, 'a'),
-	                _config = e.data.data(_DATA_CONFIG_FIELD),
+	                _config = e.data.scope().$eval(e.data.attr('data-config')),
 	                _scope = e.data.scope(),
 	                _vm = _scope[_config.vm];
 
@@ -738,7 +772,7 @@
 	            }
 	        };
 
-	        gta.directive('gtuiPager', function ($compile, $timeout) {
+	        gta.directive('gtuiPager', function ($parse) {
 	            return {
 	                restrict: "EA",
 	                scope: false,
@@ -749,8 +783,7 @@
 	                        return _DIV_HTML;
 	                    }
 	                    else {
-	                        var _config = gtui.utils.parseObj(attrs.config);
-	                        element.data(_DATA_CONFIG_FIELD, _config);
+	                        var _config = $parse(attrs.config)();
 	                    }
 
 	                    return _getTemplate(element, _config);
@@ -758,7 +791,7 @@
 	                replace: true,
 	                transclude: false,
 	                link: function (scope, element, attrs) {
-	                    var _config = element.data(_DATA_CONFIG_FIELD),
+	                    var _config = scope.$eval(attrs.config),
 	                        _scope = scope;
 
 	                    if (_config.vm) {
@@ -782,7 +815,121 @@
 	})(jQuery);
 
 /***/ },
-/* 9 */
+/* 10 */
+/***/ function(module, exports) {
+
+	(function ($) {
+	    if (window.angular) {
+	        var gta = angular.module('gtui');
+
+	        gta.directive('gtuiPanelSearch', function ($parse) {
+	            return {
+	                restrict: "EA",
+	                scope: false,
+	                template: function (element, attrs) {
+	                    // Deal with data-config
+	                    if (!attrs.config) {
+	                        console.error('gtui-table: "data-config" attribute is missing.');
+	                        return _divHTML;
+	                    }
+	                    else {
+	                        var _config = $parse(attrs.config)();
+	                    }
+
+	                    var _template = [];
+
+	                    _template.push('<div class="panel panel-primary">');
+	                    _template.push('  <div class="panel-heading">');
+	                    _template.push('    <span class="glyphicon glyphicon-chevron-up"></span>');
+	                    _template.push('    {{' + (_config.controllerAs ? _config.controllerAs + '.' : '') + _config.titleField + '}}');
+	                    _template.push('  </div>');
+	                    _template.push('  <div class="panel-body" ng-transclude>');
+	                    _template.push('  </div>');
+	                    _template.push('</div>');
+
+	                    return _template.join('');
+	                },
+	                replace: true,
+	                transclude: true,
+	                link: function (scope, element, attrs) {
+	                    element.children('.panel-heading').css({ cursor: 'pointer' }).on('click.gtui.panelsearch', element, function (e) {
+	                        //e.data.find('> .panel-heading > .glyphicon').toggleClass('glyphicon-chevron-down');
+	                        //e.data.children('.panel-body').toggle();
+	                    });
+	                }
+	            };
+	        });
+
+	        gta.directive('gtuiPanelContent', function ($parse) {
+	            return {
+	                restrict: "EA",
+	                scope: false,
+	                template: function (element, attrs) {
+	                    // Deal with data-config
+	                    if (!attrs.config) {
+	                        console.error('gtui-table: "data-config" attribute is missing.');
+	                        return _divHTML;
+	                    }
+	                    else {
+	                        var _config = $parse(attrs.config)();
+	                    }
+
+	                    var _template = [];
+
+	                    _template.push('<div class="panel panel-primary">');
+	                    _template.push('  <div class="panel-heading"></div>');
+	                    _template.push('  <div class="panel-body" ng-transclude></div>');
+	                    if (_config.hasFooter) {
+	                        _template.push('  <div class="panel-footer"></div>');
+	                    }
+	                    _template.push('</div>');
+
+	                    return _template.join('');
+	                },
+	                replace: true,
+	                transclude: true,
+	                link: function (scope, element, attrs) {
+	                    
+	                }
+	            };
+	        });
+
+	        gta.directive('gtuiPanelTable', function ($parse) {
+	            return {
+	                restrict: "EA",
+	                scope: false,
+	                template: function (element, attrs) {
+	                    // Deal with data-config
+	                    if (!attrs.config) {
+	                        console.error('gtui-table: "data-config" attribute is missing.');
+	                        return _divHTML;
+	                    }
+	                    else {
+	                        var _config = $parse(attrs.config)();
+	                    }
+
+	                    var _template = [];
+
+	                    _template.push('<div class="panel panel-primary">');
+	                    _template.push('  <div class="panel-heading"></div>');
+	                    _template.push('  <div class="panel-table" ng-transclude></div>');
+	                    _template.push('  <div class="panel-footer"></div>');
+	                    _template.push('</div>');
+
+	                    return _template.join('');
+	                },
+	                replace: true,
+	                transclude: true,
+	                link: function (scope, element, attrs) {
+
+	                }
+	            };
+	        });
+	    }
+	})(jQuery);
+
+/***/ },
+/* 11 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -851,7 +998,7 @@
 	                return _div;
 	            };
 
-	        gta.directive('gtuiTable', function ($compile, $timeout) {
+	        gta.directive('gtuiTable', function ($parse) {
 	            return {
 	                restrict: "EA",
 	                scope: false,
@@ -862,8 +1009,7 @@
 	                        return _divHTML;
 	                    }
 	                    else {
-	                        var _config = gtui.utils.parseObj(attrs.config);
-	                        element.data(_dataConfigField, _config)
+	                        var _config = $parse(attrs.config)();
 	                    }
 
 	                    return _getTemplate(element, _config).prop("outerHTML");
@@ -872,7 +1018,7 @@
 	                transclude: false,
 	                link: function (scope, element, attrs) {
 	                    var _frozenCols = parseInt(attrs.frozenColumnsCount),
-	                        _config = element.data(_dataConfigField);
+	                        _config = scope.$eval(attrs.config);
 
 	                    _frozenCols = _frozenCols ? _frozenCols : 0;
 
@@ -899,14 +1045,14 @@
 	})(jQuery);
 
 /***/ },
-/* 10 */
+/* 12 */
 /***/ function(module, exports) {
 
 	(function ($) {
 	    if (window.angular) {
 	        var gta = angular.module('gtui');
 
-	        gta.directive('gtuiTableHead', function ($compile, $timeout) {
+	        gta.directive('gtuiTableHead', function () {
 	            return {
 	                restrict: "EA",
 	                scope: false,
@@ -936,7 +1082,7 @@
 	})(jQuery);
 
 /***/ },
-/* 11 */
+/* 13 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -946,7 +1092,7 @@
 
 	            };
 
-	        gta.directive('gtuiTableBody', function ($compile, $timeout) {
+	        gta.directive('gtuiTableBody', function () {
 	            return {
 	                restrict: "EA",
 	                scope: false,
@@ -975,14 +1121,14 @@
 	})(jQuery);
 
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports) {
 
 	(function ($) {
 	    if (window.angular) {
 	        var gta = angular.module('gtui');
 
-	        gta.directive('gtuiVerticalTile', function ($compile, $timeout) {
+	        gta.directive('gtuiVerticalTile', function () {
 	            return {
 	                restrict: "EA",
 	                template: '',

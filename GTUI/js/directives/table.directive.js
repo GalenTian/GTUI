@@ -64,7 +64,7 @@
                 return _div;
             };
 
-        gta.directive('gtuiTable', function ($compile, $timeout) {
+        gta.directive('gtuiTable', function ($parse) {
             return {
                 restrict: "EA",
                 scope: false,
@@ -75,8 +75,7 @@
                         return _divHTML;
                     }
                     else {
-                        var _config = gtui.utils.parseObj(attrs.config);
-                        element.data(_dataConfigField, _config)
+                        var _config = $parse(attrs.config)();
                     }
 
                     return _getTemplate(element, _config).prop("outerHTML");
@@ -85,7 +84,7 @@
                 transclude: false,
                 link: function (scope, element, attrs) {
                     var _frozenCols = parseInt(attrs.frozenColumnsCount),
-                        _config = element.data(_dataConfigField);
+                        _config = scope.$eval(attrs.config);
 
                     _frozenCols = _frozenCols ? _frozenCols : 0;
 

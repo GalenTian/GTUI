@@ -66,9 +66,26 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="build\gtui.js" />
+    <Content Include="examples\biem\detail.html" />
+    <Content Include="examples\biem\cost_sub.html" />
+    <Content Include="examples\biem\investment_sub.html" />
+    <Content Include="examples\biem\cost.html" />
+    <Content Include="examples\biem\investment.html" />
     <Content Include="examples\charts.html" />
     <Content Include="examples\lib\angular-1.28.js" />
     <Content Include="examples\lib\angular.js" />
+    <Content Include="examples\lib\bootstrap-datepicker\css\bootstrap-datepicker.css" />
+    <Content Include="examples\lib\bootstrap-datepicker\css\bootstrap-datepicker.min.css" />
+    <Content Include="examples\lib\bootstrap-datepicker\css\bootstrap-datepicker.standalone.css" />
+    <Content Include="examples\lib\bootstrap-datepicker\css\bootstrap-datepicker.standalone.min.css" />
+    <Content Include="examples\lib\bootstrap-datepicker\css\bootstrap-datepicker3.css" />
+    <Content Include="examples\lib\bootstrap-datepicker\css\bootstrap-datepicker3.min.css" />
+    <Content Include="examples\lib\bootstrap-datepicker\css\bootstrap-datepicker3.standalone.css" />
+    <Content Include="examples\lib\bootstrap-datepicker\css\bootstrap-datepicker3.standalone.min.css" />
+    <Content Include="examples\lib\bootstrap-datepicker\js\bootstrap-datepicker.js" />
+    <Content Include="examples\lib\bootstrap-datepicker\js\bootstrap-datepicker.min.js" />
+    <Content Include="examples\lib\bootstrap-datepicker\locales\bootstrap-datepicker.de.min.js" />
+    <Content Include="examples\lib\bootstrap-datepicker\locales\bootstrap-datepicker.zh-CN.min.js" />
     <Content Include="examples\lib\echarts.js" />
     <Content Include="examples\lib\jquery-1.9.0.js" />
     <Content Include="examples\lib\jquery-ui-1.9.2.js" />
@@ -80,8 +97,10 @@
     <Content Include="index.html" />
     <Content Include="js\core.js" />
     <Content Include="js\directives\core.directive.js" />
+    <Content Include="js\directives\echart.directive.js" />
     <Content Include="js\directives\gtui.directive.js" />
     <Content Include="js\directives\pager.directive.js" />
+    <Content Include="js\directives\panel.directive.js" />
     <Content Include="js\directives\table.directive.js" />
     <Content Include="js\directives\table.tbody.directive.js" />
     <Content Include="js\directives\table.thead.directive.js" />
@@ -170,6 +189,15 @@
     <Content Include="less\sources\mixins\text-overflow.less" />
     <Content Include="less\sources\mixins\vendor-prefixes.less" />
     <Content Include="package.json" />
+    <Content Include="examples\lib\bootstrap-datepicker\css\bootstrap-datepicker.css.map" />
+    <Content Include="examples\lib\bootstrap-datepicker\css\bootstrap-datepicker.min.css.map" />
+    <Content Include="examples\lib\bootstrap-datepicker\css\bootstrap-datepicker.standalone.css.map" />
+    <Content Include="examples\lib\bootstrap-datepicker\css\bootstrap-datepicker.standalone.min.css.map" />
+    <Content Include="examples\lib\bootstrap-datepicker\css\bootstrap-datepicker3.css.map" />
+    <Content Include="examples\lib\bootstrap-datepicker\css\bootstrap-datepicker3.min.css.map" />
+    <Content Include="examples\lib\bootstrap-datepicker\css\bootstrap-datepicker3.standalone.css.map" />
+    <Content Include="examples\lib\bootstrap-datepicker\css\bootstrap-datepicker3.standalone.min.css.map" />
+    <Content Include="less\sources\flow.less" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
