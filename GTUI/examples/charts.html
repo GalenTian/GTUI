@@ -3,14 +3,26 @@
 <head>
     <title></title>
 	<meta charset="utf-8" />
-</head>
-<body>
-    <div id="main" style="width: 50%; height: 350px;"></div>
-    <div id="main1" style="width: 50%; height: 350px;"></div>
-    <div id="main2" style="width: 50%; height: 350px;"></div>
 
+    <link type="text/css" rel="stylesheet" href="../dist/css/gtui.css" />
+    <link type="text/css" rel="stylesheet" href="lib/bootstrap-datepicker/css/bootstrap-datepicker.css" />
+</head>
+<body ng-app="GTUIComponent">
+    <div id="main" style="width: 50%; height: 350px;"></div>
+    <!--<div id="main1" style="width: 50%; height: 350px;"></div>
+    <div id="main2" style="width: 50%; height: 350px;"></div>-->
+
+    <div ng-controller="DemoController as dc">
+        <div gtui-echart config="{ type: 'scatter', optionField: 'scatterOption', convertAs: 'dc' }" style="height: 300px;"></div>
+    </div>
+
+    <script src="lib/jquery-1.9.0.js"></script>
+    <script src="lib/jquery-ui-1.9.2.js"></script>
+    <script src="lib/angular-1.28.js"></script>
+    <script src="lib/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
     <script src="lib/echarts.js"></script>
     <script src="lib/theme/macarons.js"></script>
+    <script src="../dist/js/gtui.js"></script>
     <script>
         var chart = echarts.init(document.getElementById('main'), 'macarons');
         var option = {
@@ -38,90 +50,140 @@
         };
         chart.setOption(option);
 
-        var chart1 = echarts.init(document.getElementById('main1'), 'macarons');
-        var option1 = {
-            title: {
-                text: '延误统计',
-                subtext: 'This is a demo',
-                x: 'center'
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter: "{a} <br/>{b} : {c} ({d}%)"
-            },
-            legend: {
-                orient: 'vertical',
-                left: 'left',
-                data: ['立项', 'BM单', '商务', '实施', '验收', '记账']
-            },
-            series: [
-                {
-                    name: '延误统计',
-                    type: 'pie',
-                    radius: '55%',
-                    center: ['50%', '60%'],
-                    data: [
-                        { value: 5, name: '立项' },
-                        { value: 2, name: 'BM单' },
-                        { value: 6, name: '商务' },
-                        { value: 7, name: '实施' },
-                        { value: 2, name: '验收' },
-                        { value: 1, name: '记账' }
-                    ],
-                    itemStyle: {
-                        emphasis: {
-                            shadowBlur: 10,
-                            shadowOffsetX: 0,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+        //var chart1 = echarts.init(document.getElementById('main1'), 'macarons');
+        //var option1 = {
+        //    title: {
+        //        text: '延误统计',
+        //        subtext: 'This is a demo',
+        //        x: 'center'
+        //    },
+        //    tooltip: {
+        //        trigger: 'item',
+        //        formatter: "{a} <br/>{b} : {c} ({d}%)"
+        //    },
+        //    legend: {
+        //        orient: 'vertical',
+        //        left: 'left',
+        //        data: ['立项', 'BM单', '商务', '实施', '验收', '记账']
+        //    },
+        //    series: [
+        //        {
+        //            name: '延误统计',
+        //            type: 'pie',
+        //            radius: '55%',
+        //            center: ['50%', '60%'],
+        //            data: [
+        //                { value: 5, name: '立项' },
+        //                { value: 2, name: 'BM单' },
+        //                { value: 6, name: '商务' },
+        //                { value: 7, name: '实施' },
+        //                { value: 2, name: '验收' },
+        //                { value: 1, name: '记账' }
+        //            ],
+        //            itemStyle: {
+        //                emphasis: {
+        //                    shadowBlur: 10,
+        //                    shadowOffsetX: 0,
+        //                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+        //                }
+        //            }
+        //        }
+        //    ]
+        //};
+        //chart1.setOption(option1);
+
+        //var chart2 = echarts.init(document.getElementById('main2'), 'macarons');
+        //var option2 = {
+        //    title: {
+        //        text: '延误倾向',
+        //        subtext: 'This is a demo',
+        //        x: 'left'
+        //    },
+        //    tooltip: {
+        //        trigger: 'axis'
+        //    },
+        //    legend: {
+        //        x: 'center',
+        //        data: ['延误倾向统计']
+        //    },
+        //    radar: [{
+        //        indicator: [
+        //            { text: '立项', max: 10 },
+        //            { text: 'BM单', max: 10 },
+        //            { text: '商务', max: 10 },
+        //            { text: '实施', max: 10 },
+        //            { text: '验收', max: 10 },
+        //            { text: '记账', max: 10 }
+        //        ],
+        //        center: ['50%', '40%'],
+        //        radius: 80
+        //    }],
+        //    series: [
+        //        {
+        //            name: '延误倾向统计',
+        //            type: 'radar',
+        //            tooltip: {
+        //                trigger: 'item'
+        //            },
+        //            itemStyle: { normal: { areaStyle: { type: 'default' } } },
+        //            data: [{
+        //                value: [5, 2, 6, 7, 2, 1],
+        //                name: '延误倾向'
+        //            }]
+        //        }
+        //    ]
+        //};
+        //chart2.setOption(option2);
+
+        var MyPagerController = function ($scope) {
+            var vm = this;
+            
+            vm.scatterOption = {
+                title: {
+                    text: '延误统计',
+                    subtext: 'This is a demo',
+                    x: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data: ['立项', 'BM单', '商务', '实施', '验收', '记账']
+                },
+                series: [
+                    {
+                        name: '延误统计',
+                        type: 'pie',
+                        radius: '55%',
+                        center: ['50%', '60%'],
+                        data: [
+                            { value: 5, name: '立项' },
+                            { value: 2, name: 'BM单' },
+                            { value: 6, name: '商务' },
+                            { value: 7, name: '实施' },
+                            { value: 2, name: '验收' },
+                            { value: 1, name: '记账' }
+                        ],
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
                         }
                     }
-                }
-            ]
-        };
-        chart1.setOption(option1);
+                ]
+            };
 
-        var chart2 = echarts.init(document.getElementById('main2'), 'macarons');
-        var option2 = {
-            title: {
-                text: '延误倾向',
-                subtext: 'This is a demo',
-                x: 'left'
-            },
-            tooltip: {
-                trigger: 'axis'
-            },
-            legend: {
-                x: 'center',
-                data: ['延误倾向统计']
-            },
-            radar: [{
-                indicator: [
-                    { text: '立项', max: 10 },
-                    { text: 'BM单', max: 10 },
-                    { text: '商务', max: 10 },
-                    { text: '实施', max: 10 },
-                    { text: '验收', max: 10 },
-                    { text: '记账', max: 10 }
-                ],
-                center: ['50%', '40%'],
-                radius: 80
-            }],
-            series: [
-                {
-                    name: '延误倾向统计',
-                    type: 'radar',
-                    tooltip: {
-                        trigger: 'item'
-                    },
-                    itemStyle: { normal: { areaStyle: { type: 'default' } } },
-                    data: [{
-                        value: [5, 2, 6, 7, 2, 1],
-                        name: '延误倾向'
-                    }]
-                }
-            ]
+            return vm;
         };
-        chart2.setOption(option2);
+
+        angular.module('GTUIComponent', ['gtui'])
+            // Controllers for Tables
+            .controller('DemoController', MyPagerController);
     </script>
 </body>
 </html>

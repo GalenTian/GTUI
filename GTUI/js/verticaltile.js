@@ -18,8 +18,6 @@
                 _el = _self.element,
                 _window = window;
 
-
-            console.log(_el[0].offsetParent.nodeName);
             var _top = _el.position().top,
                 _docHeight = document.documentElement.clientHeight,
                 _offsetBottom = document.body.clientHeight - _top - _el.height();

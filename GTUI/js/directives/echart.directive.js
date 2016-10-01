@@ -2,22 +2,23 @@
     if (window.angular) {
         var gta = angular.module('gtui');
 
+        gta.directive('gtuiEchart', function (_$config) {
 
-        gta.directive('gtuiEchart', function ($http, $window) {
+            return {
+                restrict: 'EA',
+                link: function link(scope, element, attrs) {
+                    var _chart = echarts.init(element[0]),
+                        _config = _$config.getConfig(attrs);
 
-            function link($scope, element, attrs) {
-                $(document).ready(function () {
-                    var myChart = echarts.init(element[0]);
-
-                    $scope.$watch(attrs.chartOption, function () {
-                        var option = $scope.$eval(attrs.chartOption);
+                    scope.$watch(attrs.chartOption, function () {
+                        var option = _config.convertAs ? scope[_config.convertAs][_config.optionField] : scope[_config.optionField];
 
                         if (angular.isObject(option)) {
-                            myChart.setOption(option);
+                            _chart.setOption(option);
                         }
                     }, true);
 
-                    $scope.getDom = function () {
+                    scope.getDom = function () {
 
                         return {
                             'height': element[0].offsetHeight,
@@ -25,17 +26,11 @@
                         };
                     };
 
-                    $scope.$watch($scope.getDom, function () {
+                    scope.$watch(scope.getDom, function () {
                         // resize echarts图表
-                        myChart.resize();
+                        _chart.resize();
                     }, true);
-                });
-                
-            }
-
-            return {
-                restrict: 'A',
-                link: link
+                }
             };
         });
     }

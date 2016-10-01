@@ -1,4 +1,4 @@
-/* Packaged at 10:51 Sep 30, 2016. Version: None */
+/* Packaged at 16:10 Sep 30, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -533,8 +533,6 @@
 	                _el = _self.element,
 	                _window = window;
 
-
-	            console.log(_el[0].offsetParent.nodeName);
 	            var _top = _el.position().top,
 	                _docHeight = document.documentElement.clientHeight,
 	                _offsetBottom = document.body.clientHeight - _top - _el.height();
@@ -583,7 +581,21 @@
 
 	(function ($) {
 	    if (window.angular) {
-	        angular.module('gtui', []);
+	        var gta = angular.module('gtui', []);
+
+	        gta.service('_$config', [ '$parse', function ($parse) {
+	            var _serv = {
+	                getConfig: function (attrs, configAttr) {
+	                    if (!configAttr) {
+	                        configAttr = 'config'
+	                    }
+
+	                    return $parse(attrs[configAttr])();
+	                }
+	            }
+
+	            return _serv;
+	        }]);
 	    }
 	})(jQuery);
 
@@ -595,22 +607,23 @@
 	    if (window.angular) {
 	        var gta = angular.module('gtui');
 
+	        gta.directive('gtuiEchart', function (_$config) {
 
-	        gta.directive('gtuiEchart', function ($http, $window) {
+	            return {
+	                restrict: 'EA',
+	                link: function link(scope, element, attrs) {
+	                    var _chart = echarts.init(element[0]),
+	                        _config = _$config.getConfig(attrs);
 
-	            function link($scope, element, attrs) {
-	                $(document).ready(function () {
-	                    var myChart = echarts.init(element[0]);
-
-	                    $scope.$watch(attrs.chartOption, function () {
-	                        var option = $scope.$eval(attrs.chartOption);
+	                    scope.$watch(attrs.chartOption, function () {
+	                        var option = _config.convertAs ? scope[_config.convertAs][_config.optionField] : scope[_config.optionField];
 
 	                        if (angular.isObject(option)) {
-	                            myChart.setOption(option);
+	                            _chart.setOption(option);
 	                        }
 	                    }, true);
 
-	                    $scope.getDom = function () {
+	                    scope.getDom = function () {
 
 	                        return {
 	                            'height': element[0].offsetHeight,
@@ -618,17 +631,11 @@
 	                        };
 	                    };
 
-	                    $scope.$watch($scope.getDom, function () {
+	                    scope.$watch(scope.getDom, function () {
 	                        // resize echarts图表
-	                        myChart.resize();
+	                        _chart.resize();
 	                    }, true);
-	                });
-	                
-	            }
-
-	            return {
-	                restrict: 'A',
-	                link: link
+	                }
 	            };
 	        });
 	    }

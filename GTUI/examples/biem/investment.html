@@ -45,7 +45,7 @@
                             <div class="form-group form-group-sm">
                                 <label for="demo-time" class="col-sm-4 control-label">所属部门</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control" ng-model="vm.selectedDepartment" ng-options="item.name for item in vm.departments">
+                                    <select class="form-control" ng-model="vm.selectedDepartment" ng-options="item.name for item in vm.departments" ng-change="vm.dempartmentChange">
                                         <option value="">-- 请选择 --</option>
                                     </select>
                                 </div>
@@ -101,6 +101,7 @@
     <script src="../lib/jquery-ui-1.9.2.js"></script>
     <script src="../lib/angular-1.28.js"></script>
     <script src="../lib/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="../lib/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
     <script src="../lib/echarts.js"></script>
     <script src="../lib/theme/macarons.js"></script>
     <script src="../../dist/js/gtui.js"></script>
@@ -122,15 +123,11 @@
                 { name: '部门6', id: 'DEP0006' }
             ];
             vm.selectedDepartment = '';
+            vm.dempartmentChange = function () {
+                console.log(arguments);
+            };
             // 专业
-            vm.domains = [
-                { name: '专业1.1', id: 'DOM10001' },
-                { name: '专业1.2', id: 'DOM10002' },
-                { name: '专业1.3', id: 'DOM10003' },
-                { name: '专业1.4', id: 'DOM10004' },
-                { name: '专业1.5', id: 'DOM10005' },
-                { name: '专业1.6', id: 'DOM10006' }
-            ];
+            vm.domains = [];
             vm.selectedDemain = '';
             // 状态
             vm.states = [
@@ -242,8 +239,17 @@
             // Controllers for Tables
             .controller('DemoController', MyPagerController);
 
-        // 初始化图表
         $(function () {
+            // 初始化Bootstrap Datepicker
+            $('.input-daterange').datepicker({
+                format: "yyyy-mm-dd",
+                language: "zh-CN",
+                autoclose: true,
+                todayHighlight: true
+            });
+
+        
+            // 初始化图表
             $('#demo-charts').on('resize', function (e) {
                 var chart1 = echarts.init($('#demo-chart1')[0], 'macarons');
                 chart1.setOption($('#demo-chart1').scope().vm.char1option);
