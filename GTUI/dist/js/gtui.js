@@ -1,4 +1,4 @@
-/* Packaged at 16:10 Sep 30, 2016. Version: None */
+/* Packaged at 15:54 Oct 3, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -48,7 +48,6 @@
 	'use strict';
 
 	__webpack_require__(1);
-	__webpack_require__(6);
 
 /***/ },
 /* 1 */
@@ -63,6 +62,9 @@
 	// Widgets
 	__webpack_require__(4);
 	__webpack_require__(5);
+
+	// Angular
+	__webpack_require__(6);
 
 /***/ },
 /* 2 */
@@ -563,41 +565,24 @@
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// Core
-	__webpack_require__(7);
+	if (window.angular) {
+	    // This file is the first of the files of the angular supported files.
+	    // So here module will be defined once.
+	    var gta = angular.module('gtui', []);
 
-	// Directives
-	__webpack_require__(8);
-	__webpack_require__(9);
-	__webpack_require__(10);
-	__webpack_require__(11);
-	__webpack_require__(12);
-	__webpack_require__(13);
-	__webpack_require__(14);
+	    __webpack_require__(7);
+	    __webpack_require__(10);
+	}
 
 /***/ },
 /* 7 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	(function ($) {
-	    if (window.angular) {
-	        var gta = angular.module('gtui', []);
+	// Core
+	__webpack_require__(8);
 
-	        gta.service('_$config', [ '$parse', function ($parse) {
-	            var _serv = {
-	                getConfig: function (attrs, configAttr) {
-	                    if (!configAttr) {
-	                        configAttr = 'config'
-	                    }
-
-	                    return $parse(attrs[configAttr])();
-	                }
-	            }
-
-	            return _serv;
-	        }]);
-	    }
-	})(jQuery);
+	// Directives
+	__webpack_require__(9);
 
 /***/ },
 /* 8 */
@@ -607,34 +592,127 @@
 	    if (window.angular) {
 	        var gta = angular.module('gtui');
 
-	        gta.directive('gtuiEchart', function (_$config) {
+	        var constants = function () {
+	            return {
+	                FIELD: 'Field',
+	                CONVERT_AS: 'convertAs'
+	            };
+	        }();
+
+	        gta.service('_$utils', ['$parse', function ($parse) {
+	            var _serv = {
+	                getConfig: function (attrs, configAttr) {
+	                    if (!configAttr) {
+	                        configAttr = 'config'
+	                    }
+
+	                    return $parse(attrs[configAttr])();
+	                },
+	                getFiledByName: function (scope, config, name) {
+	                    var targetFiled = name + constants.FIELD;
+
+	                    return config[constants.CONVERT_AS] ?
+	                        scope[config[constants.CONVERT_AS]][config[targetFiled]] :
+	                        scope[config[targetFiled]];
+	                }
+	            }
+
+	            return _serv;
+	        }]);
+	    }
+	})(jQuery);
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	(function ($) {
+	    if (window.angular && window.echarts) {
+	        var gta = angular.module('gtui');
+
+	        gta.service('_$echart', ['$parse', function ($parse) {
+	            var _serv = {
+	                
+	            }
+
+	            return _serv;
+	        }]);
+	    }
+	})(jQuery);
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// Core
+	__webpack_require__(11);
+
+	// Directives
+	__webpack_require__(12);
+	__webpack_require__(13);
+	__webpack_require__(14);
+	__webpack_require__(15);
+	__webpack_require__(16);
+	__webpack_require__(17);
+	__webpack_require__(18);
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	(function ($) {
+	    if (window.angular) {
+	        var gta = angular.module('gtui');
+
+	        // TODO: Here is some core functions.
+	    }
+	})(jQuery);
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	(function ($) {
+	    if (window.angular && window.echarts) {
+	        var gta = angular.module('gtui'),
+	            CHART_THEME = 'macarons';
+
+	        gta.directive('gtuiEchart', function (_$utils, _$echart) {
 
 	            return {
 	                restrict: 'EA',
 	                link: function link(scope, element, attrs) {
-	                    var _chart = echarts.init(element[0]),
-	                        _config = _$config.getConfig(attrs);
+	                    if (element.css('min-height') === '0px') {
+	                        element.css({ 'min-height': 1 });
+	                    }
 
-	                    scope.$watch(attrs.chartOption, function () {
-	                        var option = _config.convertAs ? scope[_config.convertAs][_config.optionField] : scope[_config.optionField];
+	                    var _chart = echarts.init(element[0], CHART_THEME),
+	                        _config = _$utils.getConfig(attrs);
 
-	                        if (angular.isObject(option)) {
-	                            _chart.setOption(option);
+	                    $(document).ready(function () {
+	                        var _option = _$utils.getFiledByName(scope, _config, 'option');
+
+	                        if (angular.isObject(_option)) {
+	                            _chart.setOption(_option);
+	                        }
+	                    });
+
+	                    element.closest('[gtui-vertical-tile]').on('resize', { element: element, config: _config, chart: _chart }, function (e) {
+	                        e.data.chart.resize();
+	                    });
+
+	                    scope.$watch((_config.convertAs ? (_config.convertAs + '.') : '') + _config.optionField, function (n, o, scope) {
+	                        if (n != o) {
+	                            var _config = _$utils.getConfig(attrs),
+	                                _option = _$utils.getFiledByName(scope, _config, 'option');
+
+	                            _chart.setOption(_option);
 	                        }
 	                    }, true);
 
-	                    scope.getDom = function () {
-
-	                        return {
-	                            'height': element[0].offsetHeight,
-	                            'width': element[0].offsetWidth
-	                        };
-	                    };
-
-	                    scope.$watch(scope.getDom, function () {
-	                        // resize echarts图表
-	                        _chart.resize();
-	                    }, true);
+	                    $(window).on('resize', _chart, function (e) {
+	                        e.data.resize();
+	                    });
 	                }
 	            };
 	        });
@@ -642,7 +720,7 @@
 	})(jQuery);
 
 /***/ },
-/* 9 */
+/* 13 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -810,7 +888,7 @@
 	})(jQuery);
 
 /***/ },
-/* 10 */
+/* 14 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -924,7 +1002,7 @@
 	})(jQuery);
 
 /***/ },
-/* 11 */
+/* 15 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -1040,7 +1118,7 @@
 	})(jQuery);
 
 /***/ },
-/* 12 */
+/* 16 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -1077,7 +1155,7 @@
 	})(jQuery);
 
 /***/ },
-/* 13 */
+/* 17 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -1116,7 +1194,7 @@
 	})(jQuery);
 
 /***/ },
-/* 14 */
+/* 18 */
 /***/ function(module, exports) {
 
 	(function ($) {

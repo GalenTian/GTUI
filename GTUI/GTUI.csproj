@@ -95,6 +95,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="gulpfile.js" />
     <Content Include="index.html" />
+    <Content Include="js\gtui.angular.js" />
     <Content Include="js\core.js" />
     <Content Include="js\directives\core.directive.js" />
     <Content Include="js\directives\echart.directive.js" />
@@ -107,6 +108,9 @@
     <Content Include="js\directives\verticaltile.directive.js" />
     <Content Include="js\gtui.js" />
     <Content Include="js\mousewheel.js" />
+    <Content Include="js\services\core.service.js" />
+    <Content Include="js\services\echart.service.js" />
+    <Content Include="js\services\gtui.service.js" />
     <Content Include="js\table.js" />
     <Content Include="js\verticaltile.js" />
     <Content Include="packages.config">
