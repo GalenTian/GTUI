@@ -2,7 +2,9 @@
 require('./core.directive.js');
 
 // Directives
+require('./datepicker.directive.js');
 require('./echart.directive.js');
+require('./grid.directive.js');
 require('./pager.directive.js');
 require('./panel.directive.js');
 require('./table.directive.js');

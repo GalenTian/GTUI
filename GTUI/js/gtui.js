@@ -5,6 +5,7 @@ require('./core.js');
 require('./mousewheel.js');
 
 // Widgets
+require('./datepicker.js');
 require('./table.js');
 require('./verticaltile.js');
 
