@@ -5,6 +5,8 @@ require('./core.directive.js');
 require('./datepicker.directive.js');
 require('./echart.directive.js');
 require('./grid.directive.js');
+require('./input.directive.js');
+require('./inputgroup.directive.js');
 require('./pager.directive.js');
 require('./panel.directive.js');
 require('./table.directive.js');

@@ -88,6 +88,8 @@
     <Content Include="js\datepicker.js" />
     <Content Include="js\directives\datepicker.directive.js" />
     <Content Include="js\directives\grid.directive.js" />
+    <Content Include="js\directives\input.directive.js" />
+    <Content Include="js\directives\inputgroup.directive.js" />
     <Content Include="js\gtui.angular.js" />
     <Content Include="js\core.js" />
     <Content Include="js\directives\core.directive.js" />

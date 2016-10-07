@@ -1,4 +1,4 @@
-/* Packaged at 19:25 Oct 7, 2016. Version: None */
+/* Packaged at 20:36 Oct 7, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -2764,6 +2764,8 @@
 	__webpack_require__(19);
 	__webpack_require__(20);
 	__webpack_require__(21);
+	__webpack_require__(22);
+	__webpack_require__(23);
 
 /***/ },
 /* 12 */
@@ -2934,6 +2936,84 @@
 /***/ function(module, exports) {
 
 	(function ($) {
+	    if (window.angular && window.echarts) {
+	        var gta = angular.module('gtui');
+
+	        gta.directive('gtuiInput', function (_$utils, _$echart) {
+	            var INPUT = '<input />';
+
+	            var _getTemplate = function (config) {
+	                var _input = $(INPUT).attr({ type: 'text' }).addClass('form-control');
+
+	                return _input[0].outerHTML;
+	            };
+
+	            return {
+	                restrict: 'EA',
+	                template: function (element, attrs) {
+	                    var _config = _$utils.getConfig(attrs);
+
+	                    return _getTemplate(_config);
+	                },
+	                replace: true,
+	                link: function link(scope, element, attrs) {
+	                    var _config = _$utils.getConfig(attrs);
+
+	                }
+	            };
+	        });
+	    }
+	})(jQuery);
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+	(function ($) {
+	    if (window.angular && window.echarts) {
+	        var gta = angular.module('gtui');
+
+	        gta.directive('gtuiInputGroup', function (_$utils, _$echart) {
+	            var DIV = '<div></div>',
+	                INPUT = '<input />',
+	                SPAN = '<span></span>';
+
+	            var _getTemplate = function (config) {
+	                var _outerDiv = $(DIV).addClass('input-group'),
+	                    _startInput = $(INPUT).attr({ type: 'text' }).addClass('form-control'),
+	                    _addon = $(SPAN).addClass('input-group-addon').text('-'),
+	                    _endInput = $(INPUT).attr({ type: 'text' }).addClass('form-control');
+
+	                _outerDiv
+	                    .append(_startInput)
+	                    .append(_addon)
+	                    .append(_endInput);
+
+	                return _outerDiv[0].outerHTML;
+	            };
+
+	            return {
+	                restrict: 'EA',
+	                template: function (element, attrs) {
+	                    var _config = _$utils.getConfig(attrs);
+
+	                    return _getTemplate(_config);
+	                },
+	                replace: true,
+	                link: function link(scope, element, attrs) {
+	                    var _config = _$utils.getConfig(attrs);
+
+	                }
+	            };
+	        });
+	    }
+	})(jQuery);
+
+/***/ },
+/* 18 */
+/***/ function(module, exports) {
+
+	(function ($) {
 	    if (window.angular) {
 	        var gta = angular.module('gtui'),
 
@@ -3098,7 +3178,7 @@
 	})(jQuery);
 
 /***/ },
-/* 17 */
+/* 19 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3212,7 +3292,7 @@
 	})(jQuery);
 
 /***/ },
-/* 18 */
+/* 20 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3328,7 +3408,7 @@
 	})(jQuery);
 
 /***/ },
-/* 19 */
+/* 21 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3365,7 +3445,7 @@
 	})(jQuery);
 
 /***/ },
-/* 20 */
+/* 22 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3404,7 +3484,7 @@
 	})(jQuery);
 
 /***/ },
-/* 21 */
+/* 23 */
 /***/ function(module, exports) {
 
 	(function ($) {

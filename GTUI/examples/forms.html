@@ -12,25 +12,11 @@
             <h1>Datepicker</h1>
             <div gtui-datepicker data-config="{ type: 'datepicker-range', optionField: 'myDatepickerOption' }"></div>
 
-            <h1>Input Groups</h1>
-            <div class="input-group">
-                <input type="text" class="form-control" />
-                <span class="input-group-addon">-</span>
-                <input type="text" class="form-control" />
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon">-</span>
-                <input type="text" class="form-control" />
-            </div>
-            <div class="input-group">
-                <input type="text" class="form-control" />
-                <span class="input-group-addon">-</span>
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon">$</span>
-                <input type="text" class="form-control" />
-                <span class="input-group-addon">-</span>
-            </div>
+            <h1>Input Group</h1>
+            <div gtui-input-group></div>
+
+            <h1>Input</h1>
+            <div gtui-input></div>
         </div>
     </div>
 
@@ -44,34 +30,7 @@
         // AnaularJS相关
         var MyPagerController = function ($scope) {
             var vm = this;
-            // 查询区域
-            // ------------------------------------------------------
-            // 标题
-            vm.title = '统计报表（投资类）';
-            // 部门
-            vm.departments = [
-                { name: '部门1', id: 'DEP0001' },
-                { name: '部门2', id: 'DEP0002' },
-                { name: '部门3', id: 'DEP0003' },
-                { name: '部门4', id: 'DEP0004' },
-                { name: '部门5', id: 'DEP0005' },
-                { name: '部门6', id: 'DEP0006' }
-            ];
-            vm.selectedDepartment = '';
-            vm.dempartmentChange = function () {
-                console.log(arguments);
-            };
-            // 专业
-            vm.domains = [];
-            vm.selectedDemain = '';
-            // 状态
-            vm.states = [
-                { name: '已完成', id: 'STATE01' },
-                { name: '已延误', id: 'STATE02' },
-                { name: '已报警', id: 'STATE03' }
-            ];
-            vm.selectedState = '';
-
+            
             return vm;
         };
 

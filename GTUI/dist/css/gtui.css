@@ -1,4 +1,4 @@
-/* Packaged at 19:25 Oct 7, 2016. Version: None */
+/* Packaged at 20:36 Oct 7, 2016. Version: None */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 html {
   font-family: sans-serif;
@@ -4235,7 +4235,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.focus {
   width: 100%;
 }
 .input-daterange input {
-  text-align: center;
+  text-align: left;
 }
 .input-daterange input:first-child {
   border-radius: 3px 0 0 3px;
