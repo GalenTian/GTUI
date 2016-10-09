@@ -1,4 +1,4 @@
-/* Packaged at 20:36 Oct 7, 2016. Version: None */
+/* Packaged at 10:51 Oct 8, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -2700,12 +2700,19 @@
 
 	                    return $parse(attrs[configAttr])();
 	                },
-	                getFiledByName: function (scope, config, name) {
+	                getFiledValueByName: function (scope, config, name) {
 	                    var targetFiled = name + constants.FIELD;
 
 	                    return config[constants.CONVERT_AS] ?
 	                        scope[config[constants.CONVERT_AS]][config[targetFiled]] :
 	                        scope[config[targetFiled]];
+	                },
+	                getFiledStringByName: function (scope, config, name) {
+	                    var targetFiled = name + constants.FIELD;
+
+	                    return config[constants.CONVERT_AS] ?
+	                        (config[constants.CONVERT_AS] + '.' + targetFiled) :
+	                        targetFiled;
 	                },
 
 	                uuid: function () {
@@ -2861,7 +2868,7 @@
 	                        _config = _$utils.getConfig(attrs);
 
 	                    $(document).ready(function () {
-	                        var _option = _$utils.getFiledByName(scope, _config, 'option');
+	                        var _option = _$utils.getFiledValueByName(scope, _config, 'option');
 
 	                        if (angular.isObject(_option)) {
 	                            _chart.setOption(_option);
@@ -2875,7 +2882,7 @@
 	                    scope.$watch((_config.convertAs ? (_config.convertAs + '.') : '') + _config.optionField, function (n, o, scope) {
 	                        if (n != o) {
 	                            var _config = _$utils.getConfig(attrs),
-	                                _option = _$utils.getFiledByName(scope, _config, 'option');
+	                                _option = _$utils.getFiledValueByName(scope, _config, 'option');
 
 	                            _chart.setOption(_option);
 	                        }

@@ -86,6 +86,7 @@
     <Content Include="gulpfile.js" />
     <Content Include="index.html" />
     <Content Include="js\datepicker.js" />
+    <Content Include="js\directives\checkboxgroup.directive.js" />
     <Content Include="js\directives\datepicker.directive.js" />
     <Content Include="js\directives\grid.directive.js" />
     <Content Include="js\directives\input.directive.js" />

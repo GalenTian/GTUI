@@ -18,12 +18,19 @@
 
                     return $parse(attrs[configAttr])();
                 },
-                getFiledByName: function (scope, config, name) {
+                getFiledValueByName: function (scope, config, name) {
                     var targetFiled = name + constants.FIELD;
 
                     return config[constants.CONVERT_AS] ?
                         scope[config[constants.CONVERT_AS]][config[targetFiled]] :
                         scope[config[targetFiled]];
+                },
+                getFiledStringByName: function (scope, config, name) {
+                    var targetFiled = name + constants.FIELD;
+
+                    return config[constants.CONVERT_AS] ?
+                        (config[constants.CONVERT_AS] + '.' + targetFiled) :
+                        targetFiled;
                 },
 
                 uuid: function () {
