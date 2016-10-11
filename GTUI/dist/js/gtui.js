@@ -1,4 +1,4 @@
-/* Packaged at 10:24 Oct 11, 2016. Version: None */
+/* Packaged at 16:46 Oct 11, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -63,11 +63,9 @@
 	__webpack_require__(4);
 	__webpack_require__(5);
 	__webpack_require__(6);
-	__webpack_require__(7);
-	__webpack_require__(8);
 
 	// Angular
-	__webpack_require__(9);
+	__webpack_require__(7);
 
 /***/ },
 /* 2 */
@@ -2396,167 +2394,6 @@
 /* 5 */
 /***/ function(module, exports) {
 
-	/* ========================================================================
-	 * Bootstrap: tab.js v3.3.5
-	 * http://getbootstrap.com/javascript/#tabs
-	 * ========================================================================
-	 * Copyright 2011-2015 Twitter, Inc.
-	 * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
-	 * ======================================================================== */
-
-
-	+function ($) {
-	  'use strict';
-
-	  // TAB CLASS DEFINITION
-	  // ====================
-
-	  var Tab = function (element) {
-	    // jscs:disable requireDollarBeforejQueryAssignment
-	    this.element = $(element)
-	    // jscs:enable requireDollarBeforejQueryAssignment
-	  }
-
-	  Tab.VERSION = '3.3.5'
-
-	  Tab.TRANSITION_DURATION = 150
-
-	  Tab.prototype.show = function () {
-	    var $this    = this.element
-	    var $ul      = $this.closest('ul:not(.dropdown-menu)')
-	    var selector = $this.data('target')
-
-	    if (!selector) {
-	      selector = $this.attr('href')
-	      selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
-	    }
-
-	    if ($this.parent('li').hasClass('active')) return
-
-	    var $previous = $ul.find('.active:last a')
-	    var hideEvent = $.Event('hide.bs.tab', {
-	      relatedTarget: $this[0]
-	    })
-	    var showEvent = $.Event('show.bs.tab', {
-	      relatedTarget: $previous[0]
-	    })
-
-	    $previous.trigger(hideEvent)
-	    $this.trigger(showEvent)
-
-	    if (showEvent.isDefaultPrevented() || hideEvent.isDefaultPrevented()) return
-
-	    var $target = $(selector)
-
-	    this.activate($this.closest('li'), $ul)
-	    this.activate($target, $target.parent(), function () {
-	      $previous.trigger({
-	        type: 'hidden.bs.tab',
-	        relatedTarget: $this[0]
-	      })
-	      $this.trigger({
-	        type: 'shown.bs.tab',
-	        relatedTarget: $previous[0]
-	      })
-	    })
-	  }
-
-	  Tab.prototype.activate = function (element, container, callback) {
-	    var $active    = container.find('> .active')
-	    var transition = callback
-	      && $.support.transition
-	      && ($active.length && $active.hasClass('fade') || !!container.find('> .fade').length)
-
-	    function next() {
-	      $active
-	        .removeClass('active')
-	        .find('> .dropdown-menu > .active')
-	          .removeClass('active')
-	        .end()
-	        .find('[data-toggle="tab"]')
-	          .attr('aria-expanded', false)
-
-	      element
-	        .addClass('active')
-	        .find('[data-toggle="tab"]')
-	          .attr('aria-expanded', true)
-
-	      if (transition) {
-	        element[0].offsetWidth // reflow for transition
-	        element.addClass('in')
-	      } else {
-	        element.removeClass('fade')
-	      }
-
-	      if (element.parent('.dropdown-menu').length) {
-	        element
-	          .closest('li.dropdown')
-	            .addClass('active')
-	          .end()
-	          .find('[data-toggle="tab"]')
-	            .attr('aria-expanded', true)
-	      }
-
-	      callback && callback()
-	    }
-
-	    $active.length && transition ?
-	      $active
-	        .one('bsTransitionEnd', next)
-	        .emulateTransitionEnd(Tab.TRANSITION_DURATION) :
-	      next()
-
-	    $active.removeClass('in')
-	  }
-
-
-	  // TAB PLUGIN DEFINITION
-	  // =====================
-
-	  function Plugin(option) {
-	    return this.each(function () {
-	      var $this = $(this)
-	      var data  = $this.data('bs.tab')
-
-	      if (!data) $this.data('bs.tab', (data = new Tab(this)))
-	      if (typeof option == 'string') data[option]()
-	    })
-	  }
-
-	  var old = $.fn.tab
-
-	  $.fn.tab             = Plugin
-	  $.fn.tab.Constructor = Tab
-
-
-	  // TAB NO CONFLICT
-	  // ===============
-
-	  $.fn.tab.noConflict = function () {
-	    $.fn.tab = old
-	    return this
-	  }
-
-
-	  // TAB DATA-API
-	  // ============
-
-	  var clickHandler = function (e) {
-	    e.preventDefault()
-	    Plugin.call($(this), 'show')
-	  }
-
-	  $(document)
-	    .on('click.bs.tab.data-api', '[data-toggle="tab"]', clickHandler)
-	    .on('click.bs.tab.data-api', '[data-toggle="pill"]', clickHandler)
-
-	}(jQuery);
-
-
-/***/ },
-/* 6 */
-/***/ function(module, exports) {
-
 	/**
 	 * Table
 	 */
@@ -2767,72 +2604,7 @@
 	})(jQuery);
 
 /***/ },
-/* 7 */
-/***/ function(module, exports) {
-
-	/* ========================================================================
-	 * Bootstrap: transition.js v3.3.5
-	 * http://getbootstrap.com/javascript/#transitions
-	 * ========================================================================
-	 * Copyright 2011-2015 Twitter, Inc.
-	 * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
-	 * ======================================================================== */
-
-
-	+function ($) {
-	  'use strict';
-
-	  // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
-	  // ============================================================
-
-	  function transitionEnd() {
-	    var el = document.createElement('bootstrap')
-
-	    var transEndEventNames = {
-	      WebkitTransition : 'webkitTransitionEnd',
-	      MozTransition    : 'transitionend',
-	      OTransition      : 'oTransitionEnd otransitionend',
-	      transition       : 'transitionend'
-	    }
-
-	    for (var name in transEndEventNames) {
-	      if (el.style[name] !== undefined) {
-	        return { end: transEndEventNames[name] }
-	      }
-	    }
-
-	    return false // explicit for ie8 (  ._.)
-	  }
-
-	  // http://blog.alexmaccaw.com/css-transitions
-	  $.fn.emulateTransitionEnd = function (duration) {
-	    var called = false
-	    var $el = this
-	    $(this).one('bsTransitionEnd', function () { called = true })
-	    var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
-	    setTimeout(callback, duration)
-	    return this
-	  }
-
-	  $(function () {
-	    $.support.transition = transitionEnd()
-
-	    if (!$.support.transition) return
-
-	    $.event.special.bsTransitionEnd = {
-	      bindType: $.support.transition.end,
-	      delegateType: $.support.transition.end,
-	      handle: function (e) {
-	        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
-	      }
-	    }
-	  })
-
-	}(jQuery);
-
-
-/***/ },
-/* 8 */
+/* 6 */
 /***/ function(module, exports) {
 
 	/**
@@ -2882,7 +2654,7 @@
 	})(jQuery);
 
 /***/ },
-/* 9 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	if (window.angular) {
@@ -2890,22 +2662,22 @@
 	    // So here module will be defined once.
 	    var gta = angular.module('gtui', []);
 
-	    __webpack_require__(10);
-	    __webpack_require__(13);
+	    __webpack_require__(8);
+	    __webpack_require__(11);
 	}
 
 /***/ },
-/* 10 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Core
-	__webpack_require__(11);
+	__webpack_require__(9);
 
 	// Directives
-	__webpack_require__(12);
+	__webpack_require__(10);
 
 /***/ },
-/* 11 */
+/* 9 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -2977,7 +2749,7 @@
 	})(jQuery);
 
 /***/ },
-/* 12 */
+/* 10 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -2995,13 +2767,15 @@
 	})(jQuery);
 
 /***/ },
-/* 13 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Core
-	__webpack_require__(14);
+	__webpack_require__(12);
 
 	// Directives
+	__webpack_require__(13);
+	__webpack_require__(14);
 	__webpack_require__(15);
 	__webpack_require__(16);
 	__webpack_require__(17);
@@ -3012,11 +2786,9 @@
 	__webpack_require__(22);
 	__webpack_require__(23);
 	__webpack_require__(24);
-	__webpack_require__(25);
-	__webpack_require__(26);
 
 /***/ },
-/* 14 */
+/* 12 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3028,7 +2800,7 @@
 	})(jQuery);
 
 /***/ },
-/* 15 */
+/* 13 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3088,7 +2860,7 @@
 	})(jQuery);
 
 /***/ },
-/* 16 */
+/* 14 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3139,7 +2911,7 @@
 	})(jQuery);
 
 /***/ },
-/* 17 */
+/* 15 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3180,7 +2952,7 @@
 	})(jQuery);
 
 /***/ },
-/* 18 */
+/* 16 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3214,7 +2986,7 @@
 	})(jQuery);
 
 /***/ },
-/* 19 */
+/* 17 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3258,7 +3030,7 @@
 	})(jQuery);
 
 /***/ },
-/* 20 */
+/* 18 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3269,6 +3041,7 @@
 	            _UL_HTML = '<ul></ul>',
 	            _LI_HTML = '<li></li>',
 	            _A_HTML = '<a></a>',
+	            _SPAN_HTML = '<span></span>',
 
 	            _FIRST_CLASS = 'glyphicon glyphicon-step-backward',
 	            _PREVIOUS_GOUP_CLASS = 'glyphicon glyphicon-backward',
@@ -3276,6 +3049,8 @@
 	            _NEXT_CLASS = 'glyphicon glyphicon-triangle-right',
 	            _NEXT_GROUP_CLASS = 'glyphicon glyphicon-forward',
 	            _LAST_CLASS = 'glyphicon glyphicon-step-forward',
+
+	            ICON_CLASS = 'glyphicon',
 	                
 	            _MAX_PAGES = 9;
 
@@ -3287,19 +3062,19 @@
 
 	                var _ul = $(_UL_HTML).addClass('pagination');
 
-	                var _firstLi = $(_LI_HTML).append($(_A_HTML).addClass(_FIRST_CLASS).attr('href', 'javascript: void(0);'));
-	                var _prevGoupLi = $(_LI_HTML).append($(_A_HTML).addClass(_PREVIOUS_GOUP_CLASS).attr('href', 'javascript: void(0);'));
-	                var _prevLi = $(_LI_HTML).append($(_A_HTML).addClass(_PREVIOUS_CLASS).attr('href', 'javascript: void(0);'));
+	                var _firstLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).addClass(_FIRST_CLASS)));
+	                var _prevGoupLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).addClass(_PREVIOUS_GOUP_CLASS)));
+	                var _prevLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).addClass(_PREVIOUS_CLASS)));
 
 	                var _itemsLi = $(_LI_HTML).attr({
-	                    'ng-repeat': '__item__ in ' + (config.vm ? config.vm + '.__pager__.__items__' : '__pager__.__items__'),
-	                    'ng-class': '{ active: __item__ === ' + config.vm + '.' + config.selectedField + ' }'
+	                    'ng-repeat': '__item__ in ' + (config.converAs ? config.converAs + '.__pager__.__items__' : '__pager__.__items__'),
+	                    'ng-class': '{ active: __item__ === ' + config.convertAs + '.' + config.selectedField + ' }'
 	                })
 	                    .append($(_A_HTML).attr({ 'ng-bind': '__item__', 'href': 'javascript: void(0);' }));
 
-	                var _nextLi = $(_LI_HTML).append($(_A_HTML).addClass(_NEXT_CLASS).attr('href', 'javascript: void(0);'));
-	                var _nextGoupLi = $(_LI_HTML).append($(_A_HTML).addClass(_NEXT_GROUP_CLASS).attr('href', 'javascript: void(0);'));
-	                var _latLi = $(_LI_HTML).append($(_A_HTML).addClass(_LAST_CLASS).attr('href', 'javascript: void(0);'));
+	                var _nextLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).addClass(_NEXT_CLASS)));
+	                var _nextGoupLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).addClass(_NEXT_GROUP_CLASS)));
+	                var _latLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).addClass(_LAST_CLASS)));
 
 	                _div.append(
 	                    _ul.append(_firstLi)
@@ -3313,6 +3088,12 @@
 
 	                return _div.prop('outerHTML');
 	            };
+
+	            /**
+	             * 根据selectedPage与totalPages两个参数生成能够显示的可选页集合。
+	             * selectedPage: 当前选中页
+	             * totalPages: 当前总页数
+	             */
 	            var _getPages = function (selectedPage, totalPages) {
 	                if ((typeof (selectedPage) === 'undefined' || isNaN(selectedPage)) || (typeof (totalPages) === 'undefined' || isNaN(totalPages))) {
 	                    console.error('Pager directive: Make sure the selcted page and total pages are existed and they are numbers. ');
@@ -3336,13 +3117,26 @@
 	                return _items;
 	            };
 
+	            /**
+	             * 该事件会在该控件中的a标签的click事件触发。
+	             * 在该事件中，会更新当前的选中页。进而，会触发selectedField的$watch事件。
+	             */
 	            var _itemClick = function (e) {
-	                var _el = gtui.utils.getClosestEementByNodeName(e.target, 'a'),
+	                var _$target = $(e.target),
+	                    _el = _$target.closest('.' + ICON_CLASS),
 	                    _config = e.data.scope().$eval(e.data.attr('data-config')),
 	                    _scope = e.data.scope(),
-	                    _vm = _scope[_config.vm];
+	                    _vm = _scope[_config.convertAs];
 
 	                _vm = _vm ? _vm : _scope;
+
+	                if (!_el[0]) {
+	                    _el = _$target.find('.' + ICON_CLASS);
+
+	                    if (!_el[0]) {
+	                        _el = _$target.closest('a')
+	                    }
+	                }
 
 	                if (_el.hasClass(_FIRST_CLASS)) {
 	                    _vm[_config.selectedField] = 1;
@@ -3375,13 +3169,18 @@
 	                }
 	                _scope.$apply();
 	            };
+
+	            /**
+	             * 该事件会在selectedField或totalField所对应的scope属性变化时调用。
+	             * 在该方法中，会更新__items__属性中的值，也就是当前需要显示的页数信息（数字）。
+	             */
 	            var _changed = function (config) {
 	                return function (newValue, oldValue, scope) {
 	                    if (newValue !== oldValue) {
-	                        var _scope = config.vm ? scope[config.vm] : scope;
+	                        var _scope = config.converAs ? scope[config.converAs] : scope;
 
-	                        _scope.__pager__.__items__ = _getPages(_$utils.getFieledValueByName(scope, _config, 'selected'),
-	                            _$utils.getFieledValueByName(scope, _config, 'total'));
+	                        _scope.__pager__.__items__ = _getPages(_$utils.getFieledValueByName(scope, config, 'selected'),
+	                            _$utils.getFieledValueByName(scope, config, 'total'));
 	                    }
 	                }
 	            };
@@ -3425,7 +3224,7 @@
 	})(jQuery);
 
 /***/ },
-/* 21 */
+/* 19 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3539,7 +3338,7 @@
 	})(jQuery);
 
 /***/ },
-/* 22 */
+/* 20 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3578,7 +3377,7 @@
 	})(jQuery);
 
 /***/ },
-/* 23 */
+/* 21 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3694,7 +3493,7 @@
 	})(jQuery);
 
 /***/ },
-/* 24 */
+/* 22 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3731,7 +3530,7 @@
 	})(jQuery);
 
 /***/ },
-/* 25 */
+/* 23 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3770,7 +3569,7 @@
 	})(jQuery);
 
 /***/ },
-/* 26 */
+/* 24 */
 /***/ function(module, exports) {
 
 	(function ($) {

@@ -1,4 +1,4 @@
-/* Packaged at 10:24 Oct 11, 2016. Version: None */
+/* Packaged at 16:46 Oct 11, 2016. Version: None */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 html {
   font-family: sans-serif;
@@ -1082,12 +1082,12 @@ textarea {
   line-height: inherit;
 }
 a {
-  color: #1daafa;
+  color: #0066ff;
   text-decoration: none;
 }
 a:hover,
 a:focus {
-  color: #0480c6;
+  color: #0047b3;
   text-decoration: underline;
 }
 a:focus {
@@ -3476,7 +3476,7 @@ fieldset[disabled] .btn-danger.active {
   background-color: #fff;
 }
 .btn-link {
-  color: #1daafa;
+  color: #0066ff;
   font-weight: normal;
   border-radius: 0;
 }
@@ -3497,7 +3497,7 @@ fieldset[disabled] .btn-link {
 }
 .btn-link:hover,
 .btn-link:focus {
-  color: #0480c6;
+  color: #0047b3;
   text-decoration: underline;
   background-color: transparent;
 }
@@ -4747,7 +4747,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav .open > a:hover,
 .nav .open > a:focus {
   background-color: #eeeeee;
-  border-color: #1daafa;
+  border-color: #0066ff;
 }
 .nav .nav-divider {
   height: 1px;
@@ -5464,9 +5464,9 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   padding: 6px 12px;
   line-height: 1.42857143;
   text-decoration: none;
-  color: #1daafa;
+  color: #0066ff;
   background-color: #fff;
-  border: 1px solid #ddd;
+  border: 1px solid transparent;
   margin-left: -1px;
 }
 .pagination > li:first-child > a,
@@ -5485,9 +5485,9 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .pagination > li > a:focus,
 .pagination > li > span:focus {
   z-index: 3;
-  color: #0480c6;
+  color: #0047b3;
   background-color: #eeeeee;
-  border-color: #ddd;
+  border-color: #eeeeee;
 }
 .pagination > .active > a,
 .pagination > .active > span,
@@ -5558,7 +5558,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   display: inline-block;
   padding: 5px 14px;
   background-color: #fff;
-  border: 1px solid #ddd;
+  border: 1px solid transparent;
   border-radius: 15px;
 }
 .pager li > a:hover,
@@ -5683,7 +5683,7 @@ a.badge:focus {
 }
 .list-group-item.active > .badge,
 .nav-pills > .active > a > .badge {
-  color: #1daafa;
+  color: #0066ff;
   background-color: #fff;
 }
 .list-group-item > .badge {
@@ -5756,7 +5756,7 @@ a.badge:focus {
 a.thumbnail:hover,
 a.thumbnail:focus,
 a.thumbnail.active {
-  border-color: #1daafa;
+  border-color: #0066ff;
 }
 .thumbnail .caption {
   padding: 9px;

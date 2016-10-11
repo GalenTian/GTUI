@@ -6,6 +6,7 @@
             _UL_HTML = '<ul></ul>',
             _LI_HTML = '<li></li>',
             _A_HTML = '<a></a>',
+            _SPAN_HTML = '<span></span>',
 
             _FIRST_CLASS = 'glyphicon glyphicon-step-backward',
             _PREVIOUS_GOUP_CLASS = 'glyphicon glyphicon-backward',
@@ -13,6 +14,8 @@
             _NEXT_CLASS = 'glyphicon glyphicon-triangle-right',
             _NEXT_GROUP_CLASS = 'glyphicon glyphicon-forward',
             _LAST_CLASS = 'glyphicon glyphicon-step-forward',
+
+            ICON_CLASS = 'glyphicon',
                 
             _MAX_PAGES = 9;
 
@@ -24,19 +27,19 @@
 
                 var _ul = $(_UL_HTML).addClass('pagination');
 
-                var _firstLi = $(_LI_HTML).append($(_A_HTML).addClass(_FIRST_CLASS).attr('href', 'javascript: void(0);'));
-                var _prevGoupLi = $(_LI_HTML).append($(_A_HTML).addClass(_PREVIOUS_GOUP_CLASS).attr('href', 'javascript: void(0);'));
-                var _prevLi = $(_LI_HTML).append($(_A_HTML).addClass(_PREVIOUS_CLASS).attr('href', 'javascript: void(0);'));
+                var _firstLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).addClass(_FIRST_CLASS)));
+                var _prevGoupLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).addClass(_PREVIOUS_GOUP_CLASS)));
+                var _prevLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).addClass(_PREVIOUS_CLASS)));
 
                 var _itemsLi = $(_LI_HTML).attr({
-                    'ng-repeat': '__item__ in ' + (config.vm ? config.vm + '.__pager__.__items__' : '__pager__.__items__'),
-                    'ng-class': '{ active: __item__ === ' + config.vm + '.' + config.selectedField + ' }'
+                    'ng-repeat': '__item__ in ' + (config.converAs ? config.converAs + '.__pager__.__items__' : '__pager__.__items__'),
+                    'ng-class': '{ active: __item__ === ' + config.convertAs + '.' + config.selectedField + ' }'
                 })
                     .append($(_A_HTML).attr({ 'ng-bind': '__item__', 'href': 'javascript: void(0);' }));
 
-                var _nextLi = $(_LI_HTML).append($(_A_HTML).addClass(_NEXT_CLASS).attr('href', 'javascript: void(0);'));
-                var _nextGoupLi = $(_LI_HTML).append($(_A_HTML).addClass(_NEXT_GROUP_CLASS).attr('href', 'javascript: void(0);'));
-                var _latLi = $(_LI_HTML).append($(_A_HTML).addClass(_LAST_CLASS).attr('href', 'javascript: void(0);'));
+                var _nextLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).addClass(_NEXT_CLASS)));
+                var _nextGoupLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).addClass(_NEXT_GROUP_CLASS)));
+                var _latLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).addClass(_LAST_CLASS)));
 
                 _div.append(
                     _ul.append(_firstLi)
@@ -84,12 +87,21 @@
              * 在该事件中，会更新当前的选中页。进而，会触发selectedField的$watch事件。
              */
             var _itemClick = function (e) {
-                var _el = gtui.utils.getClosestEementByNodeName(e.target, 'a'),
+                var _$target = $(e.target),
+                    _el = _$target.closest('.' + ICON_CLASS),
                     _config = e.data.scope().$eval(e.data.attr('data-config')),
                     _scope = e.data.scope(),
-                    _vm = _scope[_config.vm];
+                    _vm = _scope[_config.convertAs];
 
                 _vm = _vm ? _vm : _scope;
+
+                if (!_el[0]) {
+                    _el = _$target.find('.' + ICON_CLASS);
+
+                    if (!_el[0]) {
+                        _el = _$target.closest('a')
+                    }
+                }
 
                 if (_el.hasClass(_FIRST_CLASS)) {
                     _vm[_config.selectedField] = 1;
@@ -130,10 +142,10 @@
             var _changed = function (config) {
                 return function (newValue, oldValue, scope) {
                     if (newValue !== oldValue) {
-                        var _scope = config.vm ? scope[config.vm] : scope;
+                        var _scope = config.converAs ? scope[config.converAs] : scope;
 
-                        _scope.__pager__.__items__ = _getPages(_$utils.getFieledValueByName(scope, _config, 'selected'),
-                            _$utils.getFieledValueByName(scope, _config, 'total'));
+                        _scope.__pager__.__items__ = _getPages(_$utils.getFieledValueByName(scope, config, 'selected'),
+                            _$utils.getFieledValueByName(scope, config, 'total'));
                     }
                 }
             };

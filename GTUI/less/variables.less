@@ -31,7 +31,7 @@
 @text-color:            @gray-dark;
 
 //** Global textual link color.
-@link-color:            @brand-primary;
+@link-color:            #0066ff;
 //** Link hover color set via `darken()` function.
 @link-hover-color:      darken(@link-color, 15%);
 //** Link hover decoration.
@@ -447,21 +447,23 @@
 //
 //##
 
-@pagination-color:                     @link-color;
-@pagination-bg:                        #fff;
-@pagination-border:                    #ddd;
+@pagination-color:                      @link-color;
+@pagination-bg:                         #fff;
+@pagination-border:                     transparent;
 
-@pagination-hover-color:               @link-hover-color;
-@pagination-hover-bg:                  @gray-lighter;
-@pagination-hover-border:              #ddd;
+@pagination-hover-color:                @link-hover-color;
+@pagination-hover-bg:                   @gray-lighter;
+@pagination-hover-border:               @pagination-hover-bg;
 
-@pagination-active-color:              #fff;
-@pagination-active-bg:                 @brand-primary;
-@pagination-active-border:             @brand-primary;
+@pagination-active-color:               #fff;
+@pagination-active-bg:                  @brand-primary;
+@pagination-active-border:              @brand-primary;
 
-@pagination-disabled-color:            @gray-light;
-@pagination-disabled-bg:               #fff;
-@pagination-disabled-border:           #ddd;
+@pagination-disabled-color:             @gray-light;
+@pagination-disabled-bg:                #fff;
+@pagination-disabled-border:            #ddd;
+
+@pagination-item-min-width:             40px;
 
 
 //== Pager
