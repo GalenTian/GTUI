@@ -11,7 +11,7 @@
             var _getTemplate = function (config) {
                 var _outerDiv = $(DIV).addClass('checkbox'),
                     _label = $(LABEL).addClass('checkbox-inline').attr({
-                        'ng-repeat': 'item in ' + _$utils.getFiledStringByName(config, 'items'),
+                        'ng-repeat': 'item in ' + _$utils.getFieledStringByName(config, 'items'),
                         'ng-bind': 'item.' + config.displayField,
                         'ng-value': 'item.' + config.valueField
                     }),

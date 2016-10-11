@@ -18,19 +18,31 @@
 
                     return $parse(attrs[configAttr])();
                 },
-                getFiledValueByName: function (scope, config, name) {
+                getFieledValueByName: function (scope, config, name) {
                     var targetFiled = name + constants.FIELD;
 
                     return config[constants.CONVERT_AS] ?
                         scope[config[constants.CONVERT_AS]][config[targetFiled]] :
                         scope[config[targetFiled]];
                 },
-                getFiledStringByName: function (scope, config, name) {
+                getFieledStringByName: function (config, name) {
                     var targetFiled = name + constants.FIELD;
 
                     return config[constants.CONVERT_AS] ?
-                        (config[constants.CONVERT_AS] + '.' + targetFiled) :
-                        targetFiled;
+                        (config[constants.CONVERT_AS] + '.' + config[targetFiled]) :
+                        config[targetFiled];
+                },
+                getPropertyValueByName: function (scope, config, name) {
+                    return config[constants.CONVERT_AS] ?
+                        scope[config[constants.CONVERT_AS]][config[name]] :
+                        scope[config[name]];
+                },
+
+                setPropertyValueByName: function (scope, config, name, value) {
+                    if (config[constants.CONVERT_AS])
+                        scope[config[constants.CONVERT_AS]][config[name]] = value;
+                    else
+                        scope[config[name]] = value;
                 },
 
                 uuid: function () {

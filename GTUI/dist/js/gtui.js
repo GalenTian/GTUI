@@ -1,4 +1,4 @@
-/* Packaged at 10:51 Oct 8, 2016. Version: None */
+/* Packaged at 10:24 Oct 11, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -63,9 +63,11 @@
 	__webpack_require__(4);
 	__webpack_require__(5);
 	__webpack_require__(6);
+	__webpack_require__(7);
+	__webpack_require__(8);
 
 	// Angular
-	__webpack_require__(7);
+	__webpack_require__(9);
 
 /***/ },
 /* 2 */
@@ -2394,6 +2396,167 @@
 /* 5 */
 /***/ function(module, exports) {
 
+	/* ========================================================================
+	 * Bootstrap: tab.js v3.3.5
+	 * http://getbootstrap.com/javascript/#tabs
+	 * ========================================================================
+	 * Copyright 2011-2015 Twitter, Inc.
+	 * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+	 * ======================================================================== */
+
+
+	+function ($) {
+	  'use strict';
+
+	  // TAB CLASS DEFINITION
+	  // ====================
+
+	  var Tab = function (element) {
+	    // jscs:disable requireDollarBeforejQueryAssignment
+	    this.element = $(element)
+	    // jscs:enable requireDollarBeforejQueryAssignment
+	  }
+
+	  Tab.VERSION = '3.3.5'
+
+	  Tab.TRANSITION_DURATION = 150
+
+	  Tab.prototype.show = function () {
+	    var $this    = this.element
+	    var $ul      = $this.closest('ul:not(.dropdown-menu)')
+	    var selector = $this.data('target')
+
+	    if (!selector) {
+	      selector = $this.attr('href')
+	      selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
+	    }
+
+	    if ($this.parent('li').hasClass('active')) return
+
+	    var $previous = $ul.find('.active:last a')
+	    var hideEvent = $.Event('hide.bs.tab', {
+	      relatedTarget: $this[0]
+	    })
+	    var showEvent = $.Event('show.bs.tab', {
+	      relatedTarget: $previous[0]
+	    })
+
+	    $previous.trigger(hideEvent)
+	    $this.trigger(showEvent)
+
+	    if (showEvent.isDefaultPrevented() || hideEvent.isDefaultPrevented()) return
+
+	    var $target = $(selector)
+
+	    this.activate($this.closest('li'), $ul)
+	    this.activate($target, $target.parent(), function () {
+	      $previous.trigger({
+	        type: 'hidden.bs.tab',
+	        relatedTarget: $this[0]
+	      })
+	      $this.trigger({
+	        type: 'shown.bs.tab',
+	        relatedTarget: $previous[0]
+	      })
+	    })
+	  }
+
+	  Tab.prototype.activate = function (element, container, callback) {
+	    var $active    = container.find('> .active')
+	    var transition = callback
+	      && $.support.transition
+	      && ($active.length && $active.hasClass('fade') || !!container.find('> .fade').length)
+
+	    function next() {
+	      $active
+	        .removeClass('active')
+	        .find('> .dropdown-menu > .active')
+	          .removeClass('active')
+	        .end()
+	        .find('[data-toggle="tab"]')
+	          .attr('aria-expanded', false)
+
+	      element
+	        .addClass('active')
+	        .find('[data-toggle="tab"]')
+	          .attr('aria-expanded', true)
+
+	      if (transition) {
+	        element[0].offsetWidth // reflow for transition
+	        element.addClass('in')
+	      } else {
+	        element.removeClass('fade')
+	      }
+
+	      if (element.parent('.dropdown-menu').length) {
+	        element
+	          .closest('li.dropdown')
+	            .addClass('active')
+	          .end()
+	          .find('[data-toggle="tab"]')
+	            .attr('aria-expanded', true)
+	      }
+
+	      callback && callback()
+	    }
+
+	    $active.length && transition ?
+	      $active
+	        .one('bsTransitionEnd', next)
+	        .emulateTransitionEnd(Tab.TRANSITION_DURATION) :
+	      next()
+
+	    $active.removeClass('in')
+	  }
+
+
+	  // TAB PLUGIN DEFINITION
+	  // =====================
+
+	  function Plugin(option) {
+	    return this.each(function () {
+	      var $this = $(this)
+	      var data  = $this.data('bs.tab')
+
+	      if (!data) $this.data('bs.tab', (data = new Tab(this)))
+	      if (typeof option == 'string') data[option]()
+	    })
+	  }
+
+	  var old = $.fn.tab
+
+	  $.fn.tab             = Plugin
+	  $.fn.tab.Constructor = Tab
+
+
+	  // TAB NO CONFLICT
+	  // ===============
+
+	  $.fn.tab.noConflict = function () {
+	    $.fn.tab = old
+	    return this
+	  }
+
+
+	  // TAB DATA-API
+	  // ============
+
+	  var clickHandler = function (e) {
+	    e.preventDefault()
+	    Plugin.call($(this), 'show')
+	  }
+
+	  $(document)
+	    .on('click.bs.tab.data-api', '[data-toggle="tab"]', clickHandler)
+	    .on('click.bs.tab.data-api', '[data-toggle="pill"]', clickHandler)
+
+	}(jQuery);
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
 	/**
 	 * Table
 	 */
@@ -2604,7 +2767,72 @@
 	})(jQuery);
 
 /***/ },
-/* 6 */
+/* 7 */
+/***/ function(module, exports) {
+
+	/* ========================================================================
+	 * Bootstrap: transition.js v3.3.5
+	 * http://getbootstrap.com/javascript/#transitions
+	 * ========================================================================
+	 * Copyright 2011-2015 Twitter, Inc.
+	 * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+	 * ======================================================================== */
+
+
+	+function ($) {
+	  'use strict';
+
+	  // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
+	  // ============================================================
+
+	  function transitionEnd() {
+	    var el = document.createElement('bootstrap')
+
+	    var transEndEventNames = {
+	      WebkitTransition : 'webkitTransitionEnd',
+	      MozTransition    : 'transitionend',
+	      OTransition      : 'oTransitionEnd otransitionend',
+	      transition       : 'transitionend'
+	    }
+
+	    for (var name in transEndEventNames) {
+	      if (el.style[name] !== undefined) {
+	        return { end: transEndEventNames[name] }
+	      }
+	    }
+
+	    return false // explicit for ie8 (  ._.)
+	  }
+
+	  // http://blog.alexmaccaw.com/css-transitions
+	  $.fn.emulateTransitionEnd = function (duration) {
+	    var called = false
+	    var $el = this
+	    $(this).one('bsTransitionEnd', function () { called = true })
+	    var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
+	    setTimeout(callback, duration)
+	    return this
+	  }
+
+	  $(function () {
+	    $.support.transition = transitionEnd()
+
+	    if (!$.support.transition) return
+
+	    $.event.special.bsTransitionEnd = {
+	      bindType: $.support.transition.end,
+	      delegateType: $.support.transition.end,
+	      handle: function (e) {
+	        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
+	      }
+	    }
+	  })
+
+	}(jQuery);
+
+
+/***/ },
+/* 8 */
 /***/ function(module, exports) {
 
 	/**
@@ -2654,7 +2882,7 @@
 	})(jQuery);
 
 /***/ },
-/* 7 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	if (window.angular) {
@@ -2662,22 +2890,22 @@
 	    // So here module will be defined once.
 	    var gta = angular.module('gtui', []);
 
-	    __webpack_require__(8);
-	    __webpack_require__(11);
+	    __webpack_require__(10);
+	    __webpack_require__(13);
 	}
 
 /***/ },
-/* 8 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Core
-	__webpack_require__(9);
+	__webpack_require__(11);
 
 	// Directives
-	__webpack_require__(10);
+	__webpack_require__(12);
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -2700,19 +2928,31 @@
 
 	                    return $parse(attrs[configAttr])();
 	                },
-	                getFiledValueByName: function (scope, config, name) {
+	                getFieledValueByName: function (scope, config, name) {
 	                    var targetFiled = name + constants.FIELD;
 
 	                    return config[constants.CONVERT_AS] ?
 	                        scope[config[constants.CONVERT_AS]][config[targetFiled]] :
 	                        scope[config[targetFiled]];
 	                },
-	                getFiledStringByName: function (scope, config, name) {
+	                getFieledStringByName: function (config, name) {
 	                    var targetFiled = name + constants.FIELD;
 
 	                    return config[constants.CONVERT_AS] ?
-	                        (config[constants.CONVERT_AS] + '.' + targetFiled) :
-	                        targetFiled;
+	                        (config[constants.CONVERT_AS] + '.' + config[targetFiled]) :
+	                        config[targetFiled];
+	                },
+	                getPropertyValueByName: function (scope, config, name) {
+	                    return config[constants.CONVERT_AS] ?
+	                        scope[config[constants.CONVERT_AS]][config[name]] :
+	                        scope[config[name]];
+	                },
+
+	                setPropertyValueByName: function (scope, config, name, value) {
+	                    if (config[constants.CONVERT_AS])
+	                        scope[config[constants.CONVERT_AS]][config[name]] = value;
+	                    else
+	                        scope[config[name]] = value;
 	                },
 
 	                uuid: function () {
@@ -2737,7 +2977,7 @@
 	})(jQuery);
 
 /***/ },
-/* 10 */
+/* 12 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -2755,15 +2995,13 @@
 	})(jQuery);
 
 /***/ },
-/* 11 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Core
-	__webpack_require__(12);
+	__webpack_require__(14);
 
 	// Directives
-	__webpack_require__(13);
-	__webpack_require__(14);
 	__webpack_require__(15);
 	__webpack_require__(16);
 	__webpack_require__(17);
@@ -2773,9 +3011,12 @@
 	__webpack_require__(21);
 	__webpack_require__(22);
 	__webpack_require__(23);
+	__webpack_require__(24);
+	__webpack_require__(25);
+	__webpack_require__(26);
 
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -2787,7 +3028,7 @@
 	})(jQuery);
 
 /***/ },
-/* 13 */
+/* 15 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -2847,7 +3088,7 @@
 	})(jQuery);
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -2868,7 +3109,7 @@
 	                        _config = _$utils.getConfig(attrs);
 
 	                    $(document).ready(function () {
-	                        var _option = _$utils.getFiledValueByName(scope, _config, 'option');
+	                        var _option = _$utils.getFieledValueByName(scope, _config, 'option');
 
 	                        if (angular.isObject(_option)) {
 	                            _chart.setOption(_option);
@@ -2882,7 +3123,7 @@
 	                    scope.$watch((_config.convertAs ? (_config.convertAs + '.') : '') + _config.optionField, function (n, o, scope) {
 	                        if (n != o) {
 	                            var _config = _$utils.getConfig(attrs),
-	                                _option = _$utils.getFiledValueByName(scope, _config, 'option');
+	                                _option = _$utils.getFieledValueByName(scope, _config, 'option');
 
 	                            _chart.setOption(_option);
 	                        }
@@ -2898,7 +3139,7 @@
 	})(jQuery);
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -2939,7 +3180,7 @@
 	})(jQuery);
 
 /***/ },
-/* 16 */
+/* 18 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -2973,7 +3214,7 @@
 	})(jQuery);
 
 /***/ },
-/* 17 */
+/* 19 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3017,7 +3258,7 @@
 	})(jQuery);
 
 /***/ },
-/* 18 */
+/* 20 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3038,111 +3279,113 @@
 	                
 	            _MAX_PAGES = 9;
 
-	        var _getTemplate = function (el, config) {
-	            // Template outer element
-	            var _div = $(_DIV_HTML);
+	        gta.directive('gtuiPager', function (_$utils) {
 
-	            var _ul = $(_UL_HTML).addClass('pagination');
+	            var _getTemplate = function (el, config) {
+	                // Template outer element
+	                var _div = $(_DIV_HTML);
 
-	            var _firstLi = $(_LI_HTML).append($(_A_HTML).addClass(_FIRST_CLASS).attr('href', 'javascript: void(0);'));
-	            var _prevGoupLi = $(_LI_HTML).append($(_A_HTML).addClass(_PREVIOUS_GOUP_CLASS).attr('href', 'javascript: void(0);'));
-	            var _prevLi = $(_LI_HTML).append($(_A_HTML).addClass(_PREVIOUS_CLASS).attr('href', 'javascript: void(0);'));
+	                var _ul = $(_UL_HTML).addClass('pagination');
 
-	            var _itemsLi = $(_LI_HTML).attr({
+	                var _firstLi = $(_LI_HTML).append($(_A_HTML).addClass(_FIRST_CLASS).attr('href', 'javascript: void(0);'));
+	                var _prevGoupLi = $(_LI_HTML).append($(_A_HTML).addClass(_PREVIOUS_GOUP_CLASS).attr('href', 'javascript: void(0);'));
+	                var _prevLi = $(_LI_HTML).append($(_A_HTML).addClass(_PREVIOUS_CLASS).attr('href', 'javascript: void(0);'));
+
+	                var _itemsLi = $(_LI_HTML).attr({
 	                    'ng-repeat': '__item__ in ' + (config.vm ? config.vm + '.__pager__.__items__' : '__pager__.__items__'),
 	                    'ng-class': '{ active: __item__ === ' + config.vm + '.' + config.selectedField + ' }'
 	                })
-	                .append($(_A_HTML).attr({ 'ng-bind': '__item__', 'href': 'javascript: void(0);' }));
+	                    .append($(_A_HTML).attr({ 'ng-bind': '__item__', 'href': 'javascript: void(0);' }));
 
-	            var _nextLi = $(_LI_HTML).append($(_A_HTML).addClass(_NEXT_CLASS).attr('href', 'javascript: void(0);'));
-	            var _nextGoupLi = $(_LI_HTML).append($(_A_HTML).addClass(_NEXT_GROUP_CLASS).attr('href', 'javascript: void(0);'));
-	            var _latLi = $(_LI_HTML).append($(_A_HTML).addClass(_LAST_CLASS).attr('href', 'javascript: void(0);'));
+	                var _nextLi = $(_LI_HTML).append($(_A_HTML).addClass(_NEXT_CLASS).attr('href', 'javascript: void(0);'));
+	                var _nextGoupLi = $(_LI_HTML).append($(_A_HTML).addClass(_NEXT_GROUP_CLASS).attr('href', 'javascript: void(0);'));
+	                var _latLi = $(_LI_HTML).append($(_A_HTML).addClass(_LAST_CLASS).attr('href', 'javascript: void(0);'));
 
-	            _div.append(
-	                _ul.append(_firstLi)
-	                    .append(_prevGoupLi)
-	                    .append(_prevLi)
-	                    .append(_itemsLi)
-	                    .append(_nextLi)
-	                    .append(_nextGoupLi)
-	                    .append(_latLi)
-	            );
+	                _div.append(
+	                    _ul.append(_firstLi)
+	                        .append(_prevGoupLi)
+	                        .append(_prevLi)
+	                        .append(_itemsLi)
+	                        .append(_nextLi)
+	                        .append(_nextGoupLi)
+	                        .append(_latLi)
+	                );
 
-	            return _div.prop('outerHTML');
-	        };
-	        var _getPages = function (selectedPage, totalPages) {
-	            if ((typeof (selectedPage) === 'undefined' || isNaN(selectedPage)) || (typeof (totalPages) === 'undefined' || isNaN(totalPages))) {
-	                console.error('Pager directive: Make sure the selcted page and total pages are existed and they are numbers. ');
-	            }
-
-	            var _maxPage = _MAX_PAGES,
-	                _half = parseInt(_maxPage / 2),
-	                _startPage, _endPage,
-	                _items = [];
-
-	            _endPage = selectedPage + _half > totalPages ? totalPages : selectedPage + _half;
-	            _startPage = _endPage - _maxPage + 1;
-	            _startPage = _startPage < 1 ? 1 : _startPage;
-	            _endPage = _startPage + _maxPage - 1 > totalPages ? totalPages : _startPage + _maxPage - 1;
-
-	            while (_startPage <= _endPage) {
-	                _items.push(_startPage);
-	                _startPage++;
-	            }
-
-	            return _items;
-	        };
-
-	        var _itemClick = function (e) {
-	            var _el = gtui.utils.getClosestEementByNodeName(e.target, 'a'),
-	                _config = e.data.scope().$eval(e.data.attr('data-config')),
-	                _scope = e.data.scope(),
-	                _vm = _scope[_config.vm];
-
-	            _vm = _vm ? _vm : _scope;
-
-	            if (_el.hasClass(_FIRST_CLASS)) {
-	                _vm[_config.selectedField] = 1;
-	            }
-	            else if (_el.hasClass(_PREVIOUS_GOUP_CLASS)) {
-	                if (_vm[_config.selectedField] > _MAX_PAGES) {
-	                    _vm[_config.selectedField] = _vm[_config.selectedField] - _MAX_PAGES;
+	                return _div.prop('outerHTML');
+	            };
+	            var _getPages = function (selectedPage, totalPages) {
+	                if ((typeof (selectedPage) === 'undefined' || isNaN(selectedPage)) || (typeof (totalPages) === 'undefined' || isNaN(totalPages))) {
+	                    console.error('Pager directive: Make sure the selcted page and total pages are existed and they are numbers. ');
 	                }
-	            }
-	            else if (_el.hasClass(_PREVIOUS_CLASS)) {
-	                if (_vm[_config.selectedField] !== 1) {
-	                    _vm[_config.selectedField]--;
-	                }
-	            }
-	            else if (_el.hasClass(_NEXT_CLASS)) {
-	                if (_vm[_config.selectedField] !== _vm[_config.totalField]) {
-	                    _vm[_config.selectedField]++;
-	                }
-	            }
-	            else if (_el.hasClass(_NEXT_GROUP_CLASS)) {
-	                if (_vm[_config.selectedField] <= _vm[_config.totalField] - _MAX_PAGES) {
-	                    _vm[_config.selectedField] = _vm[_config.selectedField] + _MAX_PAGES;
-	                }
-	            }
-	            else if (_el.hasClass(_LAST_CLASS)) {
-	                _vm[_config.selectedField] = _vm[_config.totalField];
-	            }
-	            else {
-	                _vm[_config.selectedField] = parseInt(_el.text());
-	            }
-	            _scope.$apply();
-	        };
-	        var _changed = function (config) {
-	            return function (newValue, oldValue, scope) {
-	                if (newValue !== oldValue) {
-	                    var _scope = config.vm ? scope[config.vm] : scope;
 
-	                    _scope.__pager__.__items__ = _getPages(_scope[config.selectedField], _scope[config.totalField]);
-	                }
-	            }
-	        };
+	                var _maxPage = _MAX_PAGES,
+	                    _half = parseInt(_maxPage / 2),
+	                    _startPage, _endPage,
+	                    _items = [];
 
-	        gta.directive('gtuiPager', function ($parse) {
+	                _endPage = selectedPage + _half > totalPages ? totalPages : selectedPage + _half;
+	                _startPage = _endPage - _maxPage + 1;
+	                _startPage = _startPage < 1 ? 1 : _startPage;
+	                _endPage = _startPage + _maxPage - 1 > totalPages ? totalPages : _startPage + _maxPage - 1;
+
+	                while (_startPage <= _endPage) {
+	                    _items.push(_startPage);
+	                    _startPage++;
+	                }
+
+	                return _items;
+	            };
+
+	            var _itemClick = function (e) {
+	                var _el = gtui.utils.getClosestEementByNodeName(e.target, 'a'),
+	                    _config = e.data.scope().$eval(e.data.attr('data-config')),
+	                    _scope = e.data.scope(),
+	                    _vm = _scope[_config.vm];
+
+	                _vm = _vm ? _vm : _scope;
+
+	                if (_el.hasClass(_FIRST_CLASS)) {
+	                    _vm[_config.selectedField] = 1;
+	                }
+	                else if (_el.hasClass(_PREVIOUS_GOUP_CLASS)) {
+	                    if (_vm[_config.selectedField] > _MAX_PAGES) {
+	                        _vm[_config.selectedField] = _vm[_config.selectedField] - _MAX_PAGES;
+	                    }
+	                }
+	                else if (_el.hasClass(_PREVIOUS_CLASS)) {
+	                    if (_vm[_config.selectedField] !== 1) {
+	                        _vm[_config.selectedField]--;
+	                    }
+	                }
+	                else if (_el.hasClass(_NEXT_CLASS)) {
+	                    if (_vm[_config.selectedField] !== _vm[_config.totalField]) {
+	                        _vm[_config.selectedField]++;
+	                    }
+	                }
+	                else if (_el.hasClass(_NEXT_GROUP_CLASS)) {
+	                    if (_vm[_config.selectedField] <= _vm[_config.totalField] - _MAX_PAGES) {
+	                        _vm[_config.selectedField] = _vm[_config.selectedField] + _MAX_PAGES;
+	                    }
+	                }
+	                else if (_el.hasClass(_LAST_CLASS)) {
+	                    _vm[_config.selectedField] = _vm[_config.totalField];
+	                }
+	                else {
+	                    _vm[_config.selectedField] = parseInt(_el.text());
+	                }
+	                _scope.$apply();
+	            };
+	            var _changed = function (config) {
+	                return function (newValue, oldValue, scope) {
+	                    if (newValue !== oldValue) {
+	                        var _scope = config.vm ? scope[config.vm] : scope;
+
+	                        _scope.__pager__.__items__ = _getPages(_$utils.getFieledValueByName(scope, _config, 'selected'),
+	                            _$utils.getFieledValueByName(scope, _config, 'total'));
+	                    }
+	                }
+	            };
+
 	            return {
 	                restrict: "EA",
 	                scope: false,
@@ -3153,7 +3396,7 @@
 	                        return _DIV_HTML;
 	                    }
 	                    else {
-	                        var _config = $parse(attrs.config)();
+	                        var _config = _$utils.getConfig(attrs);
 	                    }
 
 	                    return _getTemplate(element, _config);
@@ -3161,23 +3404,20 @@
 	                replace: true,
 	                transclude: false,
 	                link: function (scope, element, attrs) {
-	                    var _config = scope.$eval(attrs.config),
+	                    var _config = _$utils.getConfig(attrs),
 	                        _scope = scope;
 
-	                    if (_config.vm) {
-	                        _scope = _scope[_config.vm];
-	                    }
-
-	                    var _selectedIndex = _scope[_config.selectedField];
-	                    var _total = _scope[_config.totalField];
+	                    var _selectedIndex = _$utils.getFieledValueByName(scope, _config, 'selected');
+	                    var _total = _$utils.getFieledValueByName(scope, _config, 'total');
 	                    _scope.__pager__ = {};
 	                    _scope.__pager__.__items__ = _getPages(_selectedIndex, _total);
 	                    _scope.__pager__.__config__ = _config;
 
 	                    element.on('click', 'a', element, _itemClick);
 
-	                    scope.$watch((_config.vm ? (_config.vm + '.') : '') + _config.selectedField + ' + ' +
-	                        (_config.vm ? (_config.vm + '.') : '') + _config.totalField, _changed(_config));
+	                    scope.$watch(_$utils.getFieledStringByName( _config, 'selected') + ' + ' +
+	                        _$utils.getFieledStringByName(_config, 'total'),
+	                        _changed(_config));
 	                }
 	            };
 	        });
@@ -3185,7 +3425,7 @@
 	})(jQuery);
 
 /***/ },
-/* 19 */
+/* 21 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3299,7 +3539,46 @@
 	})(jQuery);
 
 /***/ },
-/* 20 */
+/* 22 */
+/***/ function(module, exports) {
+
+	(function ($) {
+	    if (window.angular && window.echarts) {
+	        var gta = angular.module('gtui');
+
+	        gta.directive('gtuiSelect', function (_$utils, _$echart) {
+	            var _SELECT = '<select></select>';
+
+	            var _getTemplate = function (config) {
+	                var select = $(_SELECT)
+	                    .addClass('form-control')
+	                    .attr({
+	                        'ng-model': _$utils.getFieledStringByName(config, 'selected'),
+	                        'ng-options': 'm.' + config.displayField + ' for m in ' + _$utils.getFieledStringByName(config, 'optionItems')
+	                    });
+
+	                return select[0].outerHTML;
+	            };
+
+	            return {
+	                restrict: 'EA',
+	                template: function (element, attrs) {
+	                    var _config = _$utils.getConfig(attrs);
+
+	                    return _getTemplate(_config);
+	                },
+	                replace: true,
+	                link: function link(scope, element, attrs) {
+	                    var _config = _$utils.getConfig(attrs);
+
+	                }
+	            };
+	        });
+	    }
+	})(jQuery);
+
+/***/ },
+/* 23 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3415,7 +3694,7 @@
 	})(jQuery);
 
 /***/ },
-/* 21 */
+/* 24 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3452,7 +3731,7 @@
 	})(jQuery);
 
 /***/ },
-/* 22 */
+/* 25 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3491,7 +3770,7 @@
 	})(jQuery);
 
 /***/ },
-/* 23 */
+/* 26 */
 /***/ function(module, exports) {
 
 	(function ($) {

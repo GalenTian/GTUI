@@ -1,0 +1,339 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>明细</title>
+	<meta charset="utf-8" />
+
+    <link type="text/css" rel="stylesheet" href="../../dist/css/gtui.css" />
+</head>
+<body ng-app="GTUIComponent">
+    <div>
+
+    </div>
+
+    <script src="../lib/jquery-1.9.0.js"></script>
+    <script src="../lib/jquery-ui-1.9.2.js"></script>
+    <script src="../lib/angular-1.28.js"></script>
+    <script src="../lib/echarts.js"></script>
+    <script src="../../dist/js/gtui.js"></script>
+    <script>
+        // Page Controller
+        angular.module('GTUIComponent', ['gtui'])
+            // Controllers for Tables
+            .controller('DemoController', MyPagerController)
+
+        var MyPagerController = function ($scope) {
+            var vm = this;
+            
+            vm.searchOptions = {
+                // 立项
+                projectNo: {
+                    label: '项目编号',
+                    type: 'text',
+                    value: '',
+                    Addable: true,
+                    isAdded: true
+                },
+                projectCreateDate: {
+                    label: '项目创建时间',
+                    type: 'date-range',
+                    valueStart: '',
+                    valueEnd: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                projectName: {
+                    label: '项目名称',
+                    type: 'text',
+                    value: '',
+                    Addable: true,
+                    isAdded: true
+                },
+                projectTotalAmount: {
+                    label: '项目总金额',
+                    type: 'number-range',
+                    valueStart: '',
+                    valueEnd: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                wbsNo: {
+                    label: 'WBS编号',
+                    type: 'text',
+                    value: '',
+                    Addable: true,
+                    isAdded: true
+                },
+
+                // BM单
+                bmNo: {
+                    lable: 'BM单号',
+                    type: 'text',
+                    value: '',
+                    Addable: true,
+                    isAdded: true
+                },
+                bmCreateDate: {
+                    label: '创建时间',
+                    type: 'date-range',
+                    valueStart: '',
+                    valueEnd: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                bmNeedRowNo: {
+                    lable: '需求行号',
+                    type: 'text',
+                    value: '',
+                    Addable: true,
+                    isAdded: true
+                },
+                bmNeedDescription: {
+                    lable: '需求描述',
+                    type: 'text',
+                    value: '',
+                    Addable: true,
+                    isAdded: true
+                },
+                bmNeedShortDesc: {
+                    lable: '需求短文本',
+                    type: 'text',
+                    value: '',
+                    Addable: true,
+                    isAdded: true
+                },
+                bmNeedAmount: {
+                    label: '需求金额',
+                    type: 'number-range',
+                    valueStart: '',
+                    valueEnd: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                bmNeedCount: {
+                    label: '需求数量',
+                    type: 'number-range',
+                    valueStart: '',
+                    valueEnd: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                bmNeedDepartment: {
+                    label: '需求部门',
+                    type: 'text',
+                    value: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                bmNeedPerson: {
+                    label: '需求人',
+                    type: 'picker',
+                    value: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                bmDomain: {
+                    label: '专业',
+                    type: 'select',
+                    value: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                bmCC: {
+                    label: '成本中心',
+                    type: 'select',
+                    value: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                bmAccountantSubject: {
+                    label: '会计科目',
+                    type: 'select',
+                    value: '',
+                    Addable: true,
+                    isAdded: false
+                },
+
+                // 商务
+                poNo: {
+                    label: '订单号',
+                    type: 'text',
+                    value: '',
+                    Addable: true,
+                    isAdded: true
+                },
+                poCreateDate: {
+                    label: '订单创建时间',
+                    type: 'date-range',
+                    valueStart: '',
+                    valueEnd: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                poFilesPassDate: {
+                    label: '商务材料确认时间',
+                    type: 'date-range',
+                    valueStart: '',
+                    valueEnd: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                poAmount: {
+                    label: '订单金额',
+                    type: 'number-range',
+                    valueStart: '',
+                    valueEnd: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                poProviderName: {
+                    label: '供应商名称',
+                    type: 'text',
+                    value: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                poPurchaseGroup: {
+                    label: '采购组',
+                    type: 'select',
+                    value: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                poPurchaser: {
+                    label: '采购员',
+                    type: 'picker',
+                    value: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                poPurchaseWay: {
+                    label: '招标方式',
+                    type: 'select',
+                    value: '',
+                    Addable: true,
+                    isAdded: false
+                },
+
+                // 实施
+                contractNo: {
+                    label: '合同编号',
+                    type: 'text',
+                    value: '',
+                    Addable: true,
+                    isAdded: true
+                },
+                ArriveEvidenceNo: {
+                    label: '到货凭证号',
+                    type: 'text',
+                    value: '',
+                    Addable: true,
+                    isAdded: true
+                },
+                implPlanStartDate: {
+                    label: '项目计划开始时间',
+                    type: 'date-range',
+                    valueStart: '',
+                    valueEnd: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                implPlanEndDate: {
+                    label: '项目计划结束时间',
+                    type: 'date-range',
+                    valueStart: '',
+                    valueEnd: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                implRealStartDate: {
+                    label: '项目实际开始时间',
+                    type: 'date-range',
+                    valueStart: '',
+                    valueEnd: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                implRealEndDate: {
+                    label: '项目实际结束时间',
+                    type: 'date-range',
+                    valueStart: '',
+                    valueEnd: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                implFinalArriveDate: {
+                    label: '最终到货日期',
+                    type: 'date-range',
+                    valueStart: '',
+                    valueEnd: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                implArrivePercentageDate: {
+                    label: '已到货数量百分比',
+                    type: 'number-range',
+                    valueStart: '',
+                    valueEnd: '',
+                    Addable: true,
+                    isAdded: false
+                },
+
+                // 验收
+                filesReadyDate: {
+                    label: '记账材料准备完成日期',
+                    type: 'date-range',
+                    valueStart: '',
+                    valueEnd: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                finalCheckDate: {
+                    label: '最终验收日期',
+                    type: 'date-range',
+                    valueStart: '',
+                    valueEnd: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                finalContractDate: {
+                    label: '结算合同签订日期',
+                    type: 'date-range',
+                    valueStart: '',
+                    valueEnd: '',
+                    Addable: true,
+                    isAdded: false
+                },
+
+                // 记账
+                finalRecordDate: {
+                    label: '最后记账日期',
+                    type: 'date-range',
+                    valueStart: '',
+                    valueEnd: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                finalRecordDate: {
+                    label: '已到账金额',
+                    type: 'number-range',
+                    valueStart: '',
+                    valueEnd: '',
+                    Addable: true,
+                    isAdded: false
+                },
+                finalRecordDate: {
+                    label: '币种',
+                    type: 'select',
+                    valueStart: '',
+                    valueEnd: '',
+                    Addable: true,
+                    isAdded: false
+                }
+            };
+
+            return vm;
+        };
+    </script>
+</body>
+</html>

@@ -8,10 +8,6 @@
     <link type="text/css" rel="stylesheet" href="lib/bootstrap-datepicker/css/bootstrap-datepicker.css" />
 </head>
 <body ng-app="GTUIComponent">
-    <div id="main" style="width: 50%; height: 350px;"></div>
-    <!--<div id="main1" style="width: 50%; height: 350px;"></div>
-    <div id="main2" style="width: 50%; height: 350px;"></div>-->
-
     <div ng-controller="DemoController as dc">
         <div gtui-vertical-tile gtui-echart config="{ type: 'scatter', optionField: 'scatterOption', convertAs: 'dc' }"></div>
     </div>
@@ -24,31 +20,31 @@
     <script src="lib/theme/macarons.js"></script>
     <script src="../dist/js/gtui.js"></script>
     <script>
-        var chart = echarts.init(document.getElementById('main'), 'macarons');
-        var option = {
-            title: {
-                text: '延误统计'
-            },
-            tooltip: {},
-            legend: {
-                data: ['延误', '报警']
-            },
-            xAxis: {
-                data: ["立项", "BM单", "商务", "实施", "验收", "记账"]
-            },
-            yAxis: {},
-            series: [{
-                name: '延误',
-                type: 'bar',
-                data: [5, 2, 6, 7, 2, 1]
-            },
-            {
-                name: '报警',
-                type: 'bar',
-                data: [3, 3, 1, 3, 1, 2]
-            }]
-        };
-        chart.setOption(option);
+        //var chart = echarts.init(document.getElementById('main'), 'macarons');
+        //var option = {
+        //    title: {
+        //        text: '延误统计'
+        //    },
+        //    tooltip: {},
+        //    legend: {
+        //        data: ['延误', '报警']
+        //    },
+        //    xAxis: {
+        //        data: ["立项", "BM单", "商务", "实施", "验收", "记账"]
+        //    },
+        //    yAxis: {},
+        //    series: [{
+        //        name: '延误',
+        //        type: 'bar',
+        //        data: [5, 2, 6, 7, 2, 1]
+        //    },
+        //    {
+        //        name: '报警',
+        //        type: 'bar',
+        //        data: [3, 3, 1, 3, 1, 2]
+        //    }]
+        //};
+        //chart.setOption(option);
 
         //var chart1 = echarts.init(document.getElementById('main1'), 'macarons');
         //var option1 = {

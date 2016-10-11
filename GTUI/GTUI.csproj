@@ -68,6 +68,7 @@
     <Content Include="build\gtui.js" />
     <Content Include="examples\biem\detail.html" />
     <Content Include="examples\biem\cost_sub.html" />
+    <Content Include="examples\biem\details.html" />
     <Content Include="examples\biem\investment_sub.html" />
     <Content Include="examples\biem\cost.html" />
     <Content Include="examples\biem\investment.html" />
@@ -79,6 +80,7 @@
     <Content Include="examples\lib\echarts.js" />
     <Content Include="examples\lib\jquery-1.9.0.js" />
     <Content Include="examples\lib\jquery-ui-1.9.2.js" />
+    <Content Include="examples\lib\jquery.min.js" />
     <Content Include="examples\lib\theme\macarons.js" />
     <Content Include="examples\pagers.html" />
     <Content Include="examples\tables.html" />
@@ -91,6 +93,7 @@
     <Content Include="js\directives\grid.directive.js" />
     <Content Include="js\directives\input.directive.js" />
     <Content Include="js\directives\inputgroup.directive.js" />
+    <Content Include="js\directives\select.directive.js" />
     <Content Include="js\gtui.angular.js" />
     <Content Include="js\core.js" />
     <Content Include="js\directives\core.directive.js" />
@@ -107,7 +110,9 @@
     <Content Include="js\services\core.service.js" />
     <Content Include="js\services\echart.service.js" />
     <Content Include="js\services\gtui.service.js" />
+    <Content Include="js\tab.js" />
     <Content Include="js\table.js" />
+    <Content Include="js\transition.js" />
     <Content Include="js\verticaltile.js" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>

@@ -9,6 +9,7 @@ require('./input.directive.js');
 require('./inputgroup.directive.js');
 require('./pager.directive.js');
 require('./panel.directive.js');
+require('./select.directive.js');
 require('./table.directive.js');
 require('./table.thead.directive.js');
 require('./table.tbody.directive.js');

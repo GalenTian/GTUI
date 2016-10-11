@@ -17,6 +17,10 @@
 
             <h1>Input</h1>
             <div gtui-input></div>
+
+            <h1>Select</h1>
+            <div gtui-select data-config="{ selectedField: 'selectedItem', optionItemsField: 'optionItems', displayField: 'displayName', convertAs: 'vm.select' }"></div>
+            <!--<select class="form-control" ng-model="vm.select.selctedItem" ng-options="m.displayName for m in vm.select.optionItems"></select>-->
         </div>
     </div>
 
@@ -30,6 +34,15 @@
         // AnaularJS相关
         var MyPagerController = function ($scope) {
             var vm = this;
+
+            vm.select = {};
+            vm.select.selctedItem = '';
+            vm.select.optionItems = [
+                { id: '001', displayName: '焊装' },
+                { id: '001', displayName: '油漆' },
+                { id: '001', displayName: '总装' },
+                { id: '001', displayName: '冲压' }
+            ];
             
             return vm;
         };
