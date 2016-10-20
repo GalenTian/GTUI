@@ -33,7 +33,7 @@
 
                 var _itemsLi = $(_LI_HTML).attr({
                     'ng-repeat': '__item__ in ' + (config.converAs ? config.converAs + '.__pager__.__items__' : '__pager__.__items__'),
-                    'ng-class': '{ active: __item__ === ' + config.convertAs + '.' + config.selectedField + ' }'
+                    'ng-class': '{ active: __item__ === ' + config.controllerAs + '.' + config.selectedField + ' }'
                 })
                     .append($(_A_HTML).attr({ 'ng-bind': '__item__', 'href': 'javascript: void(0);' }));
 
@@ -61,7 +61,7 @@
              */
             var _getPages = function (selectedPage, totalPages) {
                 if ((typeof (selectedPage) === 'undefined' || isNaN(selectedPage)) || (typeof (totalPages) === 'undefined' || isNaN(totalPages))) {
-                    console.error('Pager directive: Make sure the selcted page and total pages are existed and they are numbers. ');
+                    console.error('gtui-pager: Make sure the selcted page and total pages are existed and they are numbers. ');
                 }
 
                 var _maxPage = _MAX_PAGES,
@@ -91,7 +91,7 @@
                     _el = _$target.closest('.' + ICON_CLASS),
                     _config = e.data.scope().$eval(e.data.attr('data-config')),
                     _scope = e.data.scope(),
-                    _vm = _scope[_config.convertAs];
+                    _vm = _scope[_config.controllerAs];
 
                 _vm = _vm ? _vm : _scope;
 
@@ -135,17 +135,25 @@
                 _scope.$apply();
             };
 
-            /**
-             * 该事件会在selectedField或totalField所对应的scope属性变化时调用。
-             * 在该方法中，会更新__items__属性中的值，也就是当前需要显示的页数信息（数字）。
-             */
-            var _changed = function (config) {
+            var _selectedPageChanged = function (config) {
                 return function (newValue, oldValue, scope) {
                     if (newValue !== oldValue) {
                         var _scope = config.converAs ? scope[config.converAs] : scope;
 
-                        _scope.__pager__.__items__ = _getPages(_$utils.getFieledValueByName(scope, config, 'selected'),
-                            _$utils.getFieledValueByName(scope, config, 'total'));
+                        _scope.__pager__.__items__ = _getPages(_$utils.getFieldValueByName(scope, config, 'selected'),
+                            _$utils.getFieldValueByName(scope, config, 'total'));
+
+                        _scope.$emit('change.gtui.pager', { newValue: newValue, oldValue: oldValue, scope: scope});
+                    }
+                }
+            };
+            var _pageCounChanged = function (config) {
+                return function (newValue, oldValue, scope) {
+                    if (newValue !== oldValue) {
+                        var _scope = config.converAs ? scope[config.converAs] : scope;
+
+                        _scope.__pager__.__items__ = _getPages(_$utils.getFieldValueByName(scope, config, 'selected'),
+                            _$utils.getFieldValueByName(scope, config, 'total'));
                     }
                 }
             };
@@ -171,17 +179,16 @@
                     var _config = _$utils.getConfig(attrs),
                         _scope = scope;
 
-                    var _selectedIndex = _$utils.getFieledValueByName(scope, _config, 'selected');
-                    var _total = _$utils.getFieledValueByName(scope, _config, 'total');
+                    var _selectedIndex = _$utils.getFieldValueByName(scope, _config, 'selected');
+                    var _total = _$utils.getFieldValueByName(scope, _config, 'total');
                     _scope.__pager__ = {};
                     _scope.__pager__.__items__ = _getPages(_selectedIndex, _total);
                     _scope.__pager__.__config__ = _config;
 
                     element.on('click', 'a', element, _itemClick);
 
-                    scope.$watch(_$utils.getFieledStringByName( _config, 'selected') + ' + ' +
-                        _$utils.getFieledStringByName(_config, 'total'),
-                        _changed(_config));
+                    scope.$watch(_$utils.getFieldStringByName( _config, 'selected'), _selectedPageChanged(_config));
+                    scope.$watch(_$utils.getFieldStringByName(_config, 'total'), _pageCounChanged(_config));
                 }
             };
         });

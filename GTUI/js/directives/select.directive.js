@@ -9,8 +9,10 @@
                 var select = $(_SELECT)
                     .addClass('form-control')
                     .attr({
-                        'ng-model': _$utils.getFieledStringByName(config, 'selected'),
-                        'ng-options': 'm.' + config.displayField + ' for m in ' + _$utils.getFieledStringByName(config, 'optionItems')
+                        'ng-model': _$utils.getFieldStringByName(config, 'selected'),
+                        'ng-options': config.displayField ? 
+                            'm.' + config.displayField + ' for m in ' + _$utils.getFieldStringByName(config, 'optionItems') :
+                            'm for m in ' + _$utils.getFieldStringByName(config, 'optionItems')
                     });
 
                 return select[0].outerHTML;

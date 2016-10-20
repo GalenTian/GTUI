@@ -37,7 +37,7 @@
         options: {
             fillSpanClass: 'fill-span',
 
-            frozenColumnsCount: 3
+            frozenColumnsCount: 0
         },
 
         _create: function () {
@@ -89,14 +89,42 @@
                 e.data.updateLayout();
             })
             .on('click' + _eventNamespace, 'th', _self, function (e) {
-                var _target = $(e.target);
-                if (_target[0].nodeName !== 'TH') {
-                    _target = _target.closest('th');
-                }
-                var _position = _target.parent().children('th').index(e.target),
-                    _event = $.Event('sort', { index: _position });
+                var _target = $(e.target).closest('th');
 
-                e.data.element.trigger(_event);
+                var _position = _target.parent().children('th').index(e.target),
+                    _event = $.Event('sort.gtui.table', { index: _position });
+
+                _target.trigger(_event);
+            })
+            .on('click' + _eventNamespace, 'a', _self, function (e) {
+                var _target = $(e.target).closest('a');
+
+                var _buttonGroupIndex = _target.index(),
+                    _columnIndex = _target.closest('td').index(),
+                    _rowIndex = _target.closest('tr').index();
+
+                var _event = $.Event('linkClick.gtui.table', {
+                    buttonGroupIndex: _buttonGroupIndex,
+                    columnIndex: _columnIndex,
+                    rowIndex: _rowIndex
+                });
+
+                _target.trigger(_event);
+            })
+            .on('click' + _eventNamespace, 'button', _self, function (e) {
+                var _target = $(e.target).closest('button');
+
+                var _buttonGroupIndex = _target.index(),
+                    _columnIndex = _target.closest('td').index(),
+                    _rowIndex = _target.closest('tr').index();
+
+                var _event = $.Event('buttonClick.gtui.table', {
+                    buttonGroupIndex: _buttonGroupIndex,
+                    columnIndex: _columnIndex,
+                    rowIndex: _rowIndex
+                });
+
+                _target.trigger(_event);
             });
 
             // Scroll origin table when table holds the frozen columns is scrolled.

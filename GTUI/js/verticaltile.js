@@ -20,7 +20,7 @@
 
             var _top = _el.position().top,
                 _docHeight = document.documentElement.clientHeight,
-                _offsetBottom = document.body.clientHeight - _top - _el.height();
+                _offsetBottom = Math.max(document.body.clientHeight, $('html').outerHeight()) - _top - _el.height();
 
             if (_top >= _docHeight - _offsetBottom) { }
             else {
@@ -36,6 +36,10 @@
                 .on('resize' + this.eventNamespace, this, function (e) {
                     if (e.data._docClientHeight !== document.documentElement.clientHeight)
                         e.data._updateHeight(e);
+                    else if (e.data._docClientWidth !== document.documentElement.clientWidth) {
+                        e.data._docClientWidth = document.documentElement.clientWidth;
+                        e.data.element.trigger('resize', e);
+                    }
                 });
         },
         _destory: function e() {

@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>部门BM单查询</title>
+	<meta charset="utf-8" />
+
+    <link type="text/css" rel="stylesheet" href="../../dist/css/gtui.css" />
+</head>
+<body ng-app="GTUIComponent">
+    <div class="container-fluid">
+        <div ng-controller="DemoController as vm">
+            <div gtui-panel-search data-config="{ titleField: 'title', controllerAs: 'vm' }">
+                <form class="form-horizontal">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-lg-offset-2">
+                            <div class="form-group form-group-sm">
+                                <label for="demo-time" class="col-sm-4 control-label">创建时间</label>
+                                <div class="col-sm-8">
+                                    <div gtui-datepicker data-config="{ type: 'date-range', startField: 'bmCreatedTimeStart', endField: 'bmCteatedTImeEnd', controllerAs: 'vm' }"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="form-group form-group-sm">
+                                <label for="demo-time" class="col-sm-4 control-label">BM单编号</label>
+                                <div class="col-sm-8">
+                                    <div gtui-input class="form-control"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-lg-offset-2">
+                            <div class="form-group form-group-sm">
+                                <label for="demo-time" class="col-sm-4 control-label">BM单描述</label>
+                                <div class="col-sm-8">
+                                    <div gtui-input class="form-control"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="form-group form-group-sm">
+                                <label for="demo-time" class="col-sm-4 control-label">BM单类别</label>
+                                <div class="col-sm-8">
+                                    <div gtui-select data-config="{ selectedField: 'bmType', optionItemsField: 'bmTypeList', displayField: 'displayName', controllerAs: 'vm' }"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-lg-offset-2">
+                            <div class="form-group form-group-sm">
+                                <label for="demo-time" class="col-sm-4 control-label">起始需求总金额</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control">
+                                        <span class="input-group-addon">万元</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="form-group form-group-sm">
+                                <label for="demo-time" class="col-sm-4 control-label">截止需求总金额</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control">
+                                        <span class="input-group-addon">万元</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-lg-offset-2">
+                            <div class="form-group form-group-sm">
+                                <label for="demo-time" class="col-sm-4 control-label">所属项目</label>
+                                <div class="col-sm-8">
+                                    <div gtui-select data-config="{ selectedField: 'selectedItem', optionItemsField: 'optionItems', displayField: 'displayName', controllerAs: 'vm.select' }"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="form-group form-group-sm">
+                                <label for="demo-time" class="col-sm-4 control-label">状态</label>
+                                <div class="col-sm-8">
+                                    <div gtui-select data-config="{ selectedField: 'bmStatus', optionItemsField: 'bmStatusList', displayField: 'displayName', controllerAs: 'vm' }"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div ng-controller="ContentController as cc">
+            <div id="demo-content" gtui-panel-table data-config="{ hasFooter: true}" data-footer="false">
+                <div gtui-table gtui-vertical-tile
+                     data-config="{ frozenColumnsCount: 3, tableBordered: true, tableStriped: true, vm: 'cc', headersField: 'headers', itemsField: 'items' }">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th ng-repeat="item in cc.headers" ng-bind="item.title"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in cc.items">
+                                <td ng-repeat="cell in item.cols" ng-bind="cell.content"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <footer>
+                    <div ng-controller="PagerController as pc">
+                        <div id="demo-pager" gtui-pager data-config="{ selectedField: 'selectedPage', totalField: 'totalCount', controllerAs: 'pc' }"></div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <script src="../lib/jquery-1.9.0.js"></script>
+    <script src="../lib/jquery-ui-1.9.2.js"></script>
+    <script src="../lib/angular-1.28.js"></script>
+    <script src="../lib/echarts.js"></script>
+    <script src="../lib/theme/macarons.js"></script>
+    <script src="../../dist/js/gtui.js"></script>
+    <script>
+        // Search区域的Controller，包含查询按钮
+        var MySearchController = function ($scope) {
+            var vm = this;
+
+            vm.title = '部门BM单查询';
+
+            var date = new Date();
+            vm.bmCreatedTimeStart = date.getFullYear() + '-1-1';
+            vm.bmCteatedTImeEnd = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay();
+            vm.bmId = '';
+            vm.bmRemark = '';
+            vm.bmType = '';
+            vm.bmRequiredMoneyAmountStart = '';
+            vm.bmRequiredMoneyAmountEnd = '';
+            vm.projectId = '';
+            vm.bmStatus = '';
+
+            vm.bmTypeList = [
+                { displayName: '投资', value: 100 },
+                { displayName: '费用', value: 200}
+            ];
+            vm.bmType = vm.bmTypeList[0];
+
+            vm.bmStatusList = [
+                { displayName: '未完成', value: 100 },
+                { displayName: '已完成', value: 100 },
+                { displayName: '全部', value: 200 }
+            ];
+            vm.bmStatus = vm.bmStatusList[0];
+            
+            return vm;
+        };
+        // 数据结果的Controller
+        var MyContentController = function ($scope) {
+            var vm = this,
+                columnCount = 20,
+                rowCount = 30;
+
+            vm.headers = [];
+            for (var i = 0; i < columnCount; i++) {
+                vm.headers.push({ title: 'Header' + i });
+            }
+
+            vm.items = [];
+            for (var i = 0; i < rowCount; i++) {
+                var obj = { cols: [] };
+                vm.items.push(obj);
+                for (var j = 0; j < columnCount; j++) {
+                    obj.cols.push({ content: 'Row-' + i + '-' + j });
+                }
+            }
+
+            $scope.$on('sort', function (e, data) {
+                console.log(e.name + ': Index "' + data.index + '" was clicked.')
+            });
+
+            return vm;
+        };
+        // 分页的Controller
+        var MyPagerController = function ($scope) {
+            var vm = this;
+
+            vm.selectedPage = 2;
+            vm.totalCount = 20;
+
+            return vm;
+        };
+
+        // Page Controller
+        angular.module('GTUIComponent', ['gtui'])
+            // Controllers for Tables
+            .controller('DemoController', MySearchController)
+            .controller('ContentController', MyContentController)
+            .controller('PagerController', MyPagerController);
+    </script>
+</body>
+</html>

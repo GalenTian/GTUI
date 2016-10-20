@@ -10,7 +10,7 @@
     <div class="container">
         <div ng-controller="DemoController as vm">
             <h1>Datepicker</h1>
-            <div gtui-datepicker data-config="{ type: 'datepicker-range', optionField: 'myDatepickerOption' }"></div>
+            <div gtui-datepicker data-config="{ type: 'date-range', optionField: 'myDatepickerOption' }"></div>
 
             <h1>Input Group</h1>
             <div gtui-input-group></div>
@@ -19,8 +19,7 @@
             <div gtui-input></div>
 
             <h1>Select</h1>
-            <div gtui-select data-config="{ selectedField: 'selectedItem', optionItemsField: 'optionItems', displayField: 'displayName', convertAs: 'vm.select' }"></div>
-            <!--<select class="form-control" ng-model="vm.select.selctedItem" ng-options="m.displayName for m in vm.select.optionItems"></select>-->
+            <div gtui-select data-config="{ selectedField: 'selectedItem', optionItemsField: 'optionItems', displayField: 'displayName', controllerAs: 'vm.select' }"></div>
         </div>
     </div>
 

@@ -61,42 +61,40 @@
                     .append(_frozenColumnsTableWrapper.append(_frozenColumnsTemplate))
                     .append(_frozenColumnsHeaderWrapper.append(_frozenColumnsHeaderTemplate));
 
-                return _div;
+                return _div.prop("outerHTML");
             };
 
-        gta.directive('gtuiTable', function ($parse) {
+        gta.directive('gtuiTable', function (_$utils) {
             return {
                 restrict: "EA",
                 scope: false,
                 template: function (element, attrs) {
-                    // Deal with data-config
-                    if (!attrs.config) {
-                        console.error('gtui-table: "data-config" attribute is missing.');
-                        return _divHTML;
-                    }
-                    else {
-                        var _config = $parse(attrs.config)();
-                    }
+                    var _config = _$utils.getConfig(attrs);
 
-                    return _getTemplate(element, _config).prop("outerHTML");
+                    return _getTemplate(element, _config);
                 },
                 replace: true,
                 transclude: false,
                 link: function (scope, element, attrs) {
-                    var _frozenCols = parseInt(attrs.frozenColumnsCount),
-                        _config = scope.$eval(attrs.config);
+                    var _config = _$utils.getConfig(attrs);
 
-                    _frozenCols = _frozenCols ? _frozenCols : 0;
+                    _frozenCols = _config.frozenColumnsCount ? _config.frozenColumnsCount : 0;
 
-                    if (_config.vm) {
-                        scope[_config.vm].metaTable = element;
+                    if (_config.controllerAs) {
+                        scope[_config.controllerAs].metaTable = element;
                     }
                     else {
                         scope.metaTable = element;
                     }
 
-                    element.on('sort', scope, function (e) {
-                        e.data.$emit('sort', e);
+                    element.on('sort.gtui.table', scope, function (e) {
+                        e.data.$emit('sort.gtui.table', e);
+                    })
+                    .on('linkClick.gtui.table', scope, function (e) {
+                        e.data.$emit('linkClick.gtui.table', e);
+                    })
+                    .on('buttonClick.gtui.table', scope, function (e) {
+                        e.data.$emit('buttonClick.gtui.table', e);
                     });
 
                     $(document).ready(function () {

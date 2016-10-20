@@ -9,9 +9,9 @@
 
             var _getRangeTemplate = function (config) {
                 var _outerDiv = $(DIV).addClass('input-daterange input-group'),
-                    _startInput = $(INPUT).attr({ type: 'text' }).addClass('form-control'),
+                    _startInput = $(INPUT).attr({ type: 'text', 'ng-module': _$utils.getFieldStringByName(config, 'start') }).addClass('form-control'),
                     _addon = $(SPAN).addClass('input-group-addon').text('-'),
-                    _endInput = $(INPUT).attr({ type: 'text' }).addClass('form-control');
+                    _endInput = $(INPUT).attr({ type: 'text', 'ng-module': _$utils.getFieldStringByName(config, 'end') }).addClass('form-control');
 
                 _outerDiv
                     .append(_startInput)
@@ -30,7 +30,7 @@
                     var _config = _$utils.getConfig(attrs);
 
                     switch (_config.type) {
-                        case 'datepicker-range':
+                        case 'date-range':
                             return _getRangeTemplate(_config);
                         default:
                             return _getDefaultTemplate(_config);

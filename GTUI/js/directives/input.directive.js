@@ -6,7 +6,7 @@
             var INPUT = '<input />';
 
             var _getTemplate = function (config) {
-                var _input = $(INPUT).attr({ type: 'text' }).addClass('form-control');
+                var _input = $(INPUT).attr({ type: 'text' });
 
                 return _input[0].outerHTML;
             };

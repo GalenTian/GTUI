@@ -1,4 +1,4 @@
-/* Packaged at 16:46 Oct 11, 2016. Version: None */
+/* Packaged at 18:44 Oct 20, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -59,13 +59,18 @@
 	// Util-ish widgets
 	__webpack_require__(3);
 
-	// Widgets
+	// Widget Base
 	__webpack_require__(4);
+
+	// Widgets
 	__webpack_require__(5);
 	__webpack_require__(6);
+	__webpack_require__(7);
+	__webpack_require__(8);
+	__webpack_require__(9);
 
 	// Angular
-	__webpack_require__(7);
+	__webpack_require__(10);
 
 /***/ },
 /* 2 */
@@ -89,7 +94,95 @@
 
 	    $.extend(_gtui, {
 	        utils: {
-	            getClosestEementByNodeName: getClosestEementByNodeName
+	            getClosestEementByNodeName: getClosestEementByNodeName,
+	            KeyCode: {
+	                BACKSPACE: 8,
+	                TAB: 9,
+
+	                ENTER: 13,
+
+	                ESC: 27,
+
+	                SPACE: 32,
+	                PAGE_UP: 33,
+	                PAGE_DOWN: 34,
+	                END: 35,
+	                HOME: 36,
+	                LEFT: 37,
+	                UP: 38,
+	                RIGHT: 39,
+	                DOWN: 40,
+
+	                DELETE: 46,
+
+	                NUM_0: 48,
+	                NUM_1: 49,
+	                NUM_2: 50,
+	                NUM_3: 51,
+	                NUM_4: 52,
+	                NUM_5: 53,
+	                NUM_6: 54,
+	                NUM_7: 55,
+	                NUM_8: 56,
+	                NUM_9: 57,
+
+	                KEY_A: 65,
+	                KEY_B: 66,
+	                KEY_C: 67,
+	                KEY_D: 68,
+	                KEY_E: 69,
+	                KEY_F: 70,
+	                KEY_G: 71,
+	                KEY_H: 72,
+	                KEY_I: 73,
+	                KEY_J: 74,
+	                KEY_K: 75,
+	                KEY_L: 76,
+	                KEY_M: 77,
+	                KEY_N: 78,
+	                KEY_O: 79,
+	                KEY_P: 80,
+	                KEY_Q: 81,
+	                KEY_R: 82,
+	                KEY_S: 83,
+	                KEY_T: 84,
+	                KEY_U: 85,
+	                KEY_V: 86,
+	                KEY_W: 87,
+	                KEY_X: 88,
+	                KEY_Y: 89,
+	                KEY_Z: 90,
+
+	                SMALL_KEY_BOARD_0: 96,
+	                SMALL_KEY_BOARD_1: 97,
+	                SMALL_KEY_BOARD_2: 98,
+	                SMALL_KEY_BOARD_3: 99,
+	                SMALL_KEY_BOARD_4: 100,
+	                SMALL_KEY_BOARD_5: 101,
+	                SMALL_KEY_BOARD_6: 102,
+	                SMALL_KEY_BOARD_7: 103,
+	                SMALL_KEY_BOARD_8: 104,
+	                SMALL_KEY_BOARD_9: 105,
+	                SMALL_KEY_BOARD_MUL: 106,
+	                SMALL_KEY_BOARD_ADD: 107,
+
+	                SMALL_KEY_BOARD_SUB: 109,
+	                SMALL_KEY_BOARD_DOT: 110,
+	                SMALL_KEY_BOARD_DEV: 111,
+
+	                SEMICOLON: 186,
+	                KEY_ADD: 187,
+	                COMMA: 188,
+	                KEY_SUB: 189,
+	                DOT: 190,
+	                BEVEL: 191,
+	                KEY_DRIP: 192,
+
+	                LEFT_BRACKETS: 219,
+	                TURN_BEVEL: 220,
+	                RIGHT_BRACKETS: 221,
+	                UP_COMMA: 222
+	            }
 	        }
 	    });
 
@@ -301,6 +394,203 @@
 
 /***/ },
 /* 4 */
+/***/ function(module, exports) {
+
+	(function ($) {
+
+	    $.widget("gtui.tabbase", {
+	        options: {
+
+	        },
+	        selectPrev: function () {
+	            var prev = this._getPrevLi(this._currentSelectedItem);
+	            this._changeSelectedItem(prev);
+	        },
+	        selectNext: function () {
+	            var next = this._getNextLi(this._currentSelectedItem);
+	            this._changeSelectedItem(next);
+	        },
+	        selectFirst: function () {
+	            this._changeSelectedItem(this._firstLi[0]);
+	        },
+	        selectLast: function () {
+	            this._changeSelectedItem(this._lastLi[0]);
+	        },
+
+	        _create: function () {
+	            this._dealWithUl();
+	            this._dealWithLi();
+	            this._dealWithContent();
+	        },
+	        _setOption: function (key, value) {
+	            var _oldValue = this.options[key],
+	                _doIt = this._setExtendOption.apply(this, arguments);
+
+	            if (_doIt) {
+	                $.Widget.prototype._setOption.apply(this, arguments);
+	                this._optionChanged(key, { element: this.element, newValue: value, oldValue: _oldValue });
+	            }
+	        },
+	        _dealWithContent: function () {
+	            this.element.off('keydown' + this.eventNamespace)
+	                .on('keydown' + this.eventNamespace, 'div[role="tabpanel"]', this, function (e) {
+	                    switch (e.keyCode) {
+	                        case gtui.utils.KeyCode.UP:
+	                        case gtui.utils.KeyCode.LEFT:
+	                            if (e.ctrlKey) {
+	                                e.preventDefault();
+
+	                                e.data._currentSelectedItem.focus();
+	                            }
+	                            break;
+	                        case gtui.utils.KeyCode.PAGE_UP:
+	                            if (e.ctrlKey) {
+	                                e.preventDefault();
+
+	                                e.data.selectPrev();
+	                            }
+	                            break;
+	                        case gtui.utils.KeyCode.PAGE_DOWN:
+	                            if (e.ctrlKey) {
+	                                e.preventDefault();
+
+	                                e.data.selectNext();
+	                            }
+	                            break;
+	                    }
+	                });
+	        },
+	        _dealWithLi: function () {
+	            this._li = this._ul.find('li[aria-controls]');
+
+	            this._currentSelectedItem = this._li.filter('.select:not([aria-controls^="javascript:"])');
+	            if (this._currentSelectedItem.length > 1) this._currentSelectedItem = $(this._currentSelectedItem[this._currentSelectedItem.length - 1]);
+	            this._currentSelectedContent = $('#' + this._currentSelectedItem.attr('aria-controls')).attr('aria-hidden', 'false');
+	            this._firstLi = this._li.filter(':first');
+	            this._lastLi = this._li.filter(':last');
+	        },
+	        _dealWithUl: function () {
+	            var _self = this,
+	                _$el = _self.element,
+	                _$ul = _self._ul = _$el.children('ul');
+
+	            _$ul.off('click' + _self.eventNamespace)
+	                .on('click' + _self.eventNamespace, 'li:not(li:has(ul>li))', _self, function (e) {
+	                    if ($(this).attr('aria-selected') === 'true') return;
+
+	                    var _tb = e.data;
+
+	                    _tb._changeSelectedItem(this);
+	                })
+	                .off('keydown' + _self.eventNamespace)
+	                .on('keydown' + _self.eventNamespace, 'li:not(li:has(ul))', _self, function (e) {
+	                    switch (e.keyCode) {
+	                        case gtui.utils.KeyCode.UP:
+	                        case gtui.utils.KeyCode.LEFT:
+	                            e.preventDefault();
+
+	                            e.data.selectPrev();
+	                            break;
+	                        case gtui.utils.KeyCode.DOWN:
+	                        case gtui.utils.KeyCode.RIGHT:
+	                            e.preventDefault();
+
+	                            e.data.selectNext();
+	                            break;
+	                        case gtui.utils.KeyCode.HOME:
+	                            e.preventDefault();
+
+	                            e.data.selectFirst();
+	                            break;
+	                        case gtui.utils.KeyCode.END:
+	                            e.preventDefault();
+
+	                            e.data.selectLast();
+	                            break;
+	                    }
+	                });
+	        },
+	        _changeSelectedItem: function (el, old, autoChange) {
+	            if (this._currentSelectedItem[0] === el) return;
+
+	            var _oldItem = old ? old : this._currentSelectedItem,
+	                _passChange = this._selectedItemChanging(_oldItem, el);
+
+	            if (!_passChange) return;
+
+	            this._unselectItem(_oldItem);
+	            this._selectItem(el);
+
+	            if (!autoChange) {
+	                this._currentSelectedItem.focus();
+	            }
+
+	            this._selectedItemChanged(_oldItem, el);
+	        },
+	        _selectItem: function (el) {
+	            var _$el = (this._currentSelectedItem = $(el).addClass('select')
+	                .attr({
+	                    'aria-selected': 'true',
+	                    'tabindex': 0
+	                }));
+
+	            _$el.parent().closest('li').addClass('select')
+	                .attr({
+	                    'aria-selected': 'true',
+	                    'tabindex': 0
+	                });
+
+	            this._currentSelectedContent = $('#' + _$el.attr('aria-controls')).show().attr('aria-hidden', 'false');//控制显隐添加属性
+	        },
+	        _unselectItem: function (el) {
+	            if (!el || el.length === 0) return;
+
+	            var _$el = $(el).removeClass('select').attr({
+	                'aria-selected': 'false',
+	                'tabindex': -1
+	            });
+	            _$el.parent().closest('li').removeClass('select').attr({
+	                'aria-selected': 'false',
+	                'tabindex': -1
+	            });
+
+	            $('#' + _$el.attr('aria-controls')).hide().attr('aria-hidden', 'true');
+	        },
+	        _getPrevLi: function (li) {
+	            var index = this._li.index(li),
+	                prev = this._li[index - 1];
+	            if (!prev) {
+	                prev = this._lastLi[0];
+	            }
+	            return prev.getAttribute('aria-controls') ? prev : this._getPrevLi(prev);
+	        },
+	        _getNextLi: function (li) {
+	            var index = this._li.index(li),
+	                next = this._li[index + 1];
+
+	            if (!next) {
+	                next = this._firstLi[0];
+	            }
+	            return next.getAttribute('aria-controls') ? next : this._getNextLi(next);
+
+	        },
+	        _selectedItemChanging: function (oldItem, newItem) {
+	            return true;
+	        },
+	        _selectedItemChanged: function (oldItem, newItem) {
+
+	        },
+	        _setExtendOption: function (key, value) {
+	            return true;
+	        },
+	        _optionChanged: function (key, data) {
+
+	        }
+	    });
+	}(jQuery));
+
+/***/ },
+/* 5 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -2391,7 +2681,275 @@
 	})(jQuery);
 
 /***/ },
-/* 5 */
+/* 6 */
+/***/ function(module, exports) {
+
+	/* ========================================================================
+	 * Bootstrap: dropdown.js v3.3.5
+	 * http://getbootstrap.com/javascript/#dropdowns
+	 * ========================================================================
+	 * Copyright 2011-2015 Twitter, Inc.
+	 * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+	 * ======================================================================== */
+
+
+	+function ($) {
+	    'use strict';
+
+	    // DROPDOWN CLASS DEFINITION
+	    // =========================
+
+	    var backdrop = '.dropdown-backdrop'
+	    var toggle = '[data-toggle="dropdown"]'
+	    var Dropdown = function (element) {
+	        $(element).on('click.bs.dropdown', this.toggle)
+	    }
+
+	    Dropdown.VERSION = '3.3.5'
+
+	    function getParent($this) {
+	        var selector = $this.attr('data-target')
+
+	        if (!selector) {
+	            selector = $this.attr('href')
+	            selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
+	        }
+
+	        var $parent = selector && $(selector)
+
+	        return $parent && $parent.length ? $parent : $this.parent()
+	    }
+
+	    function clearMenus(e) {
+	        if (e && e.which === 3) return
+	        $(backdrop).remove()
+	        $(toggle).each(function () {
+	            var $this = $(this)
+	            var $parent = getParent($this)
+	            var relatedTarget = { relatedTarget: this }
+
+	            if (!$parent.hasClass('open')) return
+
+	            if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
+
+	            if (e && e.type == 'click' && /label/i.test(e.target.tagName) && $(e.target).children('input[type=checkbox]').length > 0) return;
+
+	            $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
+
+	            if (e.isDefaultPrevented()) return
+
+	            $this.attr('aria-expanded', 'false')
+	            $parent.removeClass('open').trigger('hidden.bs.dropdown', relatedTarget)
+	        })
+	    }
+
+	    Dropdown.prototype.toggle = function (e) {
+	        var $this = $(this)
+
+	        if ($this.is('.disabled, :disabled')) return
+
+	        var $parent = getParent($this)
+	        var isActive = $parent.hasClass('open')
+
+	        clearMenus()
+
+	        if (!isActive) {
+	            if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
+	                // if mobile we use a backdrop because click events don't delegate
+	                $(document.createElement('div'))
+	                  .addClass('dropdown-backdrop')
+	                  .insertAfter($(this))
+	                  .on('click', clearMenus)
+	            }
+
+	            var relatedTarget = { relatedTarget: this }
+	            $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
+
+	            if (e.isDefaultPrevented()) return
+
+	            $this
+	              .trigger('focus')
+	              .attr('aria-expanded', 'true')
+
+	            $parent
+	              .toggleClass('open')
+	              .trigger('shown.bs.dropdown', relatedTarget)
+	        }
+
+	        return false
+	    }
+
+	    Dropdown.prototype.keydown = function (e) {
+	        if (!/(38|40|27|32)/.test(e.which) || /input|textarea/i.test(e.target.tagName)) return
+
+	        var $this = $(this)
+
+	        e.preventDefault()
+	        e.stopPropagation()
+
+	        if ($this.is('.disabled, :disabled')) return
+
+	        var $parent = getParent($this)
+	        var isActive = $parent.hasClass('open')
+
+	        if (!isActive && e.which != 27 || isActive && e.which == 27) {
+	            if (e.which == 27) $parent.find(toggle).trigger('focus')
+	            return $this.trigger('click')
+	        }
+
+	        var desc = ' li:not(.disabled):visible a'
+	        var $items = $parent.find('.dropdown-menu' + desc)
+
+	        if (!$items.length) return
+
+	        var index = $items.index(e.target)
+
+	        if (e.which == 38 && index > 0) index--         // up
+	        if (e.which == 40 && index < $items.length - 1) index++         // down
+	        if (!~index) index = 0
+
+	        $items.eq(index).trigger('focus')
+	    }
+
+
+	    // DROPDOWN PLUGIN DEFINITION
+	    // ==========================
+
+	    function Plugin(option) {
+	        return this.each(function () {
+	            var $this = $(this)
+	            var data = $this.data('bs.dropdown')
+
+	            if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
+	            if (typeof option == 'string') data[option].call($this)
+	        })
+	    }
+
+	    var old = $.fn.dropdown
+
+	    $.fn.dropdown = Plugin
+	    $.fn.dropdown.Constructor = Dropdown
+
+
+	    // DROPDOWN NO CONFLICT
+	    // ====================
+
+	    $.fn.dropdown.noConflict = function () {
+	        $.fn.dropdown = old
+	        return this
+	    }
+
+
+	    // APPLY TO STANDARD DROPDOWN ELEMENTS
+	    // ===================================
+
+	    $(document)
+	      .on('click.bs.dropdown.data-api', clearMenus)
+	      .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
+	      .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
+	      .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
+	      .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
+
+	}(jQuery);
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	(function ($) {
+	    "use strict";
+
+	    $.widget("gtui.tab", $.gtui.tabbase, {
+	        options: {
+	            tabcontrolClass: 'tabs',
+	            
+	            selectedIndex: 0,
+
+	            selectedIndexChanged: $.noop
+	        },
+	        resetElement: function () {
+	            this._dealWithLi();
+	        },
+
+	        _create: function () {
+	            $(this.element.children('ul').find('li')[this.options.selectedIndex]).addClass('active');
+
+	            this._super();
+
+	            this._initElement();
+	            this._initUl();
+	            this._initLi();
+
+	            this._selectItem(this._li[this.options.selectedIndex]);
+	        },
+	        _initElement: function () {
+	            this.element.addClass(this.options.tabcontrolClass);
+	        },
+	        _initUl: function () {
+	            if (this._ul && this._ul.length > 0) {
+	                this._ul.attr('role', 'tablist').on('click', 'a', function (e) {
+	                    var $link = $(e.target);
+	                    // Prevent link routing the url
+	                    if ($link.closest('a') && $link.closest('a').attr('href')
+	                        && $link.closest('a').attr('href').indexOf('#') === 0) {
+	                        e.preventDefault();
+	                    }
+	                });
+	            }
+	        },
+	        _initLi: function () {
+	            var _self = this;
+	            if (_self._li && _self._li.length > 0) {
+	                _self._li.each(function (index, el) {
+	                    var _selected = false,
+	                        _$el = $(el);
+	                    if (index === _self.options.selectedIndex) {
+	                        _selected = true;
+	                        _$el.addClass('select');
+	                    }
+
+	                    _$el.attr({
+	                        'role': 'tab',
+	                        'tabindex': _selected  ? 0 : -1,
+	                        'aria-selected': _selected
+	                    });
+	                });
+	            }
+	        },
+	        _getSelectedIndexByItem: function (li) {
+	            return this._li.index(li);
+	        },
+	        _selectedItemChanged: function (oldItem, newItem) {
+	            this.option('selectedIndex', this._getSelectedIndexByItem(newItem));
+	        },
+	        _setExtendOption: function (key, value) {
+	            var _doIt = this._super(key, value);
+
+	            var _self = this;
+	            if (key === 'selectedIndex') {
+	                if (_self.options[key] !== value) {
+	                    return _doIt && true;
+	                }
+	                else return false;
+	            }
+
+	            return _doIt;
+	        },
+	        _optionChanged: function (key, param) {
+	            this._super(key, param);
+
+	            if (key === 'selectedIndex') {
+	                this._changeSelectedItem(this._li[param.newValue], this._li[param.oldValue]);
+	                this.element.trigger('selectedIndexChanged', param);
+	                this.options.selectedIndexChanged.apply(this.element, [{}, param]);
+	            }
+	        }
+	    });
+	}(jQuery));
+
+/***/ },
+/* 8 */
 /***/ function(module, exports) {
 
 	/**
@@ -2433,7 +2991,7 @@
 	        options: {
 	            fillSpanClass: 'fill-span',
 
-	            frozenColumnsCount: 3
+	            frozenColumnsCount: 0
 	        },
 
 	        _create: function () {
@@ -2485,14 +3043,42 @@
 	                e.data.updateLayout();
 	            })
 	            .on('click' + _eventNamespace, 'th', _self, function (e) {
-	                var _target = $(e.target);
-	                if (_target[0].nodeName !== 'TH') {
-	                    _target = _target.closest('th');
-	                }
-	                var _position = _target.parent().children('th').index(e.target),
-	                    _event = $.Event('sort', { index: _position });
+	                var _target = $(e.target).closest('th');
 
-	                e.data.element.trigger(_event);
+	                var _position = _target.parent().children('th').index(e.target),
+	                    _event = $.Event('sort.gtui.table', { index: _position });
+
+	                _target.trigger(_event);
+	            })
+	            .on('click' + _eventNamespace, 'a', _self, function (e) {
+	                var _target = $(e.target).closest('a');
+
+	                var _buttonGroupIndex = _target.index(),
+	                    _columnIndex = _target.closest('td').index(),
+	                    _rowIndex = _target.closest('tr').index();
+
+	                var _event = $.Event('linkClick.gtui.table', {
+	                    buttonGroupIndex: _buttonGroupIndex,
+	                    columnIndex: _columnIndex,
+	                    rowIndex: _rowIndex
+	                });
+
+	                _target.trigger(_event);
+	            })
+	            .on('click' + _eventNamespace, 'button', _self, function (e) {
+	                var _target = $(e.target).closest('button');
+
+	                var _buttonGroupIndex = _target.index(),
+	                    _columnIndex = _target.closest('td').index(),
+	                    _rowIndex = _target.closest('tr').index();
+
+	                var _event = $.Event('buttonClick.gtui.table', {
+	                    buttonGroupIndex: _buttonGroupIndex,
+	                    columnIndex: _columnIndex,
+	                    rowIndex: _rowIndex
+	                });
+
+	                _target.trigger(_event);
 	            });
 
 	            // Scroll origin table when table holds the frozen columns is scrolled.
@@ -2604,7 +3190,7 @@
 	})(jQuery);
 
 /***/ },
-/* 6 */
+/* 9 */
 /***/ function(module, exports) {
 
 	/**
@@ -2629,7 +3215,7 @@
 
 	            var _top = _el.position().top,
 	                _docHeight = document.documentElement.clientHeight,
-	                _offsetBottom = document.body.clientHeight - _top - _el.height();
+	                _offsetBottom = Math.max(document.body.clientHeight, $('html').outerHeight()) - _top - _el.height();
 
 	            if (_top >= _docHeight - _offsetBottom) { }
 	            else {
@@ -2645,6 +3231,10 @@
 	                .on('resize' + this.eventNamespace, this, function (e) {
 	                    if (e.data._docClientHeight !== document.documentElement.clientHeight)
 	                        e.data._updateHeight(e);
+	                    else if (e.data._docClientWidth !== document.documentElement.clientWidth) {
+	                        e.data._docClientWidth = document.documentElement.clientWidth;
+	                        e.data.element.trigger('resize', e);
+	                    }
 	                });
 	        },
 	        _destory: function e() {
@@ -2654,7 +3244,7 @@
 	})(jQuery);
 
 /***/ },
-/* 7 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	if (window.angular) {
@@ -2662,22 +3252,23 @@
 	    // So here module will be defined once.
 	    var gta = angular.module('gtui', []);
 
-	    __webpack_require__(8);
 	    __webpack_require__(11);
+	    __webpack_require__(15);
 	}
 
 /***/ },
-/* 8 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Core
-	__webpack_require__(9);
+	__webpack_require__(12);
 
 	// Directives
-	__webpack_require__(10);
+	__webpack_require__(13);
+	__webpack_require__(14);
 
 /***/ },
-/* 9 */
+/* 12 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -2687,27 +3278,51 @@
 	        var constants = function () {
 	            return {
 	                FIELD: 'Field',
-	                CONVERT_AS: 'convertAs'
+	                CONVERT_AS: 'controllerAs'
 	            };
 	        }();
 
-	        gta.service('_$utils', ['$parse', function ($parse) {
+	        var _ajax = function (url, data, successCallback, errorCallback, isAsync) {
+	            if (!errorCallback) {
+	                errorCallback = function (data, status, config, statusText) {
+	                    console.error(data);
+	                };
+	            }
+
+	            $.ajax({
+	                type: 'post',
+	                url: url,
+	                contentType: "application/x-www-form-urlencoded",
+	                data: data,
+	                async: isAsync,
+	                success: function (d, s, r) {
+	                    d = angular.fromJson(d);
+	                    successCallback.apply(this, arguments);
+	                },
+	                error: function (d, s, r) {
+	                    d = angular.fromJson(d);
+	                    errorCallback.apply(this, arguments);
+	                }
+	            });
+	        };
+
+	        gta.service('_$utils', function ($parse, $http) {
 	            var _serv = {
 	                getConfig: function (attrs, configAttr) {
 	                    if (!configAttr) {
-	                        configAttr = 'config'
+	                        configAttr = 'config';
 	                    }
 
 	                    return $parse(attrs[configAttr])();
 	                },
-	                getFieledValueByName: function (scope, config, name) {
+	                getFieldValueByName: function (scope, config, name) {
 	                    var targetFiled = name + constants.FIELD;
 
 	                    return config[constants.CONVERT_AS] ?
 	                        scope[config[constants.CONVERT_AS]][config[targetFiled]] :
 	                        scope[config[targetFiled]];
 	                },
-	                getFieledStringByName: function (config, name) {
+	                getFieldStringByName: function (config, name) {
 	                    var targetFiled = name + constants.FIELD;
 
 	                    return config[constants.CONVERT_AS] ?
@@ -2740,16 +3355,23 @@
 	                    s[8] = s[13] = s[18] = s[23] = "-";
 
 	                    return s.join("");
+	                },
+
+	                post: function (url, data, successCallback, errorCallback) {
+	                    _ajax(url, data, successCallback, errorCallback, true);
+	                },
+	                postSync: function (url, data, successCallback, errorCallback) {
+	                    _ajax(url, data, successCallback, errorCallback, false);
 	                }
 	            }
 
 	            return _serv;
-	        }]);
+	        });
 	    }
 	})(jQuery);
 
 /***/ },
-/* 10 */
+/* 13 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -2767,17 +3389,33 @@
 	})(jQuery);
 
 /***/ },
-/* 11 */
+/* 14 */
+/***/ function(module, exports) {
+
+	(function ($) {
+	    if (window.angular) {
+	        var gta = angular.module('gtui');
+
+	        gta.service('_$pager', function ($parse) {
+	            var _serv = {
+	                getPageCount: function (itemsCount, displayCount) {
+	                    return Math.ceil(itemsCount / displayCount);
+	                }
+	            }
+
+	            return _serv;
+	        });
+	    }
+	})(jQuery);
+
+/***/ },
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Core
-	__webpack_require__(12);
+	__webpack_require__(16);
 
 	// Directives
-	__webpack_require__(13);
-	__webpack_require__(14);
-	__webpack_require__(15);
-	__webpack_require__(16);
 	__webpack_require__(17);
 	__webpack_require__(18);
 	__webpack_require__(19);
@@ -2786,9 +3424,14 @@
 	__webpack_require__(22);
 	__webpack_require__(23);
 	__webpack_require__(24);
+	__webpack_require__(25);
+	__webpack_require__(26);
+	__webpack_require__(27);
+	__webpack_require__(28);
+	__webpack_require__(29);
 
 /***/ },
-/* 12 */
+/* 16 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -2800,7 +3443,7 @@
 	})(jQuery);
 
 /***/ },
-/* 13 */
+/* 17 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -2814,9 +3457,9 @@
 
 	            var _getRangeTemplate = function (config) {
 	                var _outerDiv = $(DIV).addClass('input-daterange input-group'),
-	                    _startInput = $(INPUT).attr({ type: 'text' }).addClass('form-control'),
+	                    _startInput = $(INPUT).attr({ type: 'text', 'ng-module': _$utils.getFieldStringByName(config, 'start') }).addClass('form-control'),
 	                    _addon = $(SPAN).addClass('input-group-addon').text('-'),
-	                    _endInput = $(INPUT).attr({ type: 'text' }).addClass('form-control');
+	                    _endInput = $(INPUT).attr({ type: 'text', 'ng-module': _$utils.getFieldStringByName(config, 'end') }).addClass('form-control');
 
 	                _outerDiv
 	                    .append(_startInput)
@@ -2835,7 +3478,7 @@
 	                    var _config = _$utils.getConfig(attrs);
 
 	                    switch (_config.type) {
-	                        case 'datepicker-range':
+	                        case 'date-range':
 	                            return _getRangeTemplate(_config);
 	                        default:
 	                            return _getDefaultTemplate(_config);
@@ -2860,7 +3503,7 @@
 	})(jQuery);
 
 /***/ },
-/* 14 */
+/* 18 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -2881,7 +3524,7 @@
 	                        _config = _$utils.getConfig(attrs);
 
 	                    $(document).ready(function () {
-	                        var _option = _$utils.getFieledValueByName(scope, _config, 'option');
+	                        var _option = _$utils.getFieldValueByName(scope, _config, 'option');
 
 	                        if (angular.isObject(_option)) {
 	                            _chart.setOption(_option);
@@ -2892,10 +3535,10 @@
 	                        e.data.chart.resize();
 	                    });
 
-	                    scope.$watch((_config.convertAs ? (_config.convertAs + '.') : '') + _config.optionField, function (n, o, scope) {
+	                    scope.$watch((_config.controllerAs ? (_config.controllerAs + '.') : '') + _config.optionField, function (n, o, scope) {
 	                        if (n != o) {
 	                            var _config = _$utils.getConfig(attrs),
-	                                _option = _$utils.getFieledValueByName(scope, _config, 'option');
+	                                _option = _$utils.getFieldValueByName(scope, _config, 'option');
 
 	                            _chart.setOption(_option);
 	                        }
@@ -2911,7 +3554,7 @@
 	})(jQuery);
 
 /***/ },
-/* 15 */
+/* 19 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -2952,7 +3595,7 @@
 	})(jQuery);
 
 /***/ },
-/* 16 */
+/* 20 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -2963,7 +3606,7 @@
 	            var INPUT = '<input />';
 
 	            var _getTemplate = function (config) {
-	                var _input = $(INPUT).attr({ type: 'text' }).addClass('form-control');
+	                var _input = $(INPUT).attr({ type: 'text' });
 
 	                return _input[0].outerHTML;
 	            };
@@ -2986,7 +3629,7 @@
 	})(jQuery);
 
 /***/ },
-/* 17 */
+/* 21 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3030,7 +3673,7 @@
 	})(jQuery);
 
 /***/ },
-/* 18 */
+/* 22 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3068,7 +3711,7 @@
 
 	                var _itemsLi = $(_LI_HTML).attr({
 	                    'ng-repeat': '__item__ in ' + (config.converAs ? config.converAs + '.__pager__.__items__' : '__pager__.__items__'),
-	                    'ng-class': '{ active: __item__ === ' + config.convertAs + '.' + config.selectedField + ' }'
+	                    'ng-class': '{ active: __item__ === ' + config.controllerAs + '.' + config.selectedField + ' }'
 	                })
 	                    .append($(_A_HTML).attr({ 'ng-bind': '__item__', 'href': 'javascript: void(0);' }));
 
@@ -3096,7 +3739,7 @@
 	             */
 	            var _getPages = function (selectedPage, totalPages) {
 	                if ((typeof (selectedPage) === 'undefined' || isNaN(selectedPage)) || (typeof (totalPages) === 'undefined' || isNaN(totalPages))) {
-	                    console.error('Pager directive: Make sure the selcted page and total pages are existed and they are numbers. ');
+	                    console.error('gtui-pager: Make sure the selcted page and total pages are existed and they are numbers. ');
 	                }
 
 	                var _maxPage = _MAX_PAGES,
@@ -3126,7 +3769,7 @@
 	                    _el = _$target.closest('.' + ICON_CLASS),
 	                    _config = e.data.scope().$eval(e.data.attr('data-config')),
 	                    _scope = e.data.scope(),
-	                    _vm = _scope[_config.convertAs];
+	                    _vm = _scope[_config.controllerAs];
 
 	                _vm = _vm ? _vm : _scope;
 
@@ -3170,17 +3813,25 @@
 	                _scope.$apply();
 	            };
 
-	            /**
-	             * 该事件会在selectedField或totalField所对应的scope属性变化时调用。
-	             * 在该方法中，会更新__items__属性中的值，也就是当前需要显示的页数信息（数字）。
-	             */
-	            var _changed = function (config) {
+	            var _selectedPageChanged = function (config) {
 	                return function (newValue, oldValue, scope) {
 	                    if (newValue !== oldValue) {
 	                        var _scope = config.converAs ? scope[config.converAs] : scope;
 
-	                        _scope.__pager__.__items__ = _getPages(_$utils.getFieledValueByName(scope, config, 'selected'),
-	                            _$utils.getFieledValueByName(scope, config, 'total'));
+	                        _scope.__pager__.__items__ = _getPages(_$utils.getFieldValueByName(scope, config, 'selected'),
+	                            _$utils.getFieldValueByName(scope, config, 'total'));
+
+	                        _scope.$emit('change.gtui.pager', { newValue: newValue, oldValue: oldValue, scope: scope});
+	                    }
+	                }
+	            };
+	            var _pageCounChanged = function (config) {
+	                return function (newValue, oldValue, scope) {
+	                    if (newValue !== oldValue) {
+	                        var _scope = config.converAs ? scope[config.converAs] : scope;
+
+	                        _scope.__pager__.__items__ = _getPages(_$utils.getFieldValueByName(scope, config, 'selected'),
+	                            _$utils.getFieldValueByName(scope, config, 'total'));
 	                    }
 	                }
 	            };
@@ -3206,17 +3857,16 @@
 	                    var _config = _$utils.getConfig(attrs),
 	                        _scope = scope;
 
-	                    var _selectedIndex = _$utils.getFieledValueByName(scope, _config, 'selected');
-	                    var _total = _$utils.getFieledValueByName(scope, _config, 'total');
+	                    var _selectedIndex = _$utils.getFieldValueByName(scope, _config, 'selected');
+	                    var _total = _$utils.getFieldValueByName(scope, _config, 'total');
 	                    _scope.__pager__ = {};
 	                    _scope.__pager__.__items__ = _getPages(_selectedIndex, _total);
 	                    _scope.__pager__.__config__ = _config;
 
 	                    element.on('click', 'a', element, _itemClick);
 
-	                    scope.$watch(_$utils.getFieledStringByName( _config, 'selected') + ' + ' +
-	                        _$utils.getFieledStringByName(_config, 'total'),
-	                        _changed(_config));
+	                    scope.$watch(_$utils.getFieldStringByName( _config, 'selected'), _selectedPageChanged(_config));
+	                    scope.$watch(_$utils.getFieldStringByName(_config, 'total'), _pageCounChanged(_config));
 	                }
 	            };
 	        });
@@ -3224,33 +3874,28 @@
 	})(jQuery);
 
 /***/ },
-/* 19 */
+/* 23 */
 /***/ function(module, exports) {
 
 	(function ($) {
 	    if (window.angular) {
-	        var gta = angular.module('gtui');
+	        var gta = angular.module('gtui'),
+	            _DIV = '<div></div>';
 
-	        gta.directive('gtuiPanelSearch', function ($parse) {
+	        gta.directive('gtuiPanelSearch', function (_$utils) {
 	            return {
 	                restrict: "EA",
 	                scope: false,
 	                template: function (element, attrs) {
 	                    // Deal with data-config
-	                    if (!attrs.config) {
-	                        console.error('gtui-table: "data-config" attribute is missing.');
-	                        return _divHTML;
-	                    }
-	                    else {
-	                        var _config = $parse(attrs.config)();
-	                    }
+	                    var _config = _$utils.getConfig(attrs);
 
 	                    var _template = [];
 
 	                    _template.push('<div class="panel panel-primary">');
 	                    _template.push('  <div class="panel-heading">');
 	                    _template.push('    <span class="glyphicon glyphicon-chevron-up"></span>');
-	                    _template.push('    {{' + (_config.controllerAs ? _config.controllerAs + '.' : '') + _config.titleField + '}}');
+	                    _template.push('    {{' + _$utils.getFieldStringByName(_config, 'title') + '}}');
 	                    _template.push('  </div>');
 	                    _template.push('  <div class="panel-body" ng-transclude>');
 	                    _template.push('  </div>');
@@ -3269,68 +3914,52 @@
 	            };
 	        });
 
-	        gta.directive('gtuiPanelContent', function ($parse) {
+	        gta.directive('gtuiPanelContent', function (_$utils) {
+	            var _getTemplate = function (element, config) {
+	                var _div$ = $(_DIV).addClass('panel panel-primary'),
+	                    _headerDiv$ = $(_DIV).addClass('panel-heading'),
+	                    _contentDiv$ = $(_DIV).addClass('panel-body'),
+	                    _tableDiv$ = $(_DIV).addClass('panel-table'),
+	                    _footerDiv$ = $(_DIV).addClass('panel-footer');
+
+	                var _headerTemplate = element.children('[gtui-panel-header]'),
+	                    _contentTemplate = element.children('[gtui-panel-content]'),
+	                    _tableTemplate = element.children('[gtui-panel-table]'),
+	                    _footerTemplate = element.children('[gtui-panel-footer]');
+
+	                _div$.append(
+	                        _headerDiv$.append(_headerTemplate.html())
+	                    )
+	                if (_contentTemplate.length > 0) {
+	                    _div$.append(
+	                        _contentDiv$.append(_contentTemplate.html())
+	                    )
+	                }
+	                if (_tableTemplate.length > 0) {
+	                    _div$.append(
+	                        _tableDiv$.append(_tableTemplate.html())
+	                    );
+	                }
+	                if (_footerTemplate.length > 0) {
+	                    _div$.append(
+	                        _footerDiv$.append(_footerTemplate.html())
+	                    );
+	                }
+
+	                return _div$.prop('outerHTML');
+	            };
+
 	            return {
 	                restrict: "EA",
 	                scope: false,
 	                template: function (element, attrs) {
-	                    // Deal with data-config
-	                    if (!attrs.config) {
-	                        console.error('gtui-table: "data-config" attribute is missing.');
-	                        return _divHTML;
-	                    }
-	                    else {
-	                        var _config = $parse(attrs.config)();
-	                    }
+	                    var _config = _$utils.getConfig(attrs);
 
-	                    var _template = [];
-
-	                    _template.push('<div class="panel panel-primary">');
-	                    _template.push('  <div class="panel-heading"></div>');
-	                    _template.push('  <div class="panel-body" ng-transclude></div>');
-	                    if (_config.hasFooter) {
-	                        _template.push('  <div class="panel-footer"></div>');
-	                    }
-	                    _template.push('</div>');
-
-	                    return _template.join('');
+	                    return _getTemplate(element, _config);
 	                },
 	                replace: true,
-	                transclude: true,
 	                link: function (scope, element, attrs) {
 	                    
-	                }
-	            };
-	        });
-
-	        gta.directive('gtuiPanelTable', function ($parse) {
-	            return {
-	                restrict: "EA",
-	                scope: false,
-	                template: function (element, attrs) {
-	                    // Deal with data-config
-	                    if (!attrs.config) {
-	                        console.error('gtui-table: "data-config" attribute is missing.');
-	                        return _divHTML;
-	                    }
-	                    else {
-	                        var _config = $parse(attrs.config)();
-	                    }
-
-	                    var _template = [];
-
-	                    _template.push('<div class="panel panel-primary">');
-	                    _template.push('  <div class="panel-heading"></div>');
-	                    _template.push('  <div class="panel-table" ng-transclude></div>');
-	                    _template.push('  <div class="panel-footer"></div>');
-	                    _template.push('</div>');
-
-	                    return _template.join('');
-	                },
-	                replace: true,
-	                transclude: true,
-	                link: function (scope, element, attrs) {
-
 	                }
 	            };
 	        });
@@ -3338,7 +3967,7 @@
 	})(jQuery);
 
 /***/ },
-/* 20 */
+/* 24 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3352,8 +3981,10 @@
 	                var select = $(_SELECT)
 	                    .addClass('form-control')
 	                    .attr({
-	                        'ng-model': _$utils.getFieledStringByName(config, 'selected'),
-	                        'ng-options': 'm.' + config.displayField + ' for m in ' + _$utils.getFieledStringByName(config, 'optionItems')
+	                        'ng-model': _$utils.getFieldStringByName(config, 'selected'),
+	                        'ng-options': config.displayField ? 
+	                            'm.' + config.displayField + ' for m in ' + _$utils.getFieldStringByName(config, 'optionItems') :
+	                            'm for m in ' + _$utils.getFieldStringByName(config, 'optionItems')
 	                    });
 
 	                return select[0].outerHTML;
@@ -3377,7 +4008,91 @@
 	})(jQuery);
 
 /***/ },
-/* 21 */
+/* 25 */
+/***/ function(module, exports) {
+
+	(function ($) {
+	    if (window.angular) {
+	        var gta = angular.module('gtui');
+
+	        gta.directive('gtuiTab', function (_$utils) {
+	            var DIV = '<div></div>',
+	                UL = '<ul></ul>',
+	                LI = '<li></li>',
+	                A = '<a></a>';
+
+	            var TAB_CLASS = 'tabs',
+	                UL_CLASS = 'nav nav-tabs';
+
+	            var _getTemplate = function (el, config) {
+	                var _div$ = $(DIV).addClass(TAB_CLASS),
+	                    _ul$ = $(UL).addClass(UL_CLASS).attr({ role: 'tablist' }),
+	                    _li$ = $(LI).attr({
+	                        'ng-class': '{ active: $index === ' + _$utils.getFieldStringByName(config, 'selected') + ' }',
+	                        'aria-selected': '$index === ' + _$utils.getFieldStringByName(config, 'selected'),
+	                        'ng-repeat': 'item in ' + _$utils.getFieldStringByName(config, 'tabItems'),
+	                        role: 'tab',
+	                        tabindex: '{{$index === ' + _$utils.getFieldStringByName(config, 'selected') + ' ? 0 : -1}}',
+	                        'aria-controls': '{{item.' + config.panelIdField + '}}'
+	                    }),
+	                    _a$ = $(A).attr({
+	                        'ng-bind': 'item.' + config['headerContentField'],
+	                        tabindex: -1,
+	                        href: '#'
+	                    });
+
+	                return _div$.append(_ul$.append(_li$.append(_a$))).append(el.children());
+	            };
+
+	            return {
+	                restrict: "AE",
+	                template: function (element, attrs) {
+	                    var _config = _$utils.getConfig(attrs);
+
+	                    return _getTemplate(element, _config).prop("outerHTML");
+	                },
+	                replace: true,
+	                link: function (scope, element, attrs) {
+	                    var _config = _$utils.getConfig(attrs);
+
+	                    $(document).ready(function () {
+	                        element.tab({
+	                            selectedIndex: _$utils.getFieldValueByName(_config, 'selected')
+	                        });
+	                    })
+
+	                    element.on('selectedIndexChanged.gtui.tab', element, function (e, d) {
+	                        _$utils.setPropertyValueByName(scope, _config, 'selectedField', d.newValue);
+	                        scope.$apply();
+	                    });
+	                }
+	            };
+	        });
+	    }
+	})(jQuery);
+
+/***/ },
+/* 26 */
+/***/ function(module, exports) {
+
+	(function ($) {
+	    if (window.angular) {
+	        var gta = angular.module('gtui');
+
+	        gta.directive('gtuiTabPanel', function (_$utils) {
+
+	            return {
+	                restrict: "AE",
+	                link: function (scope, element, attrs) {
+	                    element.attr('role', 'tabpanel');
+	                }
+	            };
+	        });
+	    }
+	})(jQuery);
+
+/***/ },
+/* 27 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3443,42 +4158,40 @@
 	                    .append(_frozenColumnsTableWrapper.append(_frozenColumnsTemplate))
 	                    .append(_frozenColumnsHeaderWrapper.append(_frozenColumnsHeaderTemplate));
 
-	                return _div;
+	                return _div.prop("outerHTML");
 	            };
 
-	        gta.directive('gtuiTable', function ($parse) {
+	        gta.directive('gtuiTable', function (_$utils) {
 	            return {
 	                restrict: "EA",
 	                scope: false,
 	                template: function (element, attrs) {
-	                    // Deal with data-config
-	                    if (!attrs.config) {
-	                        console.error('gtui-table: "data-config" attribute is missing.');
-	                        return _divHTML;
-	                    }
-	                    else {
-	                        var _config = $parse(attrs.config)();
-	                    }
+	                    var _config = _$utils.getConfig(attrs);
 
-	                    return _getTemplate(element, _config).prop("outerHTML");
+	                    return _getTemplate(element, _config);
 	                },
 	                replace: true,
 	                transclude: false,
 	                link: function (scope, element, attrs) {
-	                    var _frozenCols = parseInt(attrs.frozenColumnsCount),
-	                        _config = scope.$eval(attrs.config);
+	                    var _config = _$utils.getConfig(attrs);
 
-	                    _frozenCols = _frozenCols ? _frozenCols : 0;
+	                    _frozenCols = _config.frozenColumnsCount ? _config.frozenColumnsCount : 0;
 
-	                    if (_config.vm) {
-	                        scope[_config.vm].metaTable = element;
+	                    if (_config.controllerAs) {
+	                        scope[_config.controllerAs].metaTable = element;
 	                    }
 	                    else {
 	                        scope.metaTable = element;
 	                    }
 
-	                    element.on('sort', scope, function (e) {
-	                        e.data.$emit('sort', e);
+	                    element.on('sort.gtui.table', scope, function (e) {
+	                        e.data.$emit('sort.gtui.table', e);
+	                    })
+	                    .on('linkClick.gtui.table', scope, function (e) {
+	                        e.data.$emit('linkClick.gtui.table', e);
+	                    })
+	                    .on('buttonClick.gtui.table', scope, function (e) {
+	                        e.data.$emit('buttonClick.gtui.table', e);
 	                    });
 
 	                    $(document).ready(function () {
@@ -3493,31 +4206,63 @@
 	})(jQuery);
 
 /***/ },
-/* 22 */
+/* 28 */
 /***/ function(module, exports) {
 
 	(function ($) {
 	    if (window.angular) {
 	        var gta = angular.module('gtui');
 
-	        gta.directive('gtuiTableHead', function () {
+	        gta.directive('gtuiTableTd', function (_$utils) {
+	            var HEADER_PROP = 'headerProp',
+	                ITEM_PROP = 'itemProp',
+
+	                VALUE_FIELD = 'valueField',
+	                VISIBLE_FIELD = 'visible',
+	                TYPE_FIELD = 'type',
+	                ACTIONS_FIELD = 'actionsField',
+
+	                TD_HTML = '<td></td>',
+	                SPAN_HTML = '<span></span>',
+	                LINK_HTML = '<a></a>',
+	                BUTTON_HTML = '<button></button>',
+	                
+	                BUTTON_CLASS = 'btn btn-default btn-xs';
+
+	            var _getTemplate = function (el, config) {
+	                // Template outer element
+	                var _td = $(TD_HTML).attr({
+	                    'ng-show': config[HEADER_PROP] + '[\'' + VISIBLE_FIELD + '\']',
+	                });
+	                
+	                var _text = $(SPAN_HTML).attr({
+	                    'ng-bind': config[ITEM_PROP] + '[' + config[HEADER_PROP] + '[\'' + VALUE_FIELD + '\']]',
+	                    'ng-if': config[HEADER_PROP] + '[\'' + TYPE_FIELD + '\'].toLowerCase() === \'text\''
+	                });
+	                var _link = $(LINK_HTML).attr({
+	                    href: 'javascript: void(0)',
+	                    'ng-bind': config[ITEM_PROP] + '[' + config[HEADER_PROP] + '[\'' + VALUE_FIELD + '\']]',
+	                    'ng-if': config[HEADER_PROP] + '[\'' + TYPE_FIELD + '\'].toLowerCase() === \'link\''
+	                });
+	                var _btnGroup = $(BUTTON_HTML).addClass(BUTTON_CLASS).attr({
+	                    type: 'button',
+	                    'ng-repeat': '__btnItem__ in ' + config[ITEM_PROP] + '[' + config[HEADER_PROP] + '[\'' + ACTIONS_FIELD + '\']]',
+	                    'ng-bind': '__btnItem__.displayContent',
+	                    'ng-if': config[HEADER_PROP] + '[\'' + TYPE_FIELD + '\'].toLowerCase() === \'btn-group\''
+	                });
+
+	                _td.append(_text).append(_link).append(_btnGroup)
+
+	                return _td;
+	            };
+
 	            return {
 	                restrict: "EA",
 	                scope: false,
 	                template: function (element, attrs) {
-	                    var _template = [],
-	                        _config = gtui.utils.parseObj(element.closest('.table-container').attr('data-config'));
+	                    var _config = _$utils.getConfig(attrs);
 
-	                    _template.push('<thead>');
-	                    _template.push('  <tr ng-repeat="row in ' + _config.as + '.' + _config.columnsField + '">');
-	                    _template.push('    <th ng-repeat="item in row.' + _config.columnsField +
-	                        '" colspan="{{item.' + _config.colspanField +
-	                        '}}" rowspan="{{item.' + _config.rowspanField +
-	                        '}}">{{item.' + _config.colDisplayField + '}}</th>');
-	                    _template.push('  </tr>');
-	                    _template.push('</thead>');
-
-	                    return _template.join('');
+	                    return _getTemplate(element, _config).prop("outerHTML");
 	                },
 	                replace: true,
 	                transclude: false,
@@ -3530,46 +4275,7 @@
 	})(jQuery);
 
 /***/ },
-/* 23 */
-/***/ function(module, exports) {
-
-	(function ($) {
-	    if (window.angular) {
-	        var gta = angular.module('gtui'),
-	            inputCellTemplate = function (config) {
-
-	            };
-
-	        gta.directive('gtuiTableBody', function () {
-	            return {
-	                restrict: "EA",
-	                scope: false,
-	                template: function (element, attrs) {
-	                    var _template = [],
-	                        _config = gtui.utils.parseObj(element.closest('.table-container').attr('data-config'));
-
-	                    _template.push('<tbody>');
-	                    _template.push('  <tr ng-repeat="row in ' + _config.as + '.' + _config.itemsSourceField + '">');
-	                    _template.push('    <td ng-repeat="cell in ' + _config.as + '.' + _config.rowsField + '">');
-	                    _template.push('     ' + inputCellTemplate(_config));
-	                    _template.push('    </td>');
-	                    _template.push('  </tr>');
-	                    _template.push('</tbody>');
-
-	                    return _template.join('');
-	                },
-	                replace: true,
-	                transclude: false,
-	                link: function (scope, element, attrs) {
-	                    
-	                }
-	            };
-	        });
-	    }
-	})(jQuery);
-
-/***/ },
-/* 24 */
+/* 29 */
 /***/ function(module, exports) {
 
 	(function ($) {

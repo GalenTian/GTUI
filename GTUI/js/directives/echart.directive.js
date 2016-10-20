@@ -16,7 +16,7 @@
                         _config = _$utils.getConfig(attrs);
 
                     $(document).ready(function () {
-                        var _option = _$utils.getFieledValueByName(scope, _config, 'option');
+                        var _option = _$utils.getFieldValueByName(scope, _config, 'option');
 
                         if (angular.isObject(_option)) {
                             _chart.setOption(_option);
@@ -27,10 +27,10 @@
                         e.data.chart.resize();
                     });
 
-                    scope.$watch((_config.convertAs ? (_config.convertAs + '.') : '') + _config.optionField, function (n, o, scope) {
+                    scope.$watch((_config.controllerAs ? (_config.controllerAs + '.') : '') + _config.optionField, function (n, o, scope) {
                         if (n != o) {
                             var _config = _$utils.getConfig(attrs),
-                                _option = _$utils.getFieledValueByName(scope, _config, 'option');
+                                _option = _$utils.getFieldValueByName(scope, _config, 'option');
 
                             _chart.setOption(_option);
                         }
