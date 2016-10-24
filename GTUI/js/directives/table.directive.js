@@ -6,6 +6,10 @@
             _divHTML = '<div></div>',
             _tbodyHTML = 'tbody',
 
+            _SORT_NONE = 'none',
+            _SORT_ASC = 'asc',
+            _SORT_DESC = 'desc',
+
             _getTableClass = function (config) {
                 var _tableClass = [gtui.table.constant.TABLE_CLASS];
 
@@ -33,7 +37,7 @@
                     _frozenHeaderWrapper = $(_divHTML).addClass(gtui.table.constant.FROZEN_HEADER_TABLE_CONTAINER_CLASS),
                     _frozenColumnsTableWrapper = $(_divHTML).addClass(gtui.table.constant.FROZEN_COLUMNS_TABLE_CONTAINER_CLASS),
                     _frozenColumnsHeaderWrapper = $(_divHTML).addClass(gtui.table.constant.FROZEN_COLUMNS_TABLE_HEADER_CONTAINER_CLASS),
-                        
+
                     _frozenColumnsCount = parseInt(config.frozenColumnsCount);
 
                 // Deal with frozenColumnsCount.
@@ -55,7 +59,7 @@
                 // This table is fixed on top, and fixed on left.
                 _frozenColumnsHeaderTemplate = _frozenColumnsTemplate.clone();
                 _frozenColumnsHeaderTemplate.children(_tbodyHTML).remove();
-                
+
                 _div.append(_originTableWrapper.append(_originTableTemplate))
                     .append(_frozenHeaderWrapper.append(_frozenHeaderTemplate))
                     .append(_frozenColumnsTableWrapper.append(_frozenColumnsTemplate))
@@ -87,8 +91,48 @@
                         scope.metaTable = element;
                     }
 
-                    element.on('sort.gtui.table', scope, function (e) {
-                        e.data.$emit('sort.gtui.table', e);
+                    scope.__sortBy__ = [];
+
+                    element.on('sort.gtui.table', { scope: scope, config: _config }, function (e) {
+                        var _scope = e.data.scope,
+                            _sortBy = _scope.__sortBy__,
+                            _config = e.data.config,
+                            _index = e.index,
+                            _cols = _$utils.getFieldValueByName(e.data.scope, _config, 'columns'),
+                            _col = _cols[_index];
+
+                        if (_col.sortable) {
+                            _col.sort = _col.sort === _SORT_NONE ? _SORT_ASC : (_col.sort === _SORT_ASC ? _SORT_DESC : _SORT_ASC);
+
+                            if (e.ctrlKey) {
+                                var position = -1;
+
+                                for (var i = 0, length = _sortBy.length; i < length; i++) {
+                                    if (_sortBy[i].columnField === _col.valueField) {
+                                        _sortBy[i].sort = _col.sort;
+                                        position = i;
+                                    }
+                                }
+
+                                if (position === -1) {
+                                    _sortBy.push({ columnField: _col.valueField, sort: _SORT_ASC });
+                                }
+                            }
+                            else {
+                                _sortBy = [];
+
+                                for (var i = 0, length = _cols.length; i < length; i++) {
+                                    if (i !== _index)
+                                        _cols[i].sort = _SORT_NONE;
+                                }
+
+                                _sortBy.push({ columnField: _col.valueField, sort: _col.sort });
+                            }
+                        }
+
+                        e.sortBy = _sortBy;
+
+                        _scope.$emit('sort.gtui.table', e);
                     })
                     .on('linkClick.gtui.table', scope, function (e) {
                         e.data.$emit('linkClick.gtui.table', e);
