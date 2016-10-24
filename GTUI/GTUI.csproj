@@ -97,6 +97,7 @@
     <Content Include="js\directives\input.directive.js" />
     <Content Include="js\directives\inputgroup.directive.js" />
     <Content Include="js\directives\select.directive.js" />
+    <Content Include="js\directives\table.th.directive.js" />
     <Content Include="js\directives\table.td.directive.js" />
     <Content Include="js\directives\tabpanel.directive.js" />
     <Content Include="js\directives\tab.directive.js" />

@@ -1,4 +1,4 @@
-/* Packaged at 18:44 Oct 20, 2016. Version: None */
+/* Packaged at 18:5 Oct 24, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -3045,10 +3045,10 @@
 	            .on('click' + _eventNamespace, 'th', _self, function (e) {
 	                var _target = $(e.target).closest('th');
 
-	                var _position = _target.parent().children('th').index(e.target),
+	                var _position = _target.index(),
 	                    _event = $.Event('sort.gtui.table', { index: _position });
 
-	                _target.trigger(_event);
+	                _target.trigger($.extend(e, _event));
 	            })
 	            .on('click' + _eventNamespace, 'a', _self, function (e) {
 	                var _target = $(e.target).closest('a');
@@ -3293,8 +3293,12 @@
 	                type: 'post',
 	                url: url,
 	                contentType: "application/x-www-form-urlencoded",
-	                data: data,
+	                //contentType: "application/json",
+	                //contentType: "text/json",
+	                //contentType: "application/json; charset=utf-8",
+	                data: 'jData=' + JSON.stringify(data),
 	                async: isAsync,
+	                dataType: 'json',
 	                success: function (d, s, r) {
 	                    d = angular.fromJson(d);
 	                    successCallback.apply(this, arguments);
@@ -3429,6 +3433,7 @@
 	__webpack_require__(27);
 	__webpack_require__(28);
 	__webpack_require__(29);
+	__webpack_require__(30);
 
 /***/ },
 /* 16 */
@@ -4214,44 +4219,50 @@
 	        var gta = angular.module('gtui');
 
 	        gta.directive('gtuiTableTd', function (_$utils) {
-	            var HEADER_PROP = 'headerProp',
-	                ITEM_PROP = 'itemProp',
-
-	                VALUE_FIELD = 'valueField',
-	                VISIBLE_FIELD = 'visible',
-	                TYPE_FIELD = 'type',
-	                ACTIONS_FIELD = 'actionsField',
-
-	                TD_HTML = '<td></td>',
+	            var TD_HTML = '<td></td>',
 	                SPAN_HTML = '<span></span>',
 	                LINK_HTML = '<a></a>',
 	                BUTTON_HTML = '<button></button>',
 	                
 	                BUTTON_CLASS = 'btn btn-default btn-xs';
 
+	            var defaultConfig = function () {
+	                return {
+	                    controllerAs: '',
+	                    rowField: 'row',
+	                    columnField: 'column',
+	                    valueField: 'valueField',
+	                    contentField: 'contentField',
+	                    sortableField: 'sortable',
+	                    visibleField: 'visible',
+	                    sortField: 'sort',
+	                    typeField: 'typeField'
+	                };
+	            }();
+	            
 	            var _getTemplate = function (el, config) {
 	                // Template outer element
 	                var _td = $(TD_HTML).attr({
-	                    'ng-show': config[HEADER_PROP] + '[\'' + VISIBLE_FIELD + '\']',
+	                    'ng-show': config.columnField + '[\'' + config.visibleField + '\']',
 	                });
 	                
 	                var _text = $(SPAN_HTML).attr({
-	                    'ng-bind': config[ITEM_PROP] + '[' + config[HEADER_PROP] + '[\'' + VALUE_FIELD + '\']]',
-	                    'ng-if': config[HEADER_PROP] + '[\'' + TYPE_FIELD + '\'].toLowerCase() === \'text\''
+	                    'ng-bind': config.rowField + '[' + config.columnField + '[\'' + config.contentField + '\']]',
+	                    'ng-if': config.columnField + '[\'' + config.typeField + '\'].toLowerCase() === \'text\''
 	                });
 	                var _link = $(LINK_HTML).attr({
 	                    href: 'javascript: void(0)',
-	                    'ng-bind': config[ITEM_PROP] + '[' + config[HEADER_PROP] + '[\'' + VALUE_FIELD + '\']]',
-	                    'ng-if': config[HEADER_PROP] + '[\'' + TYPE_FIELD + '\'].toLowerCase() === \'link\''
+	                    'ng-bind': config.rowField + '[' + config.columnField + '[\'' + config.contentField + '\']]',
+	                    'ng-if': config.columnField + '[\'' + config.typeField + '\'].toLowerCase() === \'link\''
 	                });
 	                var _btnGroup = $(BUTTON_HTML).addClass(BUTTON_CLASS).attr({
 	                    type: 'button',
-	                    'ng-repeat': '__btnItem__ in ' + config[ITEM_PROP] + '[' + config[HEADER_PROP] + '[\'' + ACTIONS_FIELD + '\']]',
+	                    'ng-repeat': '__btnItem__ in ' + config.rowField + '[' + config.columnField + '[\'' + config.contentField + '\']] track by $index',
 	                    'ng-bind': '__btnItem__.displayContent',
-	                    'ng-if': config[HEADER_PROP] + '[\'' + TYPE_FIELD + '\'].toLowerCase() === \'btn-group\''
+	                    'ng-if': config.columnField + '[\'' + config.typeField + '\'].toLowerCase() === \'btn-group\''
 	                });
 
-	                _td.append(_text).append(_link).append(_btnGroup)
+	                _td.append(_text).append(_link).append(_btnGroup);
 
 	                return _td;
 	            };
@@ -4261,6 +4272,8 @@
 	                scope: false,
 	                template: function (element, attrs) {
 	                    var _config = _$utils.getConfig(attrs);
+
+	                    $.extend(defaultConfig, _config, true);
 
 	                    return _getTemplate(element, _config).prop("outerHTML");
 	                },
@@ -4276,6 +4289,82 @@
 
 /***/ },
 /* 29 */
+/***/ function(module, exports) {
+
+	(function ($) {
+	    if (window.angular) {
+	        var gta = angular.module('gtui');
+
+	        gta.directive('gtuiTableTh', function (_$utils) {
+	            var HEADER_PROP = 'headerProp',
+	                ITEM_PROP = 'itemProp',
+
+	                VALUE_FIELD = 'valueField',
+	                CONTENT_FIELD = 'contentField',
+	                VISIBLE_FIELD = 'visible',
+	                TYPE_FIELD = 'type',
+
+	                TH_HTML = '<th></th>',
+	                SPAN_HTML = '<span></span>',
+	                
+	                BUTTON_CLASS = 'btn btn-default btn-xs';
+
+	            var defaultConfig = function () {
+	                return {
+	                    controllerAs: 'vm',
+	                    columnsField: 'columns',
+	                    sortableField: 'sortable',
+	                    visibleField: 'visible',
+	                    sortField: 'sort',
+	                    displayField: 'displayContent'
+	                };
+	            }();
+	            
+	            var _getTemplate = function (el, config) {
+	                // Template outer element
+	                var _th = $(TH_HTML).attr({
+	                    'ng-repeat': '__header__ in ' + _$utils.getFieldStringByName(config, 'columns'),
+	                    'ng-show': '__header__.' + config.visibleField,
+	                    'ng-class': '__header__.' + config.sortableField
+	                });
+
+	                var _spanContent = $(SPAN_HTML).attr({
+	                    'ng-bind': '__header__.' + config.displayField
+	                });
+
+	                var _spanIcon = $(SPAN_HTML).attr({
+	                    'ng-if': '__header__.' + config.sortableField,
+	                    'ng-class': '{ \'glyphicon glyphicon-triangle-top\': __header__.' + config.sortField +
+	                        ' === \'asc\', \'glyphicon glyphicon-triangle-bottom\': __header__.' + config.sortField + ' === \'desc\' }'
+	                });
+
+	                _th.append(_spanContent).append(' ').append(_spanIcon);
+
+	                return _th;
+	            };
+
+	            return {
+	                restrict: "EA",
+	                scope: false,
+	                template: function (element, attrs) {
+	                    var _config = _$utils.getConfig(attrs);
+
+	                    $.extend(defaultConfig, _config, true);
+
+	                    return _getTemplate(element, _config).prop("outerHTML");
+	                },
+	                replace: true,
+	                transclude: false,
+	                link: function (scope, element, attrs) {
+	                    
+	                }
+	            };
+	        });
+	    }
+	})(jQuery);
+
+/***/ },
+/* 30 */
 /***/ function(module, exports) {
 
 	(function ($) {

@@ -43,6 +43,15 @@ th {
     > thead > tr > th {
         vertical-align: bottom;
         border-bottom: 2px solid @table-border-color;
+
+        // Add cursor style to sortable ones
+        &.sortable {
+            cursor: pointer;
+            
+            &:hover {
+                background: @table-bg-hover;
+            }
+        }
     }
     // Remove top border from thead by default
     > caption + thead,

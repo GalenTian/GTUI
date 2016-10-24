@@ -91,10 +91,10 @@
             .on('click' + _eventNamespace, 'th', _self, function (e) {
                 var _target = $(e.target).closest('th');
 
-                var _position = _target.parent().children('th').index(e.target),
+                var _position = _target.index(),
                     _event = $.Event('sort.gtui.table', { index: _position });
 
-                _target.trigger(_event);
+                _target.trigger($.extend(e, _event));
             })
             .on('click' + _eventNamespace, 'a', _self, function (e) {
                 var _target = $(e.target).closest('a');

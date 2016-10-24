@@ -20,8 +20,12 @@
                 type: 'post',
                 url: url,
                 contentType: "application/x-www-form-urlencoded",
-                data: data,
+                //contentType: "application/json",
+                //contentType: "text/json",
+                //contentType: "application/json; charset=utf-8",
+                data: 'jData=' + JSON.stringify(data),
                 async: isAsync,
+                dataType: 'json',
                 success: function (d, s, r) {
                     d = angular.fromJson(d);
                     successCallback.apply(this, arguments);
