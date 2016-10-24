@@ -8,14 +8,14 @@
             _A_HTML = '<a></a>',
             _SPAN_HTML = '<span></span>',
 
-            _FIRST_CLASS = 'glyphicon glyphicon-step-backward',
-            _PREVIOUS_GOUP_CLASS = 'glyphicon glyphicon-backward',
-            _PREVIOUS_CLASS = 'glyphicon glyphicon-triangle-left',
-            _NEXT_CLASS = 'glyphicon glyphicon-triangle-right',
-            _NEXT_GROUP_CLASS = 'glyphicon glyphicon-forward',
-            _LAST_CLASS = 'glyphicon glyphicon-step-forward',
+            ACTION_CLASS = 'action',
 
-            ICON_CLASS = 'glyphicon',
+            _FIRST_CLASS = ACTION_CLASS + ' first',
+            _PREVIOUS_GOUP_CLASS = ACTION_CLASS + ' prev-group',
+            _PREVIOUS_CLASS = ACTION_CLASS + ' previous',
+            _NEXT_CLASS = ACTION_CLASS + ' next',
+            _NEXT_GROUP_CLASS = ACTION_CLASS + ' next-group',
+            _LAST_CLASS = ACTION_CLASS + ' last',
                 
             _MAX_PAGES = 9;
 
@@ -27,9 +27,9 @@
 
                 var _ul = $(_UL_HTML).addClass('pagination');
 
-                var _firstLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).addClass(_FIRST_CLASS)));
-                var _prevGoupLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).addClass(_PREVIOUS_GOUP_CLASS)));
-                var _prevLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).addClass(_PREVIOUS_CLASS)));
+                var _firstLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text('首页').addClass(_FIRST_CLASS)));
+                var _prevGoupLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text('前一组').addClass(_PREVIOUS_GOUP_CLASS)));
+                var _prevLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text('前一页').addClass(_PREVIOUS_CLASS)));
 
                 var _itemsLi = $(_LI_HTML).attr({
                     'ng-repeat': '__item__ in ' + (config.converAs ? config.converAs + '.__pager__.__items__' : '__pager__.__items__'),
@@ -37,9 +37,9 @@
                 })
                     .append($(_A_HTML).attr({ 'ng-bind': '__item__', 'href': 'javascript: void(0);' }));
 
-                var _nextLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).addClass(_NEXT_CLASS)));
-                var _nextGoupLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).addClass(_NEXT_GROUP_CLASS)));
-                var _latLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).addClass(_LAST_CLASS)));
+                var _nextLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text('下一页').addClass(_NEXT_CLASS)));
+                var _nextGoupLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text('下一组').addClass(_NEXT_GROUP_CLASS)));
+                var _latLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text('末页').addClass(_LAST_CLASS)));
 
                 _div.append(
                     _ul.append(_firstLi)
@@ -88,7 +88,7 @@
              */
             var _itemClick = function (e) {
                 var _$target = $(e.target),
-                    _el = _$target.closest('.' + ICON_CLASS),
+                    _el = _$target.closest('.' + ACTION_CLASS),
                     _config = e.data.scope().$eval(e.data.attr('data-config')),
                     _scope = e.data.scope(),
                     _vm = _scope[_config.controllerAs];
@@ -96,7 +96,7 @@
                 _vm = _vm ? _vm : _scope;
 
                 if (!_el[0]) {
-                    _el = _$target.find('.' + ICON_CLASS);
+                    _el = _$target.find('.' + ACTION_CLASS);
 
                     if (!_el[0]) {
                         _el = _$target.closest('a')
@@ -109,6 +109,9 @@
                 else if (_el.hasClass(_PREVIOUS_GOUP_CLASS)) {
                     if (_vm[_config.selectedField] > _MAX_PAGES) {
                         _vm[_config.selectedField] = _vm[_config.selectedField] - _MAX_PAGES;
+                    }
+                    else {
+                        _vm[_config.selectedField] = 1;
                     }
                 }
                 else if (_el.hasClass(_PREVIOUS_CLASS)) {
@@ -124,6 +127,9 @@
                 else if (_el.hasClass(_NEXT_GROUP_CLASS)) {
                     if (_vm[_config.selectedField] <= _vm[_config.totalField] - _MAX_PAGES) {
                         _vm[_config.selectedField] = _vm[_config.selectedField] + _MAX_PAGES;
+                    }
+                    else {
+                        _vm[_config.selectedField] = _vm[_config.totalField];
                     }
                 }
                 else if (_el.hasClass(_LAST_CLASS)) {
