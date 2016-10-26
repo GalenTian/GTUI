@@ -14,6 +14,7 @@ require('./dropdown.js');
 require('./modal.js');
 require('./tab.js');
 require('./table.js');
+require('./treeview.js');
 require('./verticaltile.js');
 
 // Angular
