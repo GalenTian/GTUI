@@ -46,6 +46,11 @@
 
                     return $parse(attrs[configAttr])();
                 },
+                getValueByName: function (scope, config, name) {
+                    return config[constants.CONVERT_AS] ?
+                        scope[config[constants.CONVERT_AS]][name] :
+                        scope[name];
+                },
                 getFieldValueByName: function (scope, config, name) {
                     var targetFiled = name + constants.FIELD;
 

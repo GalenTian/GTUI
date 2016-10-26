@@ -20,7 +20,6 @@
 @brand-warning:             #f0ad4e;
 @brand-danger:              #d9534f;
 
-
 //== Scaffolding
 //
 //## Settings for some of the most global styles.
@@ -501,21 +500,25 @@
 //
 //## Define colors for form feedback states and, by default, alerts.
 
-@state-success-text:             #3c763d;
-@state-success-bg:               #dff0d8;
-@state-success-border:           darken(spin(@state-success-bg, -10), 5%);
+@state-success-text:            #3c763d;
+@state-success-bg:              #dff0d8;
+@state-success-border:          darken(spin(@state-success-bg, -10), 5%);
 
-@state-info-text:                #31708f;
-@state-info-bg:                  #d9edf7;
-@state-info-border:              darken(spin(@state-info-bg, -10), 7%);
+@state-info-text:               #31708f;
+@state-info-bg:                 #d9edf7;
+@state-info-border:             darken(spin(@state-info-bg, -10), 7%);
 
-@state-warning-text:             #8a6d3b;
-@state-warning-bg:               #fcf8e3;
-@state-warning-border:           darken(spin(@state-warning-bg, -10), 5%);
+@state-warning-text:            #8a6d3b;
+@state-warning-bg:              #fcf8e3;
+@state-warning-border:          darken(spin(@state-warning-bg, -10), 5%);
 
-@state-danger-text:              #a94442;
-@state-danger-bg:                #f2dede;
-@state-danger-border:            darken(spin(@state-danger-bg, -10), 5%);
+@state-danger-text:             #a94442;
+@state-danger-bg:               #f2dede;
+@state-danger-border:           darken(spin(@state-danger-bg, -10), 5%);
+
+@state-primary-text:            #31708f;
+@state-primary-bg:              #1daafa;
+@state-primary-border:          #b0dff0;
 
 
 //== Tooltips
@@ -593,12 +596,14 @@
 //##
 
 //** Padding applied to the modal body
-@modal-inner-padding:         15px;
+@modal-inner-padding:           7px;
 
 //** Padding applied to the modal title
-@modal-title-padding:         15px;
+@modal-title-padding:           7px;
 //** Modal title line-height
-@modal-title-line-height:     @line-height-base;
+@modal-title-line-height:       @line-height-base;
+@model-title-bg:                @state-primary-border;
+@model-title-text:              @state-primary-text;
 
 //** Background color of modal content area
 @modal-content-bg:                             #fff;
@@ -612,7 +617,7 @@
 //** Modal backdrop opacity
 @modal-backdrop-opacity:      .5;
 //** Modal header border color
-@modal-header-border-color:   #e5e5e5;
+@modal-header-border-color:   @brand-primary;
 //** Modal footer border color
 @modal-footer-border-color:   @modal-header-border-color;
 
@@ -725,7 +730,7 @@
 
 @panel-primary-text:            #31708f;
 @panel-primary-border:          #1daafa;
-@panel-primary-heading-bg:      #b0dff0;
+@panel-primary-heading-bg:      @state-primary-border;
 
 @panel-success-text:            @state-success-text;
 @panel-success-border:          @state-success-border;

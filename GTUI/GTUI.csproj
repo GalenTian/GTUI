@@ -82,6 +82,7 @@
     <Content Include="examples\lib\jquery-1.9.0.js" />
     <Content Include="examples\lib\jquery-ui-1.9.2.js" />
     <Content Include="examples\lib\theme\macarons.js" />
+    <Content Include="examples\modals.html" />
     <Content Include="examples\panels.html" />
     <Content Include="examples\tabs.html" />
     <Content Include="examples\pagers.html" />
@@ -97,6 +98,7 @@
     <Content Include="js\directives\input.directive.js" />
     <Content Include="js\directives\inputgroup.directive.js" />
     <Content Include="js\directives\select.directive.js" />
+    <Content Include="js\directives\modal.directive.js" />
     <Content Include="js\directives\table.th.directive.js" />
     <Content Include="js\directives\table.td.directive.js" />
     <Content Include="js\directives\tabpanel.directive.js" />
@@ -112,6 +114,7 @@
     <Content Include="js\directives\table.directive.js" />
     <Content Include="js\directives\verticaltile.directive.js" />
     <Content Include="js\gtui.js" />
+    <Content Include="js\modal.js" />
     <Content Include="js\mousewheel.js" />
     <Content Include="js\services\core.service.js" />
     <Content Include="js\services\pager.service.js" />
@@ -120,6 +123,7 @@
     <Content Include="js\services\gtui.service.js" />
     <Content Include="js\tab.js" />
     <Content Include="js\table.js" />
+    <Content Include="js\transition.js" />
     <Content Include="js\verticaltile.js" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>

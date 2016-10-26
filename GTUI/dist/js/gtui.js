@@ -1,4 +1,4 @@
-/* Packaged at 19:29 Oct 24, 2016. Version: None */
+/* Packaged at 11:10 Oct 26, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -61,16 +61,18 @@
 
 	// Widget Base
 	__webpack_require__(4);
+	__webpack_require__(5);
 
 	// Widgets
-	__webpack_require__(5);
 	__webpack_require__(6);
 	__webpack_require__(7);
 	__webpack_require__(8);
 	__webpack_require__(9);
+	__webpack_require__(10);
+	__webpack_require__(11);
 
 	// Angular
-	__webpack_require__(10);
+	__webpack_require__(12);
 
 /***/ },
 /* 2 */
@@ -591,6 +593,71 @@
 
 /***/ },
 /* 5 */
+/***/ function(module, exports) {
+
+	/* ========================================================================
+	 * Bootstrap: transition.js v3.3.5
+	 * http://getbootstrap.com/javascript/#transitions
+	 * ========================================================================
+	 * Copyright 2011-2015 Twitter, Inc.
+	 * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+	 * ======================================================================== */
+
+
+	+function ($) {
+	    'use strict';
+
+	    // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
+	    // ============================================================
+
+	    function transitionEnd() {
+	        var el = document.createElement('bootstrap')
+
+	        var transEndEventNames = {
+	            WebkitTransition: 'webkitTransitionEnd',
+	            MozTransition: 'transitionend',
+	            OTransition: 'oTransitionEnd otransitionend',
+	            transition: 'transitionend'
+	        }
+
+	        for (var name in transEndEventNames) {
+	            if (el.style[name] !== undefined) {
+	                return { end: transEndEventNames[name] }
+	            }
+	        }
+
+	        return false // explicit for ie8 (  ._.)
+	    }
+
+	    // http://blog.alexmaccaw.com/css-transitions
+	    $.fn.emulateTransitionEnd = function (duration) {
+	        var called = false
+	        var $el = this
+	        $(this).one('bsTransitionEnd', function () { called = true })
+	        var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
+	        setTimeout(callback, duration)
+	        return this
+	    }
+
+	    $(function () {
+	        $.support.transition = transitionEnd()
+
+	        if (!$.support.transition) return
+
+	        $.event.special.bsTransitionEnd = {
+	            bindType: $.support.transition.end,
+	            delegateType: $.support.transition.end,
+	            handle: function (e) {
+	                if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
+	            }
+	        }
+	    })
+
+	}(jQuery);
+
+
+/***/ },
+/* 6 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -2681,7 +2748,7 @@
 	})(jQuery);
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 	/* ========================================================================
@@ -2854,7 +2921,350 @@
 
 
 /***/ },
-/* 7 */
+/* 8 */
+/***/ function(module, exports) {
+
+	/* ========================================================================
+	 * Bootstrap: modal.js v3.3.5
+	 * http://getbootstrap.com/javascript/#modals
+	 * ========================================================================
+	 * Copyright 2011-2015 Twitter, Inc.
+	 * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+	 * ======================================================================== */
+
+
+	+function ($) {
+	    'use strict';
+
+	    // MODAL CLASS DEFINITION
+	    // ======================
+
+	    var Modal = function (element, options) {
+	        this.options = options
+	        this.$body = $(document.body)
+	        this.$element = $(element)
+	        this.$dialog = this.$element.find('.modal-dialog')
+	        this.$backdrop = null
+	        this.isShown = null
+	        this.originalBodyPad = null
+	        this.scrollbarWidth = 0
+	        this.ignoreBackdropClick = false
+
+	        if (this.options.remote) {
+	            this.$element
+	              .find('.modal-content')
+	              .load(this.options.remote, $.proxy(function () {
+	                  this.$element.trigger('loaded.bs.modal')
+	              }, this))
+	        }
+	    }
+
+	    Modal.VERSION = '3.3.5'
+
+	    Modal.TRANSITION_DURATION = 300
+	    Modal.BACKDROP_TRANSITION_DURATION = 150
+
+	    Modal.DEFAULTS = {
+	        backdrop: true,
+	        keyboard: true,
+	        show: true
+	    }
+
+	    Modal.prototype.toggle = function (_relatedTarget) {
+	        return this.isShown ? this.hide() : this.show(_relatedTarget)
+	    }
+
+	    Modal.prototype.show = function (_relatedTarget) {
+	        var that = this
+	        var e = $.Event('show.bs.modal', { relatedTarget: _relatedTarget })
+
+	        this.$element.trigger(e)
+
+	        if (this.isShown || e.isDefaultPrevented()) return
+
+	        this.isShown = true
+
+	        this.checkScrollbar()
+	        this.setScrollbar()
+	        this.$body.addClass('modal-open')
+
+	        this.escape()
+	        this.resize()
+
+	        this.$element.on('click.dismiss.bs.modal', '[data-dismiss="modal"]', $.proxy(this.hide, this))
+
+	        this.$dialog.on('mousedown.dismiss.bs.modal', function () {
+	            that.$element.one('mouseup.dismiss.bs.modal', function (e) {
+	                if ($(e.target).is(that.$element)) that.ignoreBackdropClick = true
+	            })
+	        })
+
+	        this.backdrop(function () {
+	            var transition = $.support.transition && that.$element.hasClass('fade')
+
+	            if (!that.$element.parent().length) {
+	                that.$element.appendTo(that.$body) // don't move modals dom position
+	            }
+
+	            that.$element
+	              .show()
+	              .scrollTop(0)
+
+	            that.adjustDialog()
+
+	            if (transition) {
+	                that.$element[0].offsetWidth // force reflow
+	            }
+
+	            that.$element.addClass('in')
+
+	            that.enforceFocus()
+
+	            var e = $.Event('shown.bs.modal', { relatedTarget: _relatedTarget })
+
+	            transition ?
+	              that.$dialog // wait for modal to slide in
+	                .one('bsTransitionEnd', function () {
+	                    that.$element.trigger('focus').trigger(e)
+	                })
+	                .emulateTransitionEnd(Modal.TRANSITION_DURATION) :
+	              that.$element.trigger('focus').trigger(e)
+	        })
+	    }
+
+	    Modal.prototype.hide = function (e) {
+	        if (e) e.preventDefault()
+
+	        e = $.Event('hide.bs.modal')
+
+	        this.$element.trigger(e)
+
+	        if (!this.isShown || e.isDefaultPrevented()) return
+
+	        this.isShown = false
+
+	        this.escape()
+	        this.resize()
+
+	        $(document).off('focusin.bs.modal')
+
+	        this.$element
+	          .removeClass('in')
+	          .off('click.dismiss.bs.modal')
+	          .off('mouseup.dismiss.bs.modal')
+
+	        this.$dialog.off('mousedown.dismiss.bs.modal')
+
+	        $.support.transition && this.$element.hasClass('fade') ?
+	          this.$element
+	            .one('bsTransitionEnd', $.proxy(this.hideModal, this))
+	            .emulateTransitionEnd(Modal.TRANSITION_DURATION) :
+	          this.hideModal()
+	    }
+
+	    Modal.prototype.enforceFocus = function () {
+	        $(document)
+	          .off('focusin.bs.modal') // guard against infinite focus loop
+	          .on('focusin.bs.modal', $.proxy(function (e) {
+	              if (this.$element[0] !== e.target && !this.$element.has(e.target).length) {
+	                  this.$element.trigger('focus')
+	              }
+	          }, this))
+	    }
+
+	    Modal.prototype.escape = function () {
+	        if (this.isShown && this.options.keyboard) {
+	            this.$element.on('keydown.dismiss.bs.modal', $.proxy(function (e) {
+	                e.which == 27 && this.hide()
+	            }, this))
+	        } else if (!this.isShown) {
+	            this.$element.off('keydown.dismiss.bs.modal')
+	        }
+	    }
+
+	    Modal.prototype.resize = function () {
+	        if (this.isShown) {
+	            $(window).on('resize.bs.modal', $.proxy(this.handleUpdate, this))
+	        } else {
+	            $(window).off('resize.bs.modal')
+	        }
+	    }
+
+	    Modal.prototype.hideModal = function () {
+	        var that = this
+	        this.$element.hide()
+	        this.backdrop(function () {
+	            that.$body.removeClass('modal-open')
+	            that.resetAdjustments()
+	            that.resetScrollbar()
+	            that.$element.trigger('hidden.bs.modal')
+	        })
+	    }
+
+	    Modal.prototype.removeBackdrop = function () {
+	        this.$backdrop && this.$backdrop.remove()
+	        this.$backdrop = null
+	    }
+
+	    Modal.prototype.backdrop = function (callback) {
+	        var that = this
+	        var animate = this.$element.hasClass('fade') ? 'fade' : ''
+
+	        if (this.isShown && this.options.backdrop) {
+	            var doAnimate = $.support.transition && animate
+
+	            this.$backdrop = $(document.createElement('div'))
+	              .addClass('modal-backdrop ' + animate)
+	              .appendTo(this.$body)
+
+	            this.$element.on('click.dismiss.bs.modal', $.proxy(function (e) {
+	                if (this.ignoreBackdropClick) {
+	                    this.ignoreBackdropClick = false
+	                    return
+	                }
+	                if (e.target !== e.currentTarget) return
+	                this.options.backdrop == 'static'
+	                  ? this.$element[0].focus()
+	                  : this.hide()
+	            }, this))
+
+	            if (doAnimate) this.$backdrop[0].offsetWidth // force reflow
+
+	            this.$backdrop.addClass('in')
+
+	            if (!callback) return
+
+	            doAnimate ?
+	              this.$backdrop
+	                .one('bsTransitionEnd', callback)
+	                .emulateTransitionEnd(Modal.BACKDROP_TRANSITION_DURATION) :
+	              callback()
+
+	        } else if (!this.isShown && this.$backdrop) {
+	            this.$backdrop.removeClass('in')
+
+	            var callbackRemove = function () {
+	                that.removeBackdrop()
+	                callback && callback()
+	            }
+	            $.support.transition && this.$element.hasClass('fade') ?
+	              this.$backdrop
+	                .one('bsTransitionEnd', callbackRemove)
+	                .emulateTransitionEnd(Modal.BACKDROP_TRANSITION_DURATION) :
+	              callbackRemove()
+
+	        } else if (callback) {
+	            callback()
+	        }
+	    }
+
+	    // these following methods are used to handle overflowing modals
+
+	    Modal.prototype.handleUpdate = function () {
+	        this.adjustDialog()
+	    }
+
+	    Modal.prototype.adjustDialog = function () {
+	        var modalIsOverflowing = this.$element[0].scrollHeight > document.documentElement.clientHeight
+
+	        this.$element.css({
+	            paddingLeft: !this.bodyIsOverflowing && modalIsOverflowing ? this.scrollbarWidth : '',
+	            paddingRight: this.bodyIsOverflowing && !modalIsOverflowing ? this.scrollbarWidth : ''
+	        })
+	    }
+
+	    Modal.prototype.resetAdjustments = function () {
+	        this.$element.css({
+	            paddingLeft: '',
+	            paddingRight: ''
+	        })
+	    }
+
+	    Modal.prototype.checkScrollbar = function () {
+	        var fullWindowWidth = window.innerWidth
+	        if (!fullWindowWidth) { // workaround for missing window.innerWidth in IE8
+	            var documentElementRect = document.documentElement.getBoundingClientRect()
+	            fullWindowWidth = documentElementRect.right - Math.abs(documentElementRect.left)
+	        }
+	        this.bodyIsOverflowing = document.body.clientWidth < fullWindowWidth
+	        this.scrollbarWidth = this.measureScrollbar()
+	    }
+
+	    Modal.prototype.setScrollbar = function () {
+	        var bodyPad = parseInt((this.$body.css('padding-right') || 0), 10)
+	        this.originalBodyPad = document.body.style.paddingRight || ''
+	        if (this.bodyIsOverflowing) this.$body.css('padding-right', bodyPad + this.scrollbarWidth)
+	    }
+
+	    Modal.prototype.resetScrollbar = function () {
+	        this.$body.css('padding-right', this.originalBodyPad)
+	    }
+
+	    Modal.prototype.measureScrollbar = function () { // thx walsh
+	        var scrollDiv = document.createElement('div')
+	        scrollDiv.className = 'modal-scrollbar-measure'
+	        this.$body.append(scrollDiv)
+	        var scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth
+	        this.$body[0].removeChild(scrollDiv)
+	        return scrollbarWidth
+	    }
+
+
+	    // MODAL PLUGIN DEFINITION
+	    // =======================
+
+	    function Plugin(option, _relatedTarget) {
+	        return this.each(function () {
+	            var $this = $(this)
+	            var data = $this.data('bs.modal')
+	            var options = $.extend({}, Modal.DEFAULTS, $this.data(), typeof option == 'object' && option)
+
+	            if (!data) $this.data('bs.modal', (data = new Modal(this, options)))
+	            if (typeof option == 'string') data[option](_relatedTarget)
+	            else if (options.show) data.show(_relatedTarget)
+	        })
+	    }
+
+	    var old = $.fn.modal
+
+	    $.fn.modal = Plugin
+	    $.fn.modal.Constructor = Modal
+
+
+	    // MODAL NO CONFLICT
+	    // =================
+
+	    $.fn.modal.noConflict = function () {
+	        $.fn.modal = old
+	        return this
+	    }
+
+
+	    // MODAL DATA-API
+	    // ==============
+
+	    $(document).on('click.bs.modal.data-api', '[data-toggle="modal"]', function (e) {
+	        var $this = $(this)
+	        var href = $this.attr('href')
+	        var $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) // strip for ie7
+	        var option = $target.data('bs.modal') ? 'toggle' : $.extend({ remote: !/#/.test(href) && href }, $target.data(), $this.data())
+
+	        if ($this.is('a')) e.preventDefault()
+
+	        $target.one('show.bs.modal', function (showEvent) {
+	            if (showEvent.isDefaultPrevented()) return // only register focus restorer if modal will actually get shown
+	            $target.one('hidden.bs.modal', function () {
+	                $this.is(':visible') && $this.trigger('focus')
+	            })
+	        })
+	        Plugin.call($target, option, this)
+	    })
+
+	}(jQuery);
+
+
+/***/ },
+/* 9 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -2949,7 +3359,7 @@
 	}(jQuery));
 
 /***/ },
-/* 8 */
+/* 10 */
 /***/ function(module, exports) {
 
 	/**
@@ -3190,7 +3600,7 @@
 	})(jQuery);
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports) {
 
 	/**
@@ -3244,7 +3654,7 @@
 	})(jQuery);
 
 /***/ },
-/* 10 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	if (window.angular) {
@@ -3252,23 +3662,23 @@
 	    // So here module will be defined once.
 	    var gta = angular.module('gtui', []);
 
-	    __webpack_require__(11);
-	    __webpack_require__(15);
+	    __webpack_require__(13);
+	    __webpack_require__(17);
 	}
 
 /***/ },
-/* 11 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Core
-	__webpack_require__(12);
-
-	// Directives
-	__webpack_require__(13);
 	__webpack_require__(14);
 
+	// Directives
+	__webpack_require__(15);
+	__webpack_require__(16);
+
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3318,6 +3728,11 @@
 	                    }
 
 	                    return $parse(attrs[configAttr])();
+	                },
+	                getValueByName: function (scope, config, name) {
+	                    return config[constants.CONVERT_AS] ?
+	                        scope[config[constants.CONVERT_AS]][name] :
+	                        scope[name];
 	                },
 	                getFieldValueByName: function (scope, config, name) {
 	                    var targetFiled = name + constants.FIELD;
@@ -3375,7 +3790,7 @@
 	})(jQuery);
 
 /***/ },
-/* 13 */
+/* 15 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3393,7 +3808,7 @@
 	})(jQuery);
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3413,15 +3828,13 @@
 	})(jQuery);
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Core
-	__webpack_require__(16);
+	__webpack_require__(18);
 
 	// Directives
-	__webpack_require__(17);
-	__webpack_require__(18);
 	__webpack_require__(19);
 	__webpack_require__(20);
 	__webpack_require__(21);
@@ -3434,9 +3847,12 @@
 	__webpack_require__(28);
 	__webpack_require__(29);
 	__webpack_require__(30);
+	__webpack_require__(31);
+	__webpack_require__(32);
+	__webpack_require__(33);
 
 /***/ },
-/* 16 */
+/* 18 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3448,7 +3864,7 @@
 	})(jQuery);
 
 /***/ },
-/* 17 */
+/* 19 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3508,7 +3924,7 @@
 	})(jQuery);
 
 /***/ },
-/* 18 */
+/* 20 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3559,7 +3975,7 @@
 	})(jQuery);
 
 /***/ },
-/* 19 */
+/* 21 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3600,7 +4016,7 @@
 	})(jQuery);
 
 /***/ },
-/* 20 */
+/* 22 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3634,7 +4050,7 @@
 	})(jQuery);
 
 /***/ },
-/* 21 */
+/* 23 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3678,7 +4094,116 @@
 	})(jQuery);
 
 /***/ },
-/* 22 */
+/* 24 */
+/***/ function(module, exports) {
+
+	(function ($) {
+	    if (window.angular) {
+	        var gta = angular.module('gtui');
+
+	        gta.directive('gtuiModal', function (_$utils) {
+	            var _BUTTON_HTML = '<button></button>',
+	                _DIV_HTML = '<div></div>';
+
+	            var defaultConfig = function () {
+	                return { };
+	            }();
+
+	            var _getTemplate = function (el, config) {
+	                var _template = [],
+	                    _modalId = _$utils.uuid(),
+	                    _titleId = _$utils.uuid();
+
+	                _template.push('<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">');
+	                _template.push('  <div class="modal-dialog" role="document">');
+	                _template.push('    <div class="modal-content">');
+	                _template.push('      <div class="modal-header">');
+	                _template.push('        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
+	                _template.push('        <div class="modal-title h4"></div>');
+	                _template.push('      </div>');
+	                _template.push('    <div class="modal-body">');
+	                _template.push('    </div>');
+	                _template.push('    <div class="modal-footer">');
+	                //_template.push('      <button type="button" class="btn btn-sm" ></button>');
+	                _template.push('    </div>');
+	                _template.push('  </div>');
+	                _template.push('</div>');
+
+	                var _temp$ = $(_template.join('')).attr({ 'id': _modalId, 'aria-labelledby': _titleId });
+
+	                _temp$.find('.modal-title').attr('id', _titleId).html(el.children('.modal-title').html());
+	                _temp$.find('.modal-body').html(el.children('.modal-body').html());
+
+	                return _temp$.prop('outerHTML');
+	            };
+
+	            return {
+	                restrict: "EA",
+	                scope: false,
+	                template: function (element, attrs) {
+	                    var _config = _$utils.getConfig(attrs);
+
+	                    $.extend(defaultConfig, _config, true);
+
+	                    return _getTemplate(element, _config);
+	                },
+	                replace: true,
+	                transclude: false,
+	                link: function (scope, element, attrs) {
+	                    var _config = _$utils.getConfig(attrs),
+	                        _trigger = $(_config.trigger),
+	                        _id = element.attr('id');
+
+	                    _trigger.on('click', element, function (e) {
+	                        e.data.modal('show')
+	                    });
+
+	                    $(document).ready(function () {
+	                        element.modal({
+	                            backdrop: 'static',
+	                            keyboard: 'esc',
+	                            show: false
+	                        });
+	                    });
+
+	                    var _buttonConfig = _$utils.getFieldValueByName(scope, _config, 'actions'),
+	                        _footer = element.find('.modal-footer');
+	                    for (var i = 0, length = _buttonConfig.length; i < length; i++) {
+	                        var _button = $(_BUTTON_HTML).addClass('btn btn-sm').attr('type', 'button').html(_buttonConfig[i].content);
+
+	                        if (_buttonConfig[i].type === 'close') _button.attr('data-dismiss', 'modal');
+	                        if (_buttonConfig[i].type === 'primary') _button.addClass('btn-primary');
+	                        else _button.addClass('btn-default');
+
+	                        _footer.append(_button);
+	                    }
+
+	                    element.on('click', '.modal-footer button', { config: _config, scope: scope, btnConfig: _buttonConfig, modal: element }, function (e) {
+	                        var _target = $(e.target).closest('button'),
+	                            _index = _target.index(),
+	                            _btnConfig = e.data.btnConfig,
+	                            _scope = e.data.scope,
+	                            _config = e.data.config,
+	                            _click = _btnConfig[_index].click;
+
+	                        if (_click) {
+	                            if (typeof (_click) !== 'function') {
+	                                _click = _$utils.getValueByName(_scope, _config, _click);
+	                            }
+
+	                            var _closeFlag = _click.apply(this, [e]);
+
+	                            if (_closeFlag) e.data.modal.modal('hide');
+	                        }
+	                    });
+	                }
+	            };
+	        });
+	    }
+	})(jQuery);
+
+/***/ },
+/* 25 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3885,7 +4410,7 @@
 	})(jQuery);
 
 /***/ },
-/* 23 */
+/* 26 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3978,7 +4503,7 @@
 	})(jQuery);
 
 /***/ },
-/* 24 */
+/* 27 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4019,7 +4544,7 @@
 	})(jQuery);
 
 /***/ },
-/* 25 */
+/* 28 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4083,7 +4608,7 @@
 	})(jQuery);
 
 /***/ },
-/* 26 */
+/* 29 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4103,7 +4628,7 @@
 	})(jQuery);
 
 /***/ },
-/* 27 */
+/* 30 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4261,7 +4786,7 @@
 	})(jQuery);
 
 /***/ },
-/* 28 */
+/* 31 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4338,7 +4863,7 @@
 	})(jQuery);
 
 /***/ },
-/* 29 */
+/* 32 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4407,7 +4932,7 @@
 	})(jQuery);
 
 /***/ },
-/* 30 */
+/* 33 */
 /***/ function(module, exports) {
 
 	(function ($) {

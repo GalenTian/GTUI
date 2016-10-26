@@ -1,4 +1,4 @@
-/* Packaged at 19:29 Oct 24, 2016. Version: None */
+/* Packaged at 11:10 Oct 26, 2016. Version: None */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 html {
   font-family: sans-serif;
@@ -6201,6 +6201,22 @@ button.list-group-item-danger.active:focus {
   border-top-left-radius: 3px;
   min-height: 28px;
 }
+.panel-heading:before,
+.panel-heading:after {
+  content: " ";
+  display: table;
+}
+.panel-heading:after {
+  clear: both;
+}
+.panel-heading:before,
+.panel-heading:after {
+  content: " ";
+  display: table;
+}
+.panel-heading:after {
+  clear: both;
+}
 .panel-heading > .dropdown .dropdown-toggle {
   color: inherit;
 }
@@ -6867,12 +6883,20 @@ button.close {
   filter: alpha(opacity=50);
 }
 .modal-header {
-  padding: 15px;
-  border-bottom: 1px solid #e5e5e5;
-  min-height: 16.42857143px;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+  padding: 7px;
+  border-bottom: 1px solid #1daafa;
+  min-height: 8.42857143px;
+  background: #b0dff0;
+  color: #31708f;
 }
 .modal-header .close {
-  margin-top: -2px;
+  margin-top: -4px;
+  margin-right: -4px;
+  font-size: 24px;
+  padding: 4px;
+  min-width: 32px;
 }
 .modal-title {
   margin: 0;
@@ -6880,12 +6904,11 @@ button.close {
 }
 .modal-body {
   position: relative;
-  padding: 15px;
+  padding: 7px;
 }
 .modal-footer {
-  padding: 15px;
+  padding: 7px;
   text-align: right;
-  border-top: 1px solid #e5e5e5;
 }
 .modal-footer .btn + .btn {
   margin-left: 5px;

@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Modals</title>
+	<meta charset="utf-8" />
+
+    <link type="text/css" rel="stylesheet" href="../dist/css/gtui.css" />
+</head>
+<body ng-app="GTUIComponent">
+    <div>
+        <h1>Pager</h1>
+        <div ng-controller="DemoController as dc">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                Launch demo modal
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <div class="modal-title h4" id="myModalLabel">Modal title</div>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-sm btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <button id="demo-trigger" type="button" class="btn btn-default">
+                Launch demo modal
+            </button>
+
+            <div gtui-modal data-config="{ trigger: '#demo-trigger', actionsField: 'actions', controllerAs: 'dc' }" ng-cloak>
+                <div class="modal-title">
+                    Modal title
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="lib/jquery-1.9.0.js"></script>
+    <script src="lib/jquery-ui-1.9.2.js"></script>
+    <script src="lib/angular-1.28.js"></script>
+    <script src="../dist/js/gtui.js"></script>
+    <script type="text/javascript">
+        
+        var MyPagerController = function ($scope) {
+            var vm = this;
+
+            vm.actions = [
+                { type: 'close', content: '取消' },
+                { type: 'primary', content: '保存', click: 'okClick' },
+            ];
+
+            vm.okClick = function (e) {
+                console.log(e);
+
+                return true;
+            };
+
+            return vm;
+        };
+
+        // Page Controller
+        angular.module('GTUIComponent', ['gtui'])
+            // Controllers for Tables
+            .controller('DemoController', MyPagerController);
+    </script>
+</body>
+</html>
