@@ -46,24 +46,46 @@
 
                     return $parse(attrs[configAttr])();
                 },
+                getScope: function (scope, config) {
+                    return config[constants.CONVERT_AS] ? scope[config[constants.CONVERT_AS]] : scope;
+                },
                 getValueByName: function (scope, config, name) {
                     return config[constants.CONVERT_AS] ?
                         scope[config[constants.CONVERT_AS]][name] :
                         scope[name];
                 },
                 getFieldValueByName: function (scope, config, name) {
-                    var targetFiled = name + constants.FIELD;
+                    var _targetField = name + constants.FIELD,
+                        _filedValue = config[_targetField];
 
-                    return config[constants.CONVERT_AS] ?
-                        scope[config[constants.CONVERT_AS]][config[targetFiled]] :
-                        scope[config[targetFiled]];
+                    if (_filedValue.indexOf('[') > 0 || _filedValue.indexOf('.') > 0) {
+                        _filedValue = _filedValue.replace(/\[/g, '.');
+                        _filedValue = _filedValue.replace(/\]/g, '');
+                        _filedValue = _filedValue.replace(/'/g, '');
+                        _filedValue = _filedValue.replace(/"/g, '');
+
+                        var _properties = _filedValue.split('.'),
+                            _value = config[constants.CONVERT_AS] ?
+                                scope[config[constants.CONVERT_AS]][_properties[0]] :
+                                scope[_properties[0]];
+
+                        for (var i = 1, length = _properties.length; i < length; i++) {
+                            _value = _value[_properties[i]];
+                        }
+
+                        return _value;
+                    }
+                    else 
+                        return config[constants.CONVERT_AS] ?
+                            scope[config[constants.CONVERT_AS]][_filedValue] :
+                            scope[_filedValue];
                 },
                 getFieldStringByName: function (config, name) {
-                    var targetFiled = name + constants.FIELD;
+                    var _targetField = name + constants.FIELD;
 
                     return config[constants.CONVERT_AS] ?
-                        (config[constants.CONVERT_AS] + '.' + config[targetFiled]) :
-                        config[targetFiled];
+                        (config[constants.CONVERT_AS] + '.' + config[_targetField]) :
+                        config[_targetField];
                 },
                 getPropertyValueByName: function (scope, config, name) {
                     return config[constants.CONVERT_AS] ?

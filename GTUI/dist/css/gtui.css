@@ -1,4 +1,4 @@
-/* Packaged at 14:36 Oct 27, 2016. Version: None */
+/* Packaged at 18:43 Oct 27, 2016. Version: None */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 html {
   font-family: sans-serif;
@@ -6806,6 +6806,9 @@ button.close {
   bottom: -20px;
   top: auto;
   left: 0;
+}
+.tabs {
+  margin-bottom: 20px;
 }
 .tabs [role=tabpanel] {
   display: none;

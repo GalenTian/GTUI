@@ -1,4 +1,4 @@
-/* Packaged at 14:36 Oct 27, 2016. Version: None */
+/* Packaged at 18:43 Oct 27, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -2770,7 +2770,7 @@
 	    var backdrop = '.dropdown-backdrop'
 	    var toggle = '[data-toggle="dropdown"]'
 	    var Dropdown = function (element) {
-	        $(element).on('click.bs.dropdown', this.toggle)
+	        $(element).on('click.gtui.dropdown', this.toggle)
 	    }
 
 	    Dropdown.VERSION = '3.3.5'
@@ -2802,12 +2802,12 @@
 
 	            if (e && e.type == 'click' && /label/i.test(e.target.tagName) && $(e.target).children('input[type=checkbox]').length > 0) return;
 
-	            $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
+	            $parent.trigger(e = $.Event('hide.gtui.dropdown', relatedTarget))
 
 	            if (e.isDefaultPrevented()) return
 
 	            $this.attr('aria-expanded', 'false')
-	            $parent.removeClass('open').trigger('hidden.bs.dropdown', relatedTarget)
+	            $parent.removeClass('open').trigger('hidden.gtui.dropdown', relatedTarget)
 	        })
 	    }
 
@@ -2831,7 +2831,7 @@
 	            }
 
 	            var relatedTarget = { relatedTarget: this }
-	            $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
+	            $parent.trigger(e = $.Event('show.gtui.dropdown', relatedTarget))
 
 	            if (e.isDefaultPrevented()) return
 
@@ -2841,7 +2841,7 @@
 
 	            $parent
 	              .toggleClass('open')
-	              .trigger('shown.bs.dropdown', relatedTarget)
+	              .trigger('shown.gtui.dropdown', relatedTarget)
 	        }
 
 	        return false
@@ -2886,9 +2886,9 @@
 	    function Plugin(option) {
 	        return this.each(function () {
 	            var $this = $(this)
-	            var data = $this.data('bs.dropdown')
+	            var data = $this.data('gtui.dropdown')
 
-	            if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
+	            if (!data) $this.data('gtui.dropdown', (data = new Dropdown(this)))
 	            if (typeof option == 'string') data[option].call($this)
 	        })
 	    }
@@ -2912,11 +2912,11 @@
 	    // ===================================
 
 	    $(document)
-	      .on('click.bs.dropdown.data-api', clearMenus)
-	      .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
-	      .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
-	      .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
-	      .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
+	      .on('click.gtui.dropdown.data-api', clearMenus)
+	      .on('click.gtui.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
+	      .on('click.gtui.dropdown.data-api', toggle, Dropdown.prototype.toggle)
+	      .on('keydown.gtui.dropdown.data-api', toggle, Dropdown.prototype.keydown)
+	      .on('keydown.gtui.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
 
 	}(jQuery);
 
@@ -2955,7 +2955,7 @@
 	            this.$element
 	              .find('.modal-content')
 	              .load(this.options.remote, $.proxy(function () {
-	                  this.$element.trigger('loaded.bs.modal')
+	                  this.$element.trigger('loaded.gtui.modal')
 	              }, this))
 	        }
 	    }
@@ -2977,7 +2977,7 @@
 
 	    Modal.prototype.show = function (_relatedTarget) {
 	        var that = this
-	        var e = $.Event('show.bs.modal', { relatedTarget: _relatedTarget })
+	        var e = $.Event('show.gtui.modal', { relatedTarget: _relatedTarget })
 
 	        this.$element.trigger(e)
 
@@ -2992,10 +2992,10 @@
 	        this.escape()
 	        this.resize()
 
-	        this.$element.on('click.dismiss.bs.modal', '[data-dismiss="modal"]', $.proxy(this.hide, this))
+	        this.$element.on('click.dismiss.gtui.modal', '[data-dismiss="modal"]', $.proxy(this.hide, this))
 
-	        this.$dialog.on('mousedown.dismiss.bs.modal', function () {
-	            that.$element.one('mouseup.dismiss.bs.modal', function (e) {
+	        this.$dialog.on('mousedown.dismiss.gtui.modal', function () {
+	            that.$element.one('mouseup.dismiss.gtui.modal', function (e) {
 	                if ($(e.target).is(that.$element)) that.ignoreBackdropClick = true
 	            })
 	        })
@@ -3021,7 +3021,7 @@
 
 	            that.enforceFocus()
 
-	            var e = $.Event('shown.bs.modal', { relatedTarget: _relatedTarget })
+	            var e = $.Event('shown.gtui.modal', { relatedTarget: _relatedTarget })
 
 	            transition ?
 	              that.$dialog // wait for modal to slide in
@@ -3036,7 +3036,7 @@
 	    Modal.prototype.hide = function (e) {
 	        if (e) e.preventDefault()
 
-	        e = $.Event('hide.bs.modal')
+	        e = $.Event('hide.gtui.modal')
 
 	        this.$element.trigger(e)
 
@@ -3047,14 +3047,14 @@
 	        this.escape()
 	        this.resize()
 
-	        $(document).off('focusin.bs.modal')
+	        $(document).off('focusin.gtui.modal')
 
 	        this.$element
 	          .removeClass('in')
-	          .off('click.dismiss.bs.modal')
-	          .off('mouseup.dismiss.bs.modal')
+	          .off('click.dismiss.gtui.modal')
+	          .off('mouseup.dismiss.gtui.modal')
 
-	        this.$dialog.off('mousedown.dismiss.bs.modal')
+	        this.$dialog.off('mousedown.dismiss.gtui.modal')
 
 	        $.support.transition && this.$element.hasClass('fade') ?
 	          this.$element
@@ -3065,8 +3065,8 @@
 
 	    Modal.prototype.enforceFocus = function () {
 	        $(document)
-	          .off('focusin.bs.modal') // guard against infinite focus loop
-	          .on('focusin.bs.modal', $.proxy(function (e) {
+	          .off('focusin.gtui.modal') // guard against infinite focus loop
+	          .on('focusin.gtui.modal', $.proxy(function (e) {
 	              if (this.$element[0] !== e.target && !this.$element.has(e.target).length) {
 	                  this.$element.trigger('focus')
 	              }
@@ -3075,19 +3075,19 @@
 
 	    Modal.prototype.escape = function () {
 	        if (this.isShown && this.options.keyboard) {
-	            this.$element.on('keydown.dismiss.bs.modal', $.proxy(function (e) {
+	            this.$element.on('keydown.dismiss.gtui.modal', $.proxy(function (e) {
 	                e.which == 27 && this.hide()
 	            }, this))
 	        } else if (!this.isShown) {
-	            this.$element.off('keydown.dismiss.bs.modal')
+	            this.$element.off('keydown.dismiss.gtui.modal')
 	        }
 	    }
 
 	    Modal.prototype.resize = function () {
 	        if (this.isShown) {
-	            $(window).on('resize.bs.modal', $.proxy(this.handleUpdate, this))
+	            $(window).on('resize.gtui.modal', $.proxy(this.handleUpdate, this))
 	        } else {
-	            $(window).off('resize.bs.modal')
+	            $(window).off('resize.gtui.modal')
 	        }
 	    }
 
@@ -3098,7 +3098,7 @@
 	            that.$body.removeClass('modal-open')
 	            that.resetAdjustments()
 	            that.resetScrollbar()
-	            that.$element.trigger('hidden.bs.modal')
+	            that.$element.trigger('hidden.gtui.modal')
 	        })
 	    }
 
@@ -3118,7 +3118,7 @@
 	              .addClass('modal-backdrop ' + animate)
 	              .appendTo(this.$body)
 
-	            this.$element.on('click.dismiss.bs.modal', $.proxy(function (e) {
+	            this.$element.on('click.dismiss.gtui.modal', $.proxy(function (e) {
 	                if (this.ignoreBackdropClick) {
 	                    this.ignoreBackdropClick = false
 	                    return
@@ -3217,10 +3217,10 @@
 	    function Plugin(option, _relatedTarget) {
 	        return this.each(function () {
 	            var $this = $(this)
-	            var data = $this.data('bs.modal')
+	            var data = $this.data('gtui.modal')
 	            var options = $.extend({}, Modal.DEFAULTS, $this.data(), typeof option == 'object' && option)
 
-	            if (!data) $this.data('bs.modal', (data = new Modal(this, options)))
+	            if (!data) $this.data('gtui.modal', (data = new Modal(this, options)))
 	            if (typeof option == 'string') data[option](_relatedTarget)
 	            else if (options.show) data.show(_relatedTarget)
 	        })
@@ -3244,17 +3244,17 @@
 	    // MODAL DATA-API
 	    // ==============
 
-	    $(document).on('click.bs.modal.data-api', '[data-toggle="modal"]', function (e) {
+	    $(document).on('click.gtui.modal.data-api', '[data-toggle="modal"]', function (e) {
 	        var $this = $(this)
 	        var href = $this.attr('href')
 	        var $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) // strip for ie7
-	        var option = $target.data('bs.modal') ? 'toggle' : $.extend({ remote: !/#/.test(href) && href }, $target.data(), $this.data())
+	        var option = $target.data('gtui.modal') ? 'toggle' : $.extend({ remote: !/#/.test(href) && href }, $target.data(), $this.data())
 
 	        if ($this.is('a')) e.preventDefault()
 
-	        $target.one('show.bs.modal', function (showEvent) {
+	        $target.one('show.gtui.modal', function (showEvent) {
 	            if (showEvent.isDefaultPrevented()) return // only register focus restorer if modal will actually get shown
-	            $target.one('hidden.bs.modal', function () {
+	            $target.one('hidden.gtui.modal', function () {
 	                $this.is(':visible') && $this.trigger('focus')
 	            })
 	        })
@@ -4985,24 +4985,45 @@
 
 	                    return $parse(attrs[configAttr])();
 	                },
+	                getScope: function (scope, config) {
+	                    return config[constants.CONVERT_AS] ? scope[config[constants.CONVERT_AS]] : scope;
+	                },
 	                getValueByName: function (scope, config, name) {
 	                    return config[constants.CONVERT_AS] ?
 	                        scope[config[constants.CONVERT_AS]][name] :
 	                        scope[name];
 	                },
 	                getFieldValueByName: function (scope, config, name) {
-	                    var targetFiled = name + constants.FIELD;
+	                    var _targetField = name + constants.FIELD,
+	                        _filedValue = config[_targetField];
 
-	                    return config[constants.CONVERT_AS] ?
-	                        scope[config[constants.CONVERT_AS]][config[targetFiled]] :
-	                        scope[config[targetFiled]];
+	                    if (_filedValue.indexOf('[') > 0 || _filedValue.indexOf('.') > 0) {
+	                        _filedValue = _filedValue.replace(/\[/g, '.');
+	                        _filedValue = _filedValue.replace(/\]/g, '');
+	                        _filedValue = _filedValue.replace(/'/g, '');
+	                        _filedValue = _filedValue.replace(/"/g, '');
+	                        var _properties = _filedValue.split('.'),
+	                            _value = config[constants.CONVERT_AS] ?
+	                                scope[config[constants.CONVERT_AS]][_properties[0]] :
+	                                scope[_properties[0]];
+
+	                        for (var i = 1, length = _properties.length; i < length; i++) {
+	                            _value = _value[_properties[i]];
+	                        }
+
+	                        return _value;
+	                    }
+	                    else 
+	                        return config[constants.CONVERT_AS] ?
+	                            scope[config[constants.CONVERT_AS]][_filedValue] :
+	                            scope[_filedValue];
 	                },
 	                getFieldStringByName: function (config, name) {
-	                    var targetFiled = name + constants.FIELD;
+	                    var _targetField = name + constants.FIELD;
 
 	                    return config[constants.CONVERT_AS] ?
-	                        (config[constants.CONVERT_AS] + '.' + config[targetFiled]) :
-	                        config[targetFiled];
+	                        (config[constants.CONVERT_AS] + '.' + config[_targetField]) :
+	                        config[_targetField];
 	                },
 	                getPropertyValueByName: function (scope, config, name) {
 	                    return config[constants.CONVERT_AS] ?
@@ -5374,8 +5395,8 @@
 	                    _modalId = _$utils.uuid(),
 	                    _titleId = _$utils.uuid();
 
-	                _template.push('<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">');
-	                _template.push('  <div class="modal-dialog" role="document">');
+	                _template.push('<div class="modal fade" tabindex="-1" role="dialog">');
+	                _template.push('  <div class="modal-dialog modal-lg" role="document">');
 	                _template.push('    <div class="modal-content">');
 	                _template.push('      <div class="modal-header">');
 	                _template.push('        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
@@ -5425,6 +5446,8 @@
 	                        });
 	                    });
 
+	                    _$utils.getScope(scope, _config).metaModal = element;
+
 	                    var _buttonConfig = _$utils.getFieldValueByName(scope, _config, 'actions'),
 	                        _footer = element.find('.modal-footer');
 	                    for (var i = 0, length = _buttonConfig.length; i < length; i++) {
@@ -5454,6 +5477,10 @@
 
 	                            if (_closeFlag) e.data.modal.modal('hide');
 	                        }
+	                    });
+
+	                    element.on('show.gtui.modal', scope, function (e) {
+	                        e.data.$emit('show.gtui.modal', e);
 	                    });
 	                }
 	            };
@@ -5852,7 +5879,7 @@
 
 	                    $(document).ready(function () {
 	                        element.tab({
-	                            selectedIndex: _$utils.getFieldValueByName(_config, 'selected')
+	                            selectedIndex: _$utils.getFieldValueByName(scope, _config, 'selected')
 	                        });
 	                    })
 

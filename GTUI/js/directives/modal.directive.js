@@ -15,8 +15,8 @@
                     _modalId = _$utils.uuid(),
                     _titleId = _$utils.uuid();
 
-                _template.push('<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">');
-                _template.push('  <div class="modal-dialog" role="document">');
+                _template.push('<div class="modal fade" tabindex="-1" role="dialog">');
+                _template.push('  <div class="modal-dialog modal-lg" role="document">');
                 _template.push('    <div class="modal-content">');
                 _template.push('      <div class="modal-header">');
                 _template.push('        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
@@ -66,6 +66,8 @@
                         });
                     });
 
+                    _$utils.getScope(scope, _config).metaModal = element;
+
                     var _buttonConfig = _$utils.getFieldValueByName(scope, _config, 'actions'),
                         _footer = element.find('.modal-footer');
                     for (var i = 0, length = _buttonConfig.length; i < length; i++) {
@@ -95,6 +97,10 @@
 
                             if (_closeFlag) e.data.modal.modal('hide');
                         }
+                    });
+
+                    element.on('show.gtui.modal', scope, function (e) {
+                        e.data.$emit('show.gtui.modal', e);
                     });
                 }
             };

@@ -45,6 +45,10 @@
                 return true;
             };
 
+            $scope.$on('show.gtui.modal', function (scope, e) {
+                console.log('aaaaaaa');
+            });
+
             return vm;
         };
 

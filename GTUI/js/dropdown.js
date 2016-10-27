@@ -16,7 +16,7 @@
     var backdrop = '.dropdown-backdrop'
     var toggle = '[data-toggle="dropdown"]'
     var Dropdown = function (element) {
-        $(element).on('click.bs.dropdown', this.toggle)
+        $(element).on('click.gtui.dropdown', this.toggle)
     }
 
     Dropdown.VERSION = '3.3.5'
@@ -48,12 +48,12 @@
 
             if (e && e.type == 'click' && /label/i.test(e.target.tagName) && $(e.target).children('input[type=checkbox]').length > 0) return;
 
-            $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
+            $parent.trigger(e = $.Event('hide.gtui.dropdown', relatedTarget))
 
             if (e.isDefaultPrevented()) return
 
             $this.attr('aria-expanded', 'false')
-            $parent.removeClass('open').trigger('hidden.bs.dropdown', relatedTarget)
+            $parent.removeClass('open').trigger('hidden.gtui.dropdown', relatedTarget)
         })
     }
 
@@ -77,7 +77,7 @@
             }
 
             var relatedTarget = { relatedTarget: this }
-            $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
+            $parent.trigger(e = $.Event('show.gtui.dropdown', relatedTarget))
 
             if (e.isDefaultPrevented()) return
 
@@ -87,7 +87,7 @@
 
             $parent
               .toggleClass('open')
-              .trigger('shown.bs.dropdown', relatedTarget)
+              .trigger('shown.gtui.dropdown', relatedTarget)
         }
 
         return false
@@ -132,9 +132,9 @@
     function Plugin(option) {
         return this.each(function () {
             var $this = $(this)
-            var data = $this.data('bs.dropdown')
+            var data = $this.data('gtui.dropdown')
 
-            if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
+            if (!data) $this.data('gtui.dropdown', (data = new Dropdown(this)))
             if (typeof option == 'string') data[option].call($this)
         })
     }
@@ -158,10 +158,10 @@
     // ===================================
 
     $(document)
-      .on('click.bs.dropdown.data-api', clearMenus)
-      .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
-      .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
-      .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
-      .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
+      .on('click.gtui.dropdown.data-api', clearMenus)
+      .on('click.gtui.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
+      .on('click.gtui.dropdown.data-api', toggle, Dropdown.prototype.toggle)
+      .on('keydown.gtui.dropdown.data-api', toggle, Dropdown.prototype.keydown)
+      .on('keydown.gtui.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
 
 }(jQuery);

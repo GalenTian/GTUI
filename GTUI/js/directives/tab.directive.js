@@ -44,7 +44,7 @@
 
                     $(document).ready(function () {
                         element.tab({
-                            selectedIndex: _$utils.getFieldValueByName(_config, 'selected')
+                            selectedIndex: _$utils.getFieldValueByName(scope, _config, 'selected')
                         });
                     })
 
