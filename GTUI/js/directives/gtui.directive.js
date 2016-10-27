@@ -16,4 +16,5 @@ require('./tabpanel.directive.js');
 require('./table.directive.js');
 require('./table.td.directive.js');
 require('./table.th.directive.js');
+require('./treeview.directive.js');
 require('./verticaltile.directive.js');

@@ -92,6 +92,7 @@
     <Content Include="gulpfile.js" />
     <Content Include="index.html" />
     <Content Include="js\accessiblity.tab.js" />
+    <Content Include="js\directives\treeview.directive.js" />
     <Content Include="js\treeview.js" />
     <Content Include="js\datepicker.js" />
     <Content Include="js\directives\checkboxgroup.directive.js" />

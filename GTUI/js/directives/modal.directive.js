@@ -62,7 +62,6 @@
                     $(document).ready(function () {
                         element.modal({
                             backdrop: 'static',
-                            keyboard: 'esc',
                             show: false
                         });
                     });
