@@ -43,7 +43,8 @@
                     type: 'button',
                     'ng-repeat': '__btnItem__ in ' + config.rowField + '[' + config.columnField + '[\'' + config.contentField + '\']] track by $index',
                     'ng-bind': '__btnItem__.displayContent',
-                    'ng-if': config.columnField + '[\'' + config.typeField + '\'].toLowerCase() === \'btn-group\''
+                    'ng-if': config.columnField + '[\'' + config.typeField + '\'].toLowerCase() === \'btn-group\'',
+                    'ng-click': '__btnItem__.click($event, ' + config.rowField + '.$index)'
                 });
 
                 _td.append(_text).append(_link).append(_btnGroup);

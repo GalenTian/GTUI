@@ -142,7 +142,10 @@
 
 			// Search methods
 			search: $.proxy(this.search, this),
-			clearSearch: $.proxy(this.clearSearch, this)
+			clearSearch: $.proxy(this.clearSearch, this),
+
+		    // Extend methods
+			updateData: $.proxy(this.updateDate, this)
 		};
 	};
 
@@ -1211,6 +1214,14 @@
 		if (window.console) {
 			window.console.error(message);
 		}
+	};
+
+    /**
+
+    */
+	Tree.prototype.updateDate = function (data) {
+	    this.options.data = data;
+	    this.init(this.options);
 	};
 
 	// Prevent against multiple instantiations,

@@ -1,4 +1,4 @@
-/* Packaged at 18:43 Oct 27, 2016. Version: None */
+/* Packaged at 17:37 Oct 28, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -3748,7 +3748,10 @@
 
 				// Search methods
 				search: $.proxy(this.search, this),
-				clearSearch: $.proxy(this.clearSearch, this)
+				clearSearch: $.proxy(this.clearSearch, this),
+
+			    // Extend methods
+				updateData: $.proxy(this.updateDate, this)
 			};
 		};
 
@@ -4819,6 +4822,14 @@
 			}
 		};
 
+	    /**
+
+	    */
+		Tree.prototype.updateDate = function (data) {
+		    this.options.data = data;
+		    this.init(this.options);
+		};
+
 		// Prevent against multiple instantiations,
 		// handle updates and method calls
 		$.fn[pluginName] = function (options, args) {
@@ -5002,6 +5013,7 @@
 	                        _filedValue = _filedValue.replace(/\]/g, '');
 	                        _filedValue = _filedValue.replace(/'/g, '');
 	                        _filedValue = _filedValue.replace(/"/g, '');
+
 	                        var _properties = _filedValue.split('.'),
 	                            _value = config[constants.CONVERT_AS] ?
 	                                scope[config[constants.CONVERT_AS]][_properties[0]] :
@@ -5396,7 +5408,7 @@
 	                    _titleId = _$utils.uuid();
 
 	                _template.push('<div class="modal fade" tabindex="-1" role="dialog">');
-	                _template.push('  <div class="modal-dialog modal-lg" role="document">');
+	                _template.push('  <div class="modal-dialog" role="document">');
 	                _template.push('    <div class="modal-content">');
 	                _template.push('      <div class="modal-header">');
 	                _template.push('        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
@@ -5414,6 +5426,9 @@
 
 	                _temp$.find('.modal-title').attr('id', _titleId).html(el.children('.modal-title').html());
 	                _temp$.find('.modal-body').html(el.children('.modal-body').html());
+
+	                if (config.type === 'confirm') _temp$.find('.modal-dialog').addClass('modal-sm');
+	                else _temp$.find('.modal-dialog').addClass('modal-lg');
 
 	                return _temp$.prop('outerHTML');
 	            };
@@ -5446,7 +5461,7 @@
 	                        });
 	                    });
 
-	                    _$utils.getScope(scope, _config).metaModal = element;
+	                    _$utils.getScope(scope, _config)[_config.metaName] = element;
 
 	                    var _buttonConfig = _$utils.getFieldValueByName(scope, _config, 'actions'),
 	                        _footer = element.find('.modal-footer');
@@ -6120,7 +6135,8 @@
 	                    type: 'button',
 	                    'ng-repeat': '__btnItem__ in ' + config.rowField + '[' + config.columnField + '[\'' + config.contentField + '\']] track by $index',
 	                    'ng-bind': '__btnItem__.displayContent',
-	                    'ng-if': config.columnField + '[\'' + config.typeField + '\'].toLowerCase() === \'btn-group\''
+	                    'ng-if': config.columnField + '[\'' + config.typeField + '\'].toLowerCase() === \'btn-group\'',
+	                    'ng-click': '__btnItem__.click($event, ' + config.rowField + '.$index)'
 	                });
 
 	                _td.append(_text).append(_link).append(_btnGroup);

@@ -16,7 +16,7 @@
                     _titleId = _$utils.uuid();
 
                 _template.push('<div class="modal fade" tabindex="-1" role="dialog">');
-                _template.push('  <div class="modal-dialog modal-lg" role="document">');
+                _template.push('  <div class="modal-dialog" role="document">');
                 _template.push('    <div class="modal-content">');
                 _template.push('      <div class="modal-header">');
                 _template.push('        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
@@ -34,6 +34,9 @@
 
                 _temp$.find('.modal-title').attr('id', _titleId).html(el.children('.modal-title').html());
                 _temp$.find('.modal-body').html(el.children('.modal-body').html());
+
+                if (config.type === 'confirm') _temp$.find('.modal-dialog').addClass('modal-sm');
+                else _temp$.find('.modal-dialog').addClass('modal-lg');
 
                 return _temp$.prop('outerHTML');
             };
@@ -66,7 +69,7 @@
                         });
                     });
 
-                    _$utils.getScope(scope, _config).metaModal = element;
+                    _$utils.getScope(scope, _config)[_config.metaName] = element;
 
                     var _buttonConfig = _$utils.getFieldValueByName(scope, _config, 'actions'),
                         _footer = element.find('.modal-footer');
