@@ -25,7 +25,8 @@
                 var _th = $(TH_HTML).attr({
                     'ng-repeat': COLUMN_FIELD + ' in ' + _$utils.getFieldStringByName(config, 'columns'),
                     'ng-show': COLUMN_FIELD + '.' + config.visibleField,
-                    'ng-class': '{ \'' + SORTABLE_CLASS  + '\': ' + COLUMN_FIELD + '.' + config.sortableField + ' }'
+                    'ng-class': '{ \'' + SORTABLE_CLASS + '\': ' + COLUMN_FIELD + '.' + config.sortableField + ' }',
+                    'ng-style': COLUMN_FIELD + '.' + config.styleField
                 });
 
                 var _spanContent = $(SPAN_HTML).attr({

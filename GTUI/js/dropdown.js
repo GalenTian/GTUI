@@ -48,6 +48,8 @@
 
             if (e && e.type == 'click' && /label/i.test(e.target.tagName) && $(e.target).children('input[type=checkbox]').length > 0) return;
 
+            if (e && e.type == 'click' && $(e.target).closest('.ztree').length > 0) return;
+
             $parent.trigger(e = $.Event('hide.gtui.dropdown', relatedTarget))
 
             if (e.isDefaultPrevented()) return

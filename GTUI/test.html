@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+</head>
+<body id="ng-app" ng-app="">
+    <div>
+        <p>名字 : <input type="text" ng-model="name"></p>
+        <h1>Hello {{name}}</h1>
+    </div>
+
+    <script type="text/javascript" src="examples/lib/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="examples/lib/jquery-ui/jquery-ui-1.8.23.min.js"></script>
+    <script type="text/javascript" src="examples/lib/angular-1.28.js"></script>
+    <script type="text/javascript">
+        function TestCrol() {
+            var vm = this;
+
+            vm.test = 'test';
+
+            return vm;
+        };
+
+        angular.module('GTUIComponent', [])
+            .controller('testCtrol', TestCrol);
+    </script>
+</body>
+</html>

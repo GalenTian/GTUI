@@ -27,11 +27,12 @@
             var _getTemplate = function (el, config) {
                 // Template outer element
                 var _td = $(TD_HTML).attr({
-                    'ng-show': config.columnField + '[\'' + config.visibleField + '\']',
+                    'ng-show': config.columnField + '[\'' + config.visibleField + '\']'
                 });
                 
                 var _text = $(SPAN_HTML).attr({
-                    'ng-bind': config.rowField + '[' + config.columnField + '[\'' + config.contentField + '\']]',
+                    'ng-bind': config.rowField + '[' + config.columnField + '[\'' + config.contentField + '\']]' +
+                        (config.filter ? ' ' + config.filter : ''),
                     'ng-if': config.columnField + '[\'' + config.typeField + '\'].toLowerCase() === \'text\''
                 });
                 var _link = $(LINK_HTML).attr({

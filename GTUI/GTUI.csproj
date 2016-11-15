@@ -73,6 +73,12 @@
     <Content Include="examples\biem\investment_sub.html" />
     <Content Include="examples\biem\cost.html" />
     <Content Include="examples\biem\investment.html" />
+    <Content Include="examples\lib\angular-1.2.20.js" />
+    <Content Include="examples\lib\echarts-all.js" />
+    <Content Include="examples\lib\jquery-1.7.1.js" />
+    <Content Include="examples\lib\jquery-ui\jquery-ui-1.8.23.css" />
+    <Content Include="examples\lib\jquery-ui\jquery-ui-1.8.23.min.js" />
+    <Content Include="examples\ztree.html" />
     <Content Include="examples\grid.html" />
     <Content Include="examples\charts.html" />
     <Content Include="examples\forms.html" />
@@ -82,6 +88,38 @@
     <Content Include="examples\lib\jquery-1.9.0.js" />
     <Content Include="examples\lib\jquery-ui-1.9.2.js" />
     <Content Include="examples\lib\theme\macarons.js" />
+    <Content Include="examples\lib\ztree\css\awesomeStyle\awesome.css" />
+    <Content Include="examples\lib\ztree\css\awesomeStyle\img\loading.gif" />
+    <Content Include="examples\lib\ztree\css\metroStyle\img\line_conn.png" />
+    <Content Include="examples\lib\ztree\css\metroStyle\img\loading.gif" />
+    <Content Include="examples\lib\ztree\css\metroStyle\img\metro.gif" />
+    <Content Include="examples\lib\ztree\css\metroStyle\img\metro.png" />
+    <Content Include="examples\lib\ztree\css\metroStyle\metroStyle.css" />
+    <Content Include="examples\lib\ztree\css\zTreeStyle\img\diy\1_close.png" />
+    <Content Include="examples\lib\ztree\css\zTreeStyle\img\diy\1_open.png" />
+    <Content Include="examples\lib\ztree\css\zTreeStyle\img\diy\2.png" />
+    <Content Include="examples\lib\ztree\css\zTreeStyle\img\diy\3.png" />
+    <Content Include="examples\lib\ztree\css\zTreeStyle\img\diy\4.png" />
+    <Content Include="examples\lib\ztree\css\zTreeStyle\img\diy\5.png" />
+    <Content Include="examples\lib\ztree\css\zTreeStyle\img\diy\6.png" />
+    <Content Include="examples\lib\ztree\css\zTreeStyle\img\diy\7.png" />
+    <Content Include="examples\lib\ztree\css\zTreeStyle\img\diy\8.png" />
+    <Content Include="examples\lib\ztree\css\zTreeStyle\img\diy\9.png" />
+    <Content Include="examples\lib\ztree\css\zTreeStyle\img\line_conn.gif" />
+    <Content Include="examples\lib\ztree\css\zTreeStyle\img\loading.gif" />
+    <Content Include="examples\lib\ztree\css\zTreeStyle\img\zTreeStandard.gif" />
+    <Content Include="examples\lib\ztree\css\zTreeStyle\img\zTreeStandard.png" />
+    <Content Include="examples\lib\ztree\css\zTreeStyle\zTreeStyle.css" />
+    <Content Include="examples\lib\ztree\js\jquery.ztree.all.js" />
+    <Content Include="examples\lib\ztree\js\jquery.ztree.all.min.js" />
+    <Content Include="examples\lib\ztree\js\jquery.ztree.core.js" />
+    <Content Include="examples\lib\ztree\js\jquery.ztree.core.min.js" />
+    <Content Include="examples\lib\ztree\js\jquery.ztree.excheck.js" />
+    <Content Include="examples\lib\ztree\js\jquery.ztree.excheck.min.js" />
+    <Content Include="examples\lib\ztree\js\jquery.ztree.exedit.js" />
+    <Content Include="examples\lib\ztree\js\jquery.ztree.exedit.min.js" />
+    <Content Include="examples\lib\ztree\js\jquery.ztree.exhide.js" />
+    <Content Include="examples\lib\ztree\js\jquery.ztree.exhide.min.js" />
     <Content Include="examples\treeview.html" />
     <Content Include="examples\modals.html" />
     <Content Include="examples\panels.html" />
@@ -92,8 +130,6 @@
     <Content Include="gulpfile.js" />
     <Content Include="index.html" />
     <Content Include="js\accessiblity.tab.js" />
-    <Content Include="js\directives\treeview.directive.js" />
-    <Content Include="js\treeview.js" />
     <Content Include="js\datepicker.js" />
     <Content Include="js\directives\checkboxgroup.directive.js" />
     <Content Include="js\directives\datepicker.directive.js" />
@@ -127,8 +163,10 @@
     <Content Include="js\tab.js" />
     <Content Include="js\table.js" />
     <Content Include="js\transition.js" />
+    <Content Include="js\url.js" />
     <Content Include="js\verticaltile.js" />
-    <None Include="less\sources\treeview.less" />
+    <Content Include="examples\lib\ztree\css\awesomeStyle\awesome.less" />
+    <Content Include="examples\lib\ztree\css\awesomeStyle\fa.less" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
@@ -220,6 +258,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="test.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

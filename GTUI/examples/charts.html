@@ -16,7 +16,7 @@
     <script src="lib/jquery-ui-1.9.2.js"></script>
     <script src="lib/angular-1.28.js"></script>
     <script src="lib/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-    <script src="lib/echarts.js"></script>
+    <script src="lib/echarts-all.js"></script>
     <script src="lib/theme/macarons.js"></script>
     <script src="../dist/js/gtui.js"></script>
     <script>
@@ -137,7 +137,6 @@
             vm.scatterOption = {
                 title: {
                     text: '延误统计',
-                    subtext: 'This is a demo',
                     x: 'center'
                 },
                 tooltip: {
@@ -145,8 +144,9 @@
                     formatter: "{a} <br/>{b} : {c} ({d}%)"
                 },
                 legend: {
-                    orient: 'vertical',
-                    left: 'left',
+                    orient: 'horizontal',
+                    x: 'center',
+                    y: 'bottom',
                     data: ['立项', 'BM单', '商务', '实施', '验收', '记账']
                 },
                 series: [

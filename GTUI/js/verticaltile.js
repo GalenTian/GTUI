@@ -20,7 +20,8 @@
 
             var _top = _el.position().top,
                 _docHeight = document.documentElement.clientHeight,
-                _offsetBottom = Math.max(document.body.clientHeight, $('html').outerHeight()) - _top - _el.height();
+                _offsetBottom = (gtui.utils.Browser.msie == 8 ? document.body.clientHeight :
+                    Math.max(document.body.clientHeight, $('html').outerHeight())) - _top - _el.height();
 
             if (_top >= _docHeight - _offsetBottom) { }
             else {

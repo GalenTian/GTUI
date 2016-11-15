@@ -1,7 +1,7 @@
 ﻿(function ($) {
     var _gtui = {};
 
-    var getClosestEementByNodeName = function (element, nodeName) {
+    var _getClosestEementByNodeName = function (element, nodeName) {
         if (!(element instanceof jQuery)) {
             element = $(element);
         }
@@ -13,10 +13,38 @@
             return element.closest(nodeName);
         }
     };
+    var _browser = {};
+    (function () {
+        var ua = navigator.userAgent.toLowerCase();
+        if (ua.indexOf(' edge') > 0) {
+            _browser.edge = ua.match(/edge\/([\d.]+)/)[1];
+        }
+        else if (ua.indexOf(' msie') > 0) {
+            _browser.msie = ua.match(/msie ([\d.]+)/)[1];
+        }
+        else if (window.MSStream) { // IE 10+
+            _browser.msie = ua.match(/rv\:([\d.]+)/)[1];
+        }
+        else if (ua.indexOf(' firefox') > 0) {
+            _browser.firefox = ua.match(/firefox\/([\d.]+)/)[1];
+        }
+        else if (ua.indexOf(' opr') > 0) {
+            _browser.opera = ua.match(/opr\/([\d.]+)/)[1];
+        }
+        else if (ua.indexOf(' chrome') > 0) {
+            _browser.chrome = ua.match(/chrome\/([\d.]+)/)[1];
+        }
+        else if (ua.indexOf(' safari') > 0) {
+            _browser.safari = ua.match(/version\/([\d.]+)/)[1];
+        }
+        else {
+            _browser.unknown = 'unknown';
+        }
+    })();
 
     $.extend(_gtui, {
         utils: {
-            getClosestEementByNodeName: getClosestEementByNodeName,
+            getClosestEementByNodeName: _getClosestEementByNodeName,
             KeyCode: {
                 BACKSPACE: 8,
                 TAB: 9,
@@ -104,7 +132,8 @@
                 TURN_BEVEL: 220,
                 RIGHT_BRACKETS: 221,
                 UP_COMMA: 222
-            }
+            },
+            Browser: _browser
         }
     });
 

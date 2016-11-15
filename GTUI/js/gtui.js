@@ -5,6 +5,7 @@ require('./core.js');
 require('./mousewheel.js');
 
 // Widget Base
+require('./url.js');
 require('./accessiblity.tab.js');
 require('./transition.js');
 
@@ -14,7 +15,6 @@ require('./dropdown.js');
 require('./modal.js');
 require('./tab.js');
 require('./table.js');
-require('./treeview.js');
 require('./verticaltile.js');
 
 // Angular
