@@ -1,4 +1,4 @@
-/* Packaged at 19:7 Nov 24, 2016. Version: None */
+/* Packaged at 12:38 Nov 25, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -4193,7 +4193,9 @@
 
 	                    if (element[0].nodeName === 'INPUT') {
 	                        scope.$watch(_$utils.getFieldStringByName(_config, 'date'), function (nVal, oVal, scope) {
-	                            element.datepicker('update', nVal);
+	                            if (nVal !== oVal) {
+	                                element.datepicker('update', nVal);
+	                            }
 	                        });
 
 	                        element
@@ -4204,10 +4206,14 @@
 	                    }
 	                    else {
 	                        scope.$watch(_$utils.getFieldStringByName(_config, 'start'), function (nVal, oVal, scope) {
-	                            element.children('input:first').datepicker('update', nVal);
+	                            if (nVal !== oVal) {
+	                                element.children('input:first').datepicker('update', nVal);
+	                            }
 	                        });
 	                        scope.$watch(_$utils.getFieldStringByName(_config, 'end'), function (nVal, oVal, scope) {
-	                            element.children('input:last').datepicker('update', nVal);
+	                            if (nVal !== oVal) {
+	                                element.children('input:last').datepicker('update', nVal);
+	                            }
 	                        });
 	                    }
 	                }
