@@ -1,5 +1,5 @@
 ﻿(function ($) {
-    if (window.angular && window.echarts) {
+    if (window.angular) {
         var gta = angular.module('gtui');
 
         gta.directive('gtuiDatepicker', function (_$utils, _$echart) {
@@ -21,7 +21,9 @@
                 return _outerDiv[0].outerHTML;
             };
             var _getDefaultTemplate = function (config) {
-                _getRangeTemplate();
+                var _input = $(INPUT).attr({ type: 'text', 'ng-module': _$utils.getFieldStringByName(config, 'date') }).addClass('form-control');
+
+                return _input[0].outerHTML;
             };
 
             return {
@@ -48,6 +50,26 @@
                             todayHighlight: true
                         });
                     });
+
+                    if (element[0].nodeName === 'INPUT') {
+                        scope.$watch(_$utils.getFieldStringByName(_config, 'date'), function (nVal, oVal, scope) {
+                            element.datepicker('update', nVal);
+                        });
+
+                        element
+                            .off('changeDate')
+                            .on('changeDate', { scope: scope, config: _config, element: element }, function (e) {
+                                _$utils.setPropertyValueByName(e.data.scope, e.data.config, 'dateField', e.data.element.val());
+                            });
+                    }
+                    else {
+                        scope.$watch(_$utils.getFieldStringByName(_config, 'start'), function (nVal, oVal, scope) {
+                            element.children('input:first').datepicker('update', nVal);
+                        });
+                        scope.$watch(_$utils.getFieldStringByName(_config, 'end'), function (nVal, oVal, scope) {
+                            element.children('input:last').datepicker('update', nVal);
+                        });
+                    }
                 }
             };
         });

@@ -1,4 +1,4 @@
-/* Packaged at 15:49 Nov 12, 2016. Version: None */
+/* Packaged at 19:7 Nov 24, 2016. Version: None */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 html {
   font-family: sans-serif;
@@ -3605,10 +3605,11 @@ tbody.collapse.in {
 .datepicker.datepicker-rtl table tr td span {
   float: right;
 }
-.datepicker-dropdown {
+.datepicker-dropdown.dropdown-menu {
   top: 0;
   left: 0;
   padding: 4px;
+  max-height: none;
 }
 .datepicker-dropdown:before {
   content: '';
@@ -4771,7 +4772,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   max-width: none;
 }
 .nav-tabs {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #1daafa;
+  background: #b0dff0;
 }
 .nav-tabs > li {
   float: left;
@@ -4784,14 +4786,15 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-radius: 4px 4px 0 0;
 }
 .nav-tabs > li > a:hover {
-  border-color: #eeeeee #eeeeee #ddd;
+  border-color: #eeeeee #eeeeee #1daafa;
+  background: #1daafa;
 }
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
   color: #555555;
   background-color: #fff;
-  border: 1px solid #ddd;
+  border: 1px solid #1daafa;
   border-bottom-color: transparent;
   cursor: default;
 }
@@ -4826,17 +4829,17 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-tabs.nav-justified > .active > a,
 .nav-tabs.nav-justified > .active > a:hover,
 .nav-tabs.nav-justified > .active > a:focus {
-  border: 1px solid #ddd;
+  border: 1px solid #1daafa;
 }
 @media (min-width: 768px) {
   .nav-tabs.nav-justified > li > a {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #1daafa;
     border-radius: 4px 4px 0 0;
   }
   .nav-tabs.nav-justified > .active > a,
   .nav-tabs.nav-justified > .active > a:hover,
   .nav-tabs.nav-justified > .active > a:focus {
-    border-bottom-color: #fff;
+    border-bottom-color: #b0dff0;
   }
 }
 .nav-pills > li {
@@ -4894,17 +4897,17 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-tabs-justified > .active > a,
 .nav-tabs-justified > .active > a:hover,
 .nav-tabs-justified > .active > a:focus {
-  border: 1px solid #ddd;
+  border: 1px solid #1daafa;
 }
 @media (min-width: 768px) {
   .nav-tabs-justified > li > a {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #1daafa;
     border-radius: 4px 4px 0 0;
   }
   .nav-tabs-justified > .active > a,
   .nav-tabs-justified > .active > a:hover,
   .nav-tabs-justified > .active > a:focus {
-    border-bottom-color: #fff;
+    border-bottom-color: #b0dff0;
   }
 }
 .tab-content > .tab-pane {
@@ -6820,7 +6823,7 @@ button.close {
   padding: 7px 10px;
   border-width: 0 1px 1px;
   border-style: solid;
-  border-color: #ddd;
+  border-color: #1daafa;
 }
 .modal-open {
   overflow: hidden;

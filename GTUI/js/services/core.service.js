@@ -94,10 +94,32 @@
                 },
 
                 setPropertyValueByName: function (scope, config, name, value) {
+                    var _scope;
                     if (config[constants.CONVERT_AS])
-                        scope[config[constants.CONVERT_AS]][config[name]] = value;
+                        _scope = scope[config[constants.CONVERT_AS]]
                     else
-                        scope[config[name]] = value;
+                        _scope = scope[config[name]];
+
+                    var _filedValue = config[name];
+                    if (_filedValue.indexOf('[') > 0 || _filedValue.indexOf('.') > 0) {
+                        _filedValue = _filedValue.replace(/\[/g, '.');
+                        _filedValue = _filedValue.replace(/\]/g, '');
+                        _filedValue = _filedValue.replace(/'/g, '');
+                        _filedValue = _filedValue.replace(/"/g, '');
+
+                        var _properties = _filedValue.split('.'),
+                            _value = _scope[_properties[0]];
+
+                        for (var i = 1, length = _properties.length; i < length; i++) {
+                            if (i < length - 1)
+                                _value = _value[_properties[i]];
+                            else {
+                                _value[_properties[i]] = value
+                            }
+                        }
+                    }
+                    else
+                        _scope[_filedValue] = value;
                 },
 
                 uuid: function () {

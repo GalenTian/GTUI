@@ -73,6 +73,7 @@
     <Content Include="examples\biem\investment_sub.html" />
     <Content Include="examples\biem\cost.html" />
     <Content Include="examples\biem\investment.html" />
+    <Content Include="examples\formgrid.html" />
     <Content Include="examples\lib\angular-1.2.20.js" />
     <Content Include="examples\lib\echarts-all.js" />
     <Content Include="examples\lib\jquery-1.7.1.js" />
@@ -131,6 +132,7 @@
     <Content Include="index.html" />
     <Content Include="js\accessiblity.tab.js" />
     <Content Include="js\datepicker.js" />
+    <Content Include="js\directives\formgrid.directive.js" />
     <Content Include="js\directives\checkboxgroup.directive.js" />
     <Content Include="js\directives\datepicker.directive.js" />
     <Content Include="js\directives\grid.directive.js" />

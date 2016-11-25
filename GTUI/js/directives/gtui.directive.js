@@ -4,6 +4,7 @@ require('./core.directive.js');
 // Directives
 require('./datepicker.directive.js');
 require('./echart.directive.js');
+require('./formgrid.directive.js');
 require('./grid.directive.js');
 require('./input.directive.js');
 require('./inputgroup.directive.js');

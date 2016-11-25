@@ -1,5 +1,5 @@
 ﻿(function ($) {
-    if (window.angular && window.echarts) {
+    if (window.angular) {
         var gta = angular.module('gtui');
 
         gta.directive('gtuiInputGroup', function (_$utils, _$echart) {

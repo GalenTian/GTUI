@@ -1,4 +1,4 @@
-/* Packaged at 15:49 Nov 12, 2016. Version: None */
+/* Packaged at 19:7 Nov 24, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -4003,10 +4003,32 @@
 	                },
 
 	                setPropertyValueByName: function (scope, config, name, value) {
+	                    var _scope;
 	                    if (config[constants.CONVERT_AS])
-	                        scope[config[constants.CONVERT_AS]][config[name]] = value;
+	                        _scope = scope[config[constants.CONVERT_AS]]
 	                    else
-	                        scope[config[name]] = value;
+	                        _scope = scope[config[name]];
+
+	                    var _filedValue = config[name];
+	                    if (_filedValue.indexOf('[') > 0 || _filedValue.indexOf('.') > 0) {
+	                        _filedValue = _filedValue.replace(/\[/g, '.');
+	                        _filedValue = _filedValue.replace(/\]/g, '');
+	                        _filedValue = _filedValue.replace(/'/g, '');
+	                        _filedValue = _filedValue.replace(/"/g, '');
+
+	                        var _properties = _filedValue.split('.'),
+	                            _value = _scope[_properties[0]];
+
+	                        for (var i = 1, length = _properties.length; i < length; i++) {
+	                            if (i < length - 1)
+	                                _value = _value[_properties[i]];
+	                            else {
+	                                _value[_properties[i]] = value
+	                            }
+	                        }
+	                    }
+	                    else
+	                        _scope[_filedValue] = value;
 	                },
 
 	                uuid: function () {
@@ -4098,6 +4120,7 @@
 	__webpack_require__(32);
 	__webpack_require__(33);
 	__webpack_require__(34);
+	__webpack_require__(35);
 
 /***/ },
 /* 19 */
@@ -4116,7 +4139,7 @@
 /***/ function(module, exports) {
 
 	(function ($) {
-	    if (window.angular && window.echarts) {
+	    if (window.angular) {
 	        var gta = angular.module('gtui');
 
 	        gta.directive('gtuiDatepicker', function (_$utils, _$echart) {
@@ -4138,7 +4161,9 @@
 	                return _outerDiv[0].outerHTML;
 	            };
 	            var _getDefaultTemplate = function (config) {
-	                _getRangeTemplate();
+	                var _input = $(INPUT).attr({ type: 'text', 'ng-module': _$utils.getFieldStringByName(config, 'date') }).addClass('form-control');
+
+	                return _input[0].outerHTML;
 	            };
 
 	            return {
@@ -4165,6 +4190,26 @@
 	                            todayHighlight: true
 	                        });
 	                    });
+
+	                    if (element[0].nodeName === 'INPUT') {
+	                        scope.$watch(_$utils.getFieldStringByName(_config, 'date'), function (nVal, oVal, scope) {
+	                            element.datepicker('update', nVal);
+	                        });
+
+	                        element
+	                            .off('changeDate')
+	                            .on('changeDate', { scope: scope, config: _config, element: element }, function (e) {
+	                                _$utils.setPropertyValueByName(e.data.scope, e.data.config, 'dateField', e.data.element.val());
+	                            });
+	                    }
+	                    else {
+	                        scope.$watch(_$utils.getFieldStringByName(_config, 'start'), function (nVal, oVal, scope) {
+	                            element.children('input:first').datepicker('update', nVal);
+	                        });
+	                        scope.$watch(_$utils.getFieldStringByName(_config, 'end'), function (nVal, oVal, scope) {
+	                            element.children('input:last').datepicker('update', nVal);
+	                        });
+	                    }
 	                }
 	            };
 	        });
@@ -4235,7 +4280,76 @@
 /***/ function(module, exports) {
 
 	(function ($) {
-	    if (window.angular && window.echarts) {
+	    if (window.angular) {
+	        var gta = angular.module('gtui');
+
+	        gta.directive('gtuiFormGrid', function (_$utils, _$echart) {
+	            var DIV = '<div></div>',
+	                COL_CETNER_FIRST_CLASS = 'col-lg-offset-2',
+	                COL_CETNER_CLASS = 'col-lg-4 col-md-6',
+	                COL_BASE_CLASS = 'col-sm-6';
+
+	            var _getTemplate = function (config, el) {
+	                var _outerDiv = $(DIV).addClass('form-horizontal');;
+
+	                var _groups$ = el.children('[gtui-form-group], gtui-form-group, .gtui-form-group'),
+	                    _row$;
+
+	                for (var i = 0, length = _groups$.length; i < length; i++) {
+	                    if (i > 0) _outerDiv.append('<hr />');
+
+	                    var _group$ = $(_groups$[i]),
+	                        _items$ = _group$.children('[gtui-form-item], gtui-form-item, .gtui-form-item');
+
+	                    _row$ = $(DIV).addClass('row');
+
+	                    for (var j = 0, length = _items$.length; j < length; j++) {
+	                        var _col$ = $(DIV).addClass(COL_BASE_CLASS);
+	                        if (config.display.toLowerCase() === 'center') {
+	                            _col$.addClass(COL_CETNER_CLASS);
+	                            if (j % 2 === 0) _col$.addClass(COL_CETNER_FIRST_CLASS);
+	                        }
+
+	                        _row$.append(_col$.append(_items$[j].innerHTML));
+
+	                        if (j % 2 === 1) {
+	                            _outerDiv.append(_row$);
+	                            _row$ = $(DIV).addClass('row');
+	                        }
+	                    }
+
+	                    _outerDiv.append(_row$);
+	                }
+
+	                return _outerDiv[0].outerHTML;
+	            };
+
+	            return {
+	                restrict: 'EA',
+	                template: function (element, attrs) {
+	                    var _config = _$utils.getConfig(attrs);
+
+	                    if (!_config) throw('gtui-form-grid: data-config is undefined.');
+
+	                    return _getTemplate(_config, element);
+	                },
+	                replace: true,
+	                link: function link(scope, element, attrs) {
+	                    var _config = _$utils.getConfig(attrs);
+
+
+	                }
+	            };
+	        });
+	    }
+	})(jQuery);
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+	(function ($) {
+	    if (window.angular) {
 	        var gta = angular.module('gtui'),
 	            
 	            DIV = '<div></div>',
@@ -4272,11 +4386,11 @@
 	})(jQuery);
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports) {
 
 	(function ($) {
-	    if (window.angular && window.echarts) {
+	    if (window.angular) {
 	        var gta = angular.module('gtui');
 
 	        gta.directive('gtuiInput', function (_$utils, _$echart) {
@@ -4309,11 +4423,11 @@
 	})(jQuery);
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports) {
 
 	(function ($) {
-	    if (window.angular && window.echarts) {
+	    if (window.angular) {
 	        var gta = angular.module('gtui');
 
 	        gta.directive('gtuiInputGroup', function (_$utils, _$echart) {
@@ -4353,7 +4467,7 @@
 	})(jQuery);
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4470,7 +4584,7 @@
 	})(jQuery);
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4677,7 +4791,7 @@
 	})(jQuery);
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4770,11 +4884,11 @@
 	})(jQuery);
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports) {
 
 	(function ($) {
-	    if (window.angular && window.echarts) {
+	    if (window.angular) {
 	        var gta = angular.module('gtui');
 
 	        gta.directive('gtuiSelect', function (_$utils, _$echart) {
@@ -4811,7 +4925,7 @@
 	})(jQuery);
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4875,7 +4989,7 @@
 	})(jQuery);
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4895,7 +5009,7 @@
 	})(jQuery);
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -5053,7 +5167,7 @@
 	})(jQuery);
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -5132,7 +5246,7 @@
 	})(jQuery);
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -5202,7 +5316,7 @@
 	})(jQuery);
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports) {
 
 	(function ($) {
