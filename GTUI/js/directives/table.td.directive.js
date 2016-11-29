@@ -8,7 +8,7 @@
                 LINK_HTML = '<a></a>',
                 BUTTON_HTML = '<button></button>',
                 
-                BUTTON_CLASS = 'btn btn-default btn-xs';
+                BUTTON_CLASS = 'btn btn-default btn-sm';
 
             var defaultConfig = function () {
                 return {

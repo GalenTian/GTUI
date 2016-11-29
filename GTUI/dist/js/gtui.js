@@ -1,4 +1,4 @@
-/* Packaged at 12:38 Nov 25, 2016. Version: None */
+/* Packaged at 11:35 Nov 29, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -4301,7 +4301,7 @@
 	                var _groups$ = el.children('[gtui-form-group], gtui-form-group, .gtui-form-group'),
 	                    _row$;
 
-	                for (var i = 0, length = _groups$.length; i < length; i++) {
+	                for (var i = 0, groupLength = _groups$.length; i < groupLength; i++) {
 	                    if (i > 0) _outerDiv.append('<hr />');
 
 	                    var _group$ = $(_groups$[i]),
@@ -4309,7 +4309,7 @@
 
 	                    _row$ = $(DIV).addClass('row');
 
-	                    for (var j = 0, length = _items$.length; j < length; j++) {
+	                    for (var j = 0, itemsLength = _items$.length; j < itemsLength; j++) {
 	                        var _col$ = $(DIV).addClass(COL_BASE_CLASS);
 	                        if (config.display.toLowerCase() === 'center') {
 	                            _col$.addClass(COL_CETNER_CLASS);
@@ -5186,7 +5186,7 @@
 	                LINK_HTML = '<a></a>',
 	                BUTTON_HTML = '<button></button>',
 	                
-	                BUTTON_CLASS = 'btn btn-default btn-xs';
+	                BUTTON_CLASS = 'btn btn-default btn-sm';
 
 	            var defaultConfig = function () {
 	                return {
