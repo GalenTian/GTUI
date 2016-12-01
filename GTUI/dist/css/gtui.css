@@ -1,4 +1,4 @@
-/* Packaged at 11:35 Nov 29, 2016. Version: None */
+/* Packaged at 14:29 Dec 1, 2016. Version: None */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 html {
   font-family: sans-serif;
@@ -2285,15 +2285,15 @@ th {
 .table .table {
   background-color: #fff;
 }
-.table button + button {
-  margin-left: 7px;
+.table button {
+  margin-right: 3px;
 }
 .table-fixed {
   table-layout: fixed;
 }
 .table-fixed th,
 .table-fixed td {
-  word-break: break-all;
+  word-break: break-word;
 }
 .table-condensed > thead > tr > th,
 .table-condensed > tbody > tr > th,
@@ -6925,7 +6925,7 @@ button.close {
 }
 .modal-footer {
   padding: 7px 10px;
-  text-align: right;
+  text-align: center;
 }
 .modal-footer .btn + .btn {
   margin-left: 5px;

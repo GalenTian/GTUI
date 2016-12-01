@@ -74,7 +74,7 @@
                     var _buttonConfig = _$utils.getFieldValueByName(scope, _config, 'actions'),
                         _footer = element.find('.modal-footer');
                     for (var i = 0, length = _buttonConfig.length; i < length; i++) {
-                        var _button = $(_BUTTON_HTML).addClass('btn btn-sm').attr('type', 'button').html(_buttonConfig[i].content);
+                        var _button = $(_BUTTON_HTML).addClass('btn').attr('type', 'button').html(_buttonConfig[i].content);
 
                         if (_buttonConfig[i].type === 'close') _button.attr('data-dismiss', 'modal');
                         if (_buttonConfig[i].type === 'primary') _button.addClass('btn-primary');

@@ -40,7 +40,10 @@
                     _outerDiv.append(_row$);
                 }
 
-                return _outerDiv[0].outerHTML;
+                var _offsetDiv = $(DIV).addClass('form-horizontal');
+                _offsetDiv.append($(DIV).addClass('row').append($(DIV).addClass('col-sm-11').append(_outerDiv)));
+
+                return _offsetDiv[0].outerHTML;
             };
 
             return {

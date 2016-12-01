@@ -1,4 +1,4 @@
-/* Packaged at 11:35 Nov 29, 2016. Version: None */
+/* Packaged at 14:29 Dec 1, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -4327,7 +4327,10 @@
 	                    _outerDiv.append(_row$);
 	                }
 
-	                return _outerDiv[0].outerHTML;
+	                var _offsetDiv = $(DIV).addClass('form-horizontal');
+	                _offsetDiv.append($(DIV).addClass('row').append($(DIV).addClass('col-sm-11').append(_outerDiv)));
+
+	                return _offsetDiv[0].outerHTML;
 	            };
 
 	            return {
@@ -4552,7 +4555,7 @@
 	                    var _buttonConfig = _$utils.getFieldValueByName(scope, _config, 'actions'),
 	                        _footer = element.find('.modal-footer');
 	                    for (var i = 0, length = _buttonConfig.length; i < length; i++) {
-	                        var _button = $(_BUTTON_HTML).addClass('btn btn-sm').attr('type', 'button').html(_buttonConfig[i].content);
+	                        var _button = $(_BUTTON_HTML).addClass('btn').attr('type', 'button').html(_buttonConfig[i].content);
 
 	                        if (_buttonConfig[i].type === 'close') _button.attr('data-dismiss', 'modal');
 	                        if (_buttonConfig[i].type === 'primary') _button.addClass('btn-primary');
