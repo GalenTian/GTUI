@@ -4,7 +4,6 @@
     uglify = require('gulp-uglify'),
     cleancss = require('gulp-cleancss'),
     clean = require('gulp-clean'),
-    nuget = require('gulp-nuget'),
     header = require('gulp-header');
     webpack = require('webpack-stream'),
     fs = require('fs'),
@@ -23,17 +22,17 @@ var projectName = 'gtui',
     buildFolder = './build/',
     fontsSrcFolder = './fonts/',
 
-    distFolder = './dist/',
+    distFolder = './examples/dist/',
     cssFolder = distFolder + 'css/',
     jsFolder = distFolder + 'js/',
     fontsFolder = distFolder + 'fonts/',
-        
+    
     jsExt = '.js',
     minJsExt = '.min.js',
     lessExt = '.less',
     cssExt = '.css',
     minCssExt = '.min.css',
-        
+    
     allFiles = '*.*';
 
 var tasks = ['clean', 'js', 'css', 'fonts'];
