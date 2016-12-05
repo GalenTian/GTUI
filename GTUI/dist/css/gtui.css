@@ -1,4 +1,4 @@
-/* Packaged at 14:29 Dec 1, 2016. Version: None */
+/* Packaged at 12:3 Dec 5, 2016. Version: None */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 html {
   font-family: sans-serif;
@@ -6960,6 +6960,11 @@ button.close {
 @media (min-width: 992px) {
   .modal-lg {
     width: 900px;
+  }
+}
+@media (min-width: 1200px) {
+  .modal-xl {
+    width: 1150px;
   }
 }
 .tooltip {

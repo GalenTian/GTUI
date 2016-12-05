@@ -75,6 +75,18 @@
                                 element.children('input:last').datepicker('update', nVal);
                             }
                         });
+
+                        element.children('input:first')
+                            .off('changeDate')
+                            .on('changeDate', { scope: scope, config: _config, element: element }, function (e) {
+                                _$utils.setPropertyValueByName(e.data.scope, e.data.config, 'startField', e.data.element.children('input:first').val());
+                            });
+
+                        element.children('input:last')
+                            .off('changeDate')
+                            .on('changeDate', { scope: scope, config: _config, element: element }, function (e) {
+                                _$utils.setPropertyValueByName(e.data.scope, e.data.config, 'endField', e.data.element.children('input:last').val());
+                            });
                     }
                 }
             };

@@ -1,4 +1,4 @@
-/* Packaged at 14:29 Dec 1, 2016. Version: None */
+/* Packaged at 12:3 Dec 5, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -4215,6 +4215,18 @@
 	                                element.children('input:last').datepicker('update', nVal);
 	                            }
 	                        });
+
+	                        element.children('input:first')
+	                            .off('changeDate')
+	                            .on('changeDate', { scope: scope, config: _config, element: element }, function (e) {
+	                                _$utils.setPropertyValueByName(e.data.scope, e.data.config, 'startField', e.data.element.children('input:first').val());
+	                            });
+
+	                        element.children('input:last')
+	                            .off('changeDate')
+	                            .on('changeDate', { scope: scope, config: _config, element: element }, function (e) {
+	                                _$utils.setPropertyValueByName(e.data.scope, e.data.config, 'endField', e.data.element.children('input:last').val());
+	                            });
 	                    }
 	                }
 	            };
@@ -4517,6 +4529,7 @@
 	                _temp$.find('.modal-body').html(el.children('.modal-body').html());
 
 	                if (config.type === 'confirm') _temp$.find('.modal-dialog').addClass('modal-sm');
+	                else if (config.type === 'dialog-lg') _temp$.find('.modal-dialog').addClass('modal-xl');
 	                else _temp$.find('.modal-dialog').addClass('modal-lg');
 
 	                return _temp$.prop('outerHTML');
@@ -4637,7 +4650,9 @@
 
 	                var _nextLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text('下一页').addClass(_NEXT_CLASS)));
 	                var _nextGoupLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text('下一组').addClass(_NEXT_GROUP_CLASS)));
-	                var _latLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text('末页').addClass(_LAST_CLASS)));
+	                var _lastLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text('末页').addClass(_LAST_CLASS)));
+	                var _totalPagesLi = $(_LI_HTML).append($(_SPAN_HTML).text('{{\'共\' + ' + _$utils.getFieldStringByName(config, 'total') + '+ \'页\'}}'));
+	                var _totalLi = $(_LI_HTML).append($(_SPAN_HTML).text('{{\'共\' + ' + _$utils.getFieldStringByName(config, 'count') + '+ \'条\'}}'));
 
 	                _div.append(
 	                    _ul.append(_firstLi)
@@ -4646,7 +4661,9 @@
 	                        .append(_itemsLi)
 	                        .append(_nextLi)
 	                        .append(_nextGoupLi)
-	                        .append(_latLi)
+	                        .append(_lastLi)
+	                        .append(_totalPagesLi)
+	                        .append(_totalLi)
 	                );
 
 	                return _div.prop('outerHTML');

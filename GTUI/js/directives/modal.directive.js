@@ -36,6 +36,7 @@
                 _temp$.find('.modal-body').html(el.children('.modal-body').html());
 
                 if (config.type === 'confirm') _temp$.find('.modal-dialog').addClass('modal-sm');
+                else if (config.type === 'dialog-lg') _temp$.find('.modal-dialog').addClass('modal-xl');
                 else _temp$.find('.modal-dialog').addClass('modal-lg');
 
                 return _temp$.prop('outerHTML');
