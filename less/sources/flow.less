@@ -1,0 +1,179 @@
+﻿.flow {
+
+    > ul {
+        .clearfix();
+        margin: 0;
+        padding: 0;
+        position: relative;
+
+        &:before {
+            content: ' ';
+            width: 100%;
+            height: @flow-line-width;
+            background: @flow-line-color;
+            position: absolute;
+            top: 15px;
+        }
+
+        & > li {
+            position: relative;
+            float: left;
+            list-style: none;
+            z-index: 1;
+
+            & span {
+                background: #fff;
+            }
+
+            &.start-point, &.end-point {
+                font-size: @flow-point-size;
+                color: @flow-line-color;
+                width: 5%;
+            }
+
+            &.end-point {
+                float: right;
+                text-align: right;
+            }
+
+            &.item-point {
+                width: 15%;
+                text-align: center;
+
+                & span {
+                    display: block;
+
+                    &.date {
+                        height: @flow-point-size;
+                        min-width: 100px;
+                        color: @flow-date-color;
+                        font-size: @flow-date-font-size;
+                        display: inline-block;
+                        text-align: center;
+                        border: 3px solid @flow-line-color;
+                        background: #fff;
+                        padding: 3px 10px;
+
+                        border-radius: 3px;
+                    }
+
+                    &.content {
+                        width: 90px;
+                        margin: 23px auto;
+                        padding: 5px 10px 15px;
+                        background: @flow-plan-bg;
+                        position: relative;
+
+                        .border-bottom-radius(3px);
+
+                        &:before {
+                            content: '';
+                            border-width: 0 45px 20px;
+                            border-style: solid;
+                            border-color: transparent transparent @flow-plan-bg;
+                            width: 0;
+                            height: 0;
+                            padding: 0;
+                            margin: 0;
+                            position: absolute;
+                            top: -20px;
+                            left: 0;
+                        }
+
+                        & span {
+                            display: block;
+                            background: inherit;
+                            color: inherit;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.flow-real {
+
+    & > ul {
+        display: table;
+        width: 100%;
+        border-collapse: separate;
+        
+        &:before {
+            content: none;
+        }
+
+        & > li {
+            display: table-cell;
+            height: 100%;
+            float: none;
+            vertical-align: bottom;
+
+            &.item-point:first-child {
+                margin-left: 5%;
+            }
+
+            &.item-point {
+
+                &.flow-item-ok {
+                    & span.content {
+                        background: @flow-item-bg-ok;
+                        color: white;
+
+                        &:before {
+                            border-top-color: @flow-item-bg-ok;
+                        }
+                    }
+                }
+
+                &.flow-item-warning {
+                    & span.content {
+                        background: @flow-item-bg-warning;
+                        color: white;
+
+                        &:before {
+                            border-top-color: @flow-item-bg-warning;
+                        }
+                    }
+                }
+
+                &.flow-item-late {
+                    & span.content {
+                        background: @flow-item-bg-late;
+                        color: white;
+
+                        &:before {
+                            border-top-color: @flow-item-bg-late;
+                        }
+                    }
+                }
+
+                .border-top-radius(3px);
+
+                & span {
+                    display: block;
+
+                    &.content {
+                        padding: 15px 10px 5px;
+
+                        &:before {
+                            content: '';
+                            border-top-width: 20px;
+                            border-bottom-width: 0;
+                            border-style: solid;
+                            border-color: @flow-plan-bg transparent transparent;
+                            width: 0;
+                            height: 0;
+                            padding: 0;
+                            margin: 0;
+                            position: absolute;
+                            bottom: -20px;
+                            top: auto;
+                            left: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
