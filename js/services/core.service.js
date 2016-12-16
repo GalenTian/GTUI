@@ -56,15 +56,15 @@
                 },
                 getFieldValueByName: function (scope, config, name) {
                     var _targetField = name + constants.FIELD,
-                        _filedValue = config[_targetField];
+                        _fieldValue = config[_targetField];
 
-                    if (_filedValue.indexOf('[') > 0 || _filedValue.indexOf('.') > 0) {
-                        _filedValue = _filedValue.replace(/\[/g, '.');
-                        _filedValue = _filedValue.replace(/\]/g, '');
-                        _filedValue = _filedValue.replace(/'/g, '');
-                        _filedValue = _filedValue.replace(/"/g, '');
+                    if (_fieldValue.indexOf('[') > 0 || _fieldValue.indexOf('.') > 0) {
+                        _fieldValue = _fieldValue.replace(/\[/g, '.');
+                        _fieldValue = _fieldValue.replace(/\]/g, '');
+                        _fieldValue = _fieldValue.replace(/'/g, '');
+                        _fieldValue = _fieldValue.replace(/"/g, '');
 
-                        var _properties = _filedValue.split('.'),
+                        var _properties = _fieldValue.split('.'),
                             _value = config[constants.CONVERT_AS] ?
                                 scope[config[constants.CONVERT_AS]][_properties[0]] :
                                 scope[_properties[0]];
@@ -77,8 +77,8 @@
                     }
                     else 
                         return config[constants.CONVERT_AS] ?
-                            scope[config[constants.CONVERT_AS]][_filedValue] :
-                            scope[_filedValue];
+                            scope[config[constants.CONVERT_AS]][_fieldValue] :
+                            scope[_fieldValue];
                 },
                 getFieldStringByName: function (config, name) {
                     var _targetField = name + constants.FIELD;
@@ -100,14 +100,14 @@
                     else
                         _scope = scope[config[name]];
 
-                    var _filedValue = config[name];
-                    if (_filedValue.indexOf('[') > 0 || _filedValue.indexOf('.') > 0) {
-                        _filedValue = _filedValue.replace(/\[/g, '.');
-                        _filedValue = _filedValue.replace(/\]/g, '');
-                        _filedValue = _filedValue.replace(/'/g, '');
-                        _filedValue = _filedValue.replace(/"/g, '');
+                    var _fieldValue = config[name];
+                    if (_fieldValue.indexOf('[') > 0 || _fieldValue.indexOf('.') > 0) {
+                        _fieldValue = _fieldValue.replace(/\[/g, '.');
+                        _fieldValue = _fieldValue.replace(/\]/g, '');
+                        _fieldValue = _fieldValue.replace(/'/g, '');
+                        _fieldValue = _fieldValue.replace(/"/g, '');
 
-                        var _properties = _filedValue.split('.'),
+                        var _properties = _fieldValue.split('.'),
                             _value = _scope[_properties[0]];
 
                         for (var i = 1, length = _properties.length; i < length; i++) {
@@ -119,7 +119,7 @@
                         }
                     }
                     else
-                        _scope[_filedValue] = value;
+                        _scope[_fieldValue] = value;
                 },
 
                 uuid: function () {

@@ -17,4 +17,6 @@ require('./tabpanel.directive.js');
 require('./table.directive.js');
 require('./table.td.directive.js');
 require('./table.th.directive.js');
+require('./uploader.directive.js');
 require('./verticaltile.directive.js');
+require('./ztree.directive.js');

@@ -1,4 +1,4 @@
-/* Packaged at 0:30 Dec 6, 2016. Version: None */
+/* Packaged at 14:19 Dec 15, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -4121,6 +4121,8 @@
 	__webpack_require__(33);
 	__webpack_require__(34);
 	__webpack_require__(35);
+	__webpack_require__(36);
+	__webpack_require__(37);
 
 /***/ },
 /* 19 */
@@ -4180,15 +4182,20 @@
 	                },
 	                replace: true,
 	                link: function link(scope, element, attrs) {
-	                    var _config = _$utils.getConfig(attrs);
-
-	                    $(document).ready(function () {
-	                        element.datepicker({
+	                    var _config = _$utils.getConfig(attrs),
+	                        _options = {
 	                            format: "yyyy-mm-dd",
 	                            language: "zh-CN",
 	                            autoclose: true,
 	                            todayHighlight: true
-	                        });
+	                        };
+
+	                    if (_config.startDate && _config.startDate.toLowerCase() === 'today') {
+	                        _options.startDate = new Date();
+	                    }
+
+	                    $(document).ready(function () {
+	                        element.datepicker(_options);
 	                    });
 
 	                    if (element[0].nodeName === 'INPUT') {
@@ -4630,7 +4637,7 @@
 	                
 	            _MAX_PAGES = 9;
 
-	        gta.directive('gtuiPager', function (_$utils) {
+	        gta.directive('gtuiPager', function (_$utils, $log) {
 
 	            var _getTemplate = function (el, config) {
 	                // Template outer element
@@ -4676,7 +4683,7 @@
 	             */
 	            var _getPages = function (selectedPage, totalPages) {
 	                if ((typeof (selectedPage) === 'undefined' || isNaN(selectedPage)) || (typeof (totalPages) === 'undefined' || isNaN(totalPages))) {
-	                    console.error('gtui-pager: Make sure the selcted page and total pages are existed and they are numbers. ');
+	                    throw 'gtui-pager: Make sure the selcted page and total pages are existed and they are numbers. ';
 	                }
 
 	                var _maxPage = _MAX_PAGES,
@@ -4785,7 +4792,7 @@
 	                template: function (element, attrs) {
 	                    // Deal with data-config
 	                    if (!attrs.config) {
-	                        console.error('gtui-pager: "data-config" attribute is missing.');
+	                        $log.warn('gtui-pager: "data-config" attribute is missing.');
 	                        return _DIV_HTML;
 	                    }
 	                    else {
@@ -5347,6 +5354,36 @@
 
 	(function ($) {
 	    if (window.angular) {
+	        var _gta = angular.module('gtui');
+
+	        _gta.directive('gtuiUploader', function (_$utils) {
+	            return {
+	                restrict: "EA",
+	                link: function (scope, element, attrs) {
+	                    var _config = _$utils.getConfig(attrs);
+
+	                    element.on('change.uploader.gtui', function (e) {
+	                        scope.$apply(function () {
+	                            _$utils.setPropertyValueByName(scope, _config, 'valueField', e.target.value);
+	                        });
+	                    });
+
+	                    scope.$watch(_$utils.getFieldStringByName(_config, 'value'), function (nVal, oVal) {
+	                        if (nVal != oVal && !nVal)
+	                            element.val('');
+	                    });
+	                }
+	            };
+	        });
+	    }
+	})(jQuery);
+
+/***/ },
+/* 36 */
+/***/ function(module, exports) {
+
+	(function ($) {
+	    if (window.angular) {
 	        var gta = angular.module('gtui');
 
 	        gta.directive('gtuiVerticalTile', function () {
@@ -5357,6 +5394,99 @@
 	                    $(document).ready(function () {
 	                        element.verticaltile();
 	                    });
+	                }
+	            };
+	        });
+	    }
+	})(jQuery);
+
+/***/ },
+/* 37 */
+/***/ function(module, exports) {
+
+	(function ($) {
+	    if (window.angular) {
+	        var _gta = angular.module('gtui');
+
+	        var ZTREE_CLASS = 'ztree';
+
+	        var _dSetting = function () {
+	                return {
+	                    async: {
+	                        enable: true
+	                    },
+	                    view: {
+	                        showIcon: false,
+	                        showLine: false
+	                    },
+	                    check: {
+	                        enable: true
+	                    },
+	                    data: {
+	                        key: {
+	                            name: ''
+	                        },
+	                        simpleData: {
+	                            idKey: '',
+	                            pIdKey: '',
+	                            enable: true
+	                        }
+	                    },
+	                    callback: {}
+	                };
+	            },
+	            setSelection = function (setting, type) {
+	                if (type && type.toLowerCase() === 'radio') {
+	                    setting.check.chkStyle = 'radio';
+	                    setting.check.radioType = 'all';
+	                }
+	                else {
+	                    setting.check.chkStyle = 'checkbox';
+	                }
+	            },
+	            setData = function (setting, config) {
+	                setting.data.key.name = config.contentField;
+	                setting.data.simpleData.idKey = config.keyField;
+	                setting.data.simpleData.pIdKey = config.parendKeyField;
+	            },
+	            getSelectedNodes = function (treeId) {
+	                var checkedNodes = $.fn.zTree.getZTreeObj(treeId).getCheckedNodes();
+
+	                for (var i = 0; i < checkedNodes.length; i++) {
+	                    if (checkedNodes[i].check_Child_State === 1) {
+	                        checkedNodes.splice(i, 1);
+	                        i--;
+	                    }
+	                }
+
+	                return checkedNodes;
+	            };
+
+	        _gta.directive('gtuiZtree', function (_$utils) {
+	            return {
+	                restrict: "EA",
+	                template: '',
+	                link: function (scope, element, attrs) {
+	                    var _config = _$utils.getConfig(attrs),
+	                        _setting = _dSetting(),
+	                        _items = _$utils.getFieldValueByName(scope, _config, 'items');
+
+	                    setSelection(_setting, _config.selectionType);
+	                    setData(_setting, _config);
+
+	                    element.addClass(ZTREE_CLASS);
+	                    
+	                    if (_items && _items.length > 0)
+	                        _items[0].open = true;
+
+	                    _setting.callback.onCheck = function (e, tId, node) {
+	                        var selectedItems = getSelectedNodes(tId);
+
+	                        _$utils.setPropertyValueByName(scope, _config, 'selectedField', selectedItems);
+	                        scope.$apply();
+	                    };
+
+	                    $.fn.zTree.init(element, _setting, _items);
 	                }
 	            };
 	        });

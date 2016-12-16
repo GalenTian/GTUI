@@ -19,7 +19,7 @@
                 
             _MAX_PAGES = 9;
 
-        gta.directive('gtuiPager', function (_$utils) {
+        gta.directive('gtuiPager', function (_$utils, $log) {
 
             var _getTemplate = function (el, config) {
                 // Template outer element
@@ -65,7 +65,7 @@
              */
             var _getPages = function (selectedPage, totalPages) {
                 if ((typeof (selectedPage) === 'undefined' || isNaN(selectedPage)) || (typeof (totalPages) === 'undefined' || isNaN(totalPages))) {
-                    console.error('gtui-pager: Make sure the selcted page and total pages are existed and they are numbers. ');
+                    throw 'gtui-pager: Make sure the selcted page and total pages are existed and they are numbers. ';
                 }
 
                 var _maxPage = _MAX_PAGES,
@@ -174,7 +174,7 @@
                 template: function (element, attrs) {
                     // Deal with data-config
                     if (!attrs.config) {
-                        console.error('gtui-pager: "data-config" attribute is missing.');
+                        $log.warn('gtui-pager: "data-config" attribute is missing.');
                         return _DIV_HTML;
                     }
                     else {

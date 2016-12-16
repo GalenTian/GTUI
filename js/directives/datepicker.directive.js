@@ -40,15 +40,20 @@
                 },
                 replace: true,
                 link: function link(scope, element, attrs) {
-                    var _config = _$utils.getConfig(attrs);
-
-                    $(document).ready(function () {
-                        element.datepicker({
+                    var _config = _$utils.getConfig(attrs),
+                        _options = {
                             format: "yyyy-mm-dd",
                             language: "zh-CN",
                             autoclose: true,
                             todayHighlight: true
-                        });
+                        };
+
+                    if (_config.startDate && _config.startDate.toLowerCase() === 'today') {
+                        _options.startDate = new Date();
+                    }
+
+                    $(document).ready(function () {
+                        element.datepicker(_options);
                     });
 
                     if (element[0].nodeName === 'INPUT') {

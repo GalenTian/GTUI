@@ -4,11 +4,17 @@
     <title></title>
     <meta charset="utf-8" />
 
+    <link type="text/css" rel="stylesheet" href="dist/css/gtui.css" />
+
     <link type="text/css" rel="stylesheet" href="lib/ztree/css/zTreeStyle/zTreeStyle.css" />
 </head>
-<body>
-    <div class="container-fluid">
-        <div class="zTreeDemoBackground left">
+<body ng-app="GTUIComponent">
+    <div class="container-fluid" ng-controller="ContentController as cc">
+        <div gtui-ztree data-config="{ itemsField: 'items', keyField: 'id', parendKeyField: 'pId', contentField: 'displayContent', selectionType: 'checkbox', selectedField: 'selectedItems', controllerAs: 'cc' }">
+
+        </div>
+
+        <!--<div class="zTreeDemoBackground left">
             <ul>
                 <li>
                     <span>调整总节点数，测试加载速度：</span>
@@ -22,12 +28,15 @@
                 </li>
             </ul>
             <ul id="treeDemo" class="ztree"></ul>
-        </div>
+        </div>-->
     </div>
 
     <script src="lib/jquery-1.9.0.js"></script>
-    <script src="lib/ztree/js/jquery.ztree.core.js"></script>
-    <script>
+    <script src="lib/jquery-ui-1.9.2.js"></script>
+    <script src="lib/angular-1.28.js"></script>
+    <script src="dist/js/gtui.js"></script>
+    <script src="lib/ztree/js/jquery.ztree.all.js"></script>
+    <!--<script>
         var setting = {
             view: {
                 showIcon: false,
@@ -161,6 +170,28 @@
             $("#createTree").bind("click", createTree);
 
         });
+    </script>-->
+
+    <script>
+        var MyContentController = function ($scope) {
+            var vm = this;
+
+            vm.items = [
+                { id: 0, pId: undefined, displayContent: 'Tree Node 01' },
+                { id: 1, pId: 0, displayContent: 'Tree Node 02' },
+                { id: 2, pId: 0, displayContent: 'Tree Node 03' },
+                { id: 3, pId: 1, displayContent: 'Tree Node 04' },
+                { id: 4, pId: 1, displayContent: 'Tree Node 05' },
+                { id: 5, pId: 2, displayContent: 'Tree Node 06' },
+                { id: 6, pId: 0, displayContent: 'Tree Node 07' }
+            ];
+
+            return vm;
+        };
+
+        // Page Controller
+        angular.module('GTUIComponent', ['gtui'])
+            .controller('ContentController', MyContentController)
     </script>
 </body>
 </html>
