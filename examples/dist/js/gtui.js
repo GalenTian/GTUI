@@ -1,4 +1,4 @@
-/* Packaged at 14:19 Dec 15, 2016. Version: None */
+/* Packaged at 13:14 Dec 19, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -3807,6 +3807,8 @@
 	        updateLayout: function () {
 	            var _self = this;
 
+	            _self._getTables();
+
 	            _self._dealWithOriginHeader();
 	            _self._dealWithFrozenHeader();
 	            _self._dealWithFrozenColumns();
@@ -3851,11 +3853,11 @@
 	            var _top = _el.position().top,
 	                _docHeight = document.documentElement.clientHeight,
 	                _offsetBottom = (gtui.utils.Browser.msie == 8 ? document.body.clientHeight :
-	                    Math.max(document.body.clientHeight, $('html').outerHeight())) - _top - _el.height();
+	                    Math.max(document.body.clientHeight, $('html').outerHeight())) - _top - _el.outerHeight();
 
 	            if (_top >= _docHeight - _offsetBottom) { }
 	            else {
-	                _el.outerHeight(_docHeight - _offsetBottom - _top);
+	                _el.outerHeight(Math.max(parseInt(_el.css('minHeight')), _docHeight - _offsetBottom - _top));
 	                _self._docClientHeight = _docHeight;
 
 	                _el.trigger('resize', e);
@@ -3875,6 +3877,10 @@
 	        },
 	        _destory: function e() {
 	            $(window).off('resize' + this.eventNamespace);
+	        },
+
+	        updateLayout: function (e) {
+	            this._updateHeight();
 	        }
 	    });
 	})(jQuery);
@@ -3921,7 +3927,7 @@
 	        var _ajax = function (url, data, successCallback, errorCallback, isAsync) {
 	            if (!errorCallback) {
 	                errorCallback = function (data, status, config, statusText) {
-	                    console.error(data);
+	                    throw data;
 	                };
 	            }
 
@@ -3965,15 +3971,15 @@
 	                },
 	                getFieldValueByName: function (scope, config, name) {
 	                    var _targetField = name + constants.FIELD,
-	                        _filedValue = config[_targetField];
+	                        _fieldValue = config[_targetField];
 
-	                    if (_filedValue.indexOf('[') > 0 || _filedValue.indexOf('.') > 0) {
-	                        _filedValue = _filedValue.replace(/\[/g, '.');
-	                        _filedValue = _filedValue.replace(/\]/g, '');
-	                        _filedValue = _filedValue.replace(/'/g, '');
-	                        _filedValue = _filedValue.replace(/"/g, '');
+	                    if (_fieldValue.indexOf('[') > 0 || _fieldValue.indexOf('.') > 0) {
+	                        _fieldValue = _fieldValue.replace(/\[/g, '.');
+	                        _fieldValue = _fieldValue.replace(/\]/g, '');
+	                        _fieldValue = _fieldValue.replace(/'/g, '');
+	                        _fieldValue = _fieldValue.replace(/"/g, '');
 
-	                        var _properties = _filedValue.split('.'),
+	                        var _properties = _fieldValue.split('.'),
 	                            _value = config[constants.CONVERT_AS] ?
 	                                scope[config[constants.CONVERT_AS]][_properties[0]] :
 	                                scope[_properties[0]];
@@ -3986,8 +3992,8 @@
 	                    }
 	                    else 
 	                        return config[constants.CONVERT_AS] ?
-	                            scope[config[constants.CONVERT_AS]][_filedValue] :
-	                            scope[_filedValue];
+	                            scope[config[constants.CONVERT_AS]][_fieldValue] :
+	                            scope[_fieldValue];
 	                },
 	                getFieldStringByName: function (config, name) {
 	                    var _targetField = name + constants.FIELD;
@@ -4009,14 +4015,14 @@
 	                    else
 	                        _scope = scope[config[name]];
 
-	                    var _filedValue = config[name];
-	                    if (_filedValue.indexOf('[') > 0 || _filedValue.indexOf('.') > 0) {
-	                        _filedValue = _filedValue.replace(/\[/g, '.');
-	                        _filedValue = _filedValue.replace(/\]/g, '');
-	                        _filedValue = _filedValue.replace(/'/g, '');
-	                        _filedValue = _filedValue.replace(/"/g, '');
+	                    var _fieldValue = config[name];
+	                    if (_fieldValue.indexOf('[') > 0 || _fieldValue.indexOf('.') > 0) {
+	                        _fieldValue = _fieldValue.replace(/\[/g, '.');
+	                        _fieldValue = _fieldValue.replace(/\]/g, '');
+	                        _fieldValue = _fieldValue.replace(/'/g, '');
+	                        _fieldValue = _fieldValue.replace(/"/g, '');
 
-	                        var _properties = _filedValue.split('.'),
+	                        var _properties = _fieldValue.split('.'),
 	                            _value = _scope[_properties[0]];
 
 	                        for (var i = 1, length = _properties.length; i < length; i++) {
@@ -4028,7 +4034,7 @@
 	                        }
 	                    }
 	                    else
-	                        _scope[_filedValue] = value;
+	                        _scope[_fieldValue] = value;
 	                },
 
 	                uuid: function () {
@@ -4187,6 +4193,7 @@
 	                            format: "yyyy-mm-dd",
 	                            language: "zh-CN",
 	                            autoclose: true,
+	                            keepEmptyValues: true,
 	                            todayHighlight: true
 	                        };
 
@@ -5140,6 +5147,16 @@
 
 	                    scope.__sortBy__ = [];
 
+	                    scope.$watch(_$utils.getFieldStringByName(_config, 'items'), function (nVal, oVal, scope) {
+	                        if (nVal !== oVal) {
+	                            scope.$emit('resize.verticaltile.gtui');
+
+	                            window.setTimeout(function () {
+	                                element.table('updateLayout');
+	                            }, 0);
+	                        }
+	                    }, true);
+
 	                    element.on('sort.gtui.table', { scope: scope, config: _config }, function (e) {
 	                        var _scope = e.data.scope,
 	                            _sortBy = _scope.__sortBy__,
@@ -5393,6 +5410,10 @@
 	                link: function (scope, element, attrs) {
 	                    $(document).ready(function () {
 	                        element.verticaltile();
+	                    });
+
+	                    scope.$on('resize.verticaltile.gtui', function (e) {
+	                        element.verticaltile('updateLayout');
 	                    });
 	                }
 	            };

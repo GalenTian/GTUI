@@ -218,6 +218,8 @@
         updateLayout: function () {
             var _self = this;
 
+            _self._getTables();
+
             _self._dealWithOriginHeader();
             _self._dealWithFrozenHeader();
             _self._dealWithFrozenColumns();

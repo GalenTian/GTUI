@@ -45,6 +45,7 @@
                             format: "yyyy-mm-dd",
                             language: "zh-CN",
                             autoclose: true,
+                            keepEmptyValues: true,
                             todayHighlight: true
                         };
 

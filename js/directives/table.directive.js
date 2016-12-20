@@ -93,6 +93,16 @@
 
                     scope.__sortBy__ = [];
 
+                    scope.$watch(_$utils.getFieldStringByName(_config, 'items'), function (nVal, oVal, scope) {
+                        if (nVal !== oVal) {
+                            scope.$emit('resize.verticaltile.gtui');
+
+                            window.setTimeout(function () {
+                                element.table('updateLayout');
+                            }, 0);
+                        }
+                    }, true);
+
                     element.on('sort.gtui.table', { scope: scope, config: _config }, function (e) {
                         var _scope = e.data.scope,
                             _sortBy = _scope.__sortBy__,

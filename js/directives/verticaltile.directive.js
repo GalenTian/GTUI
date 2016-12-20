@@ -10,6 +10,10 @@
                     $(document).ready(function () {
                         element.verticaltile();
                     });
+
+                    scope.$on('resize.verticaltile.gtui', function (e) {
+                        element.verticaltile('updateLayout');
+                    });
                 }
             };
         });

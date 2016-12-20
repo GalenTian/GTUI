@@ -12,7 +12,7 @@
         var _ajax = function (url, data, successCallback, errorCallback, isAsync) {
             if (!errorCallback) {
                 errorCallback = function (data, status, config, statusText) {
-                    console.error(data);
+                    throw data;
                 };
             }
 

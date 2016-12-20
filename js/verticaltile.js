@@ -21,11 +21,11 @@
             var _top = _el.position().top,
                 _docHeight = document.documentElement.clientHeight,
                 _offsetBottom = (gtui.utils.Browser.msie == 8 ? document.body.clientHeight :
-                    Math.max(document.body.clientHeight, $('html').outerHeight())) - _top - _el.height();
+                    Math.max(document.body.clientHeight, $('html').outerHeight())) - _top - _el.outerHeight();
 
             if (_top >= _docHeight - _offsetBottom) { }
             else {
-                _el.outerHeight(_docHeight - _offsetBottom - _top);
+                _el.outerHeight(Math.max(parseInt(_el.css('minHeight')), _docHeight - _offsetBottom - _top));
                 _self._docClientHeight = _docHeight;
 
                 _el.trigger('resize', e);
@@ -45,6 +45,10 @@
         },
         _destory: function e() {
             $(window).off('resize' + this.eventNamespace);
+        },
+
+        updateLayout: function (e) {
+            this._updateHeight();
         }
     });
 })(jQuery);
