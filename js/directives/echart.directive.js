@@ -15,13 +15,13 @@
                     var _chart = echarts.init(element[0], CHART_THEME),
                         _config = _$utils.getConfig(attrs);
 
-                    $(document).ready(function () {
+                    window.setTimeout(function () {
                         var _option = _$utils.getFieldValueByName(scope, _config, 'option');
 
                         if (angular.isObject(_option)) {
                             _chart.setOption(_option);
                         }
-                    });
+                    }, 0);
 
                     _$utils.setPropertyValueByName(scope, _config, 'meta', _chart);
 

@@ -43,8 +43,10 @@
                     var _config = _$utils.getConfig(attrs);
 
                     $(document).ready(function () {
-                        element.tab({
-                            selectedIndex: _$utils.getFieldValueByName(scope, _config, 'selected')
+                        window.setTimeout(function () {
+                            element.tab({
+                                selectedIndex: _$utils.getFieldValueByName(scope, _config, 'selected')
+                            });
                         });
                     })
 

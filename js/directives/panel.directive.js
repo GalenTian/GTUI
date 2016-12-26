@@ -28,8 +28,8 @@
                 transclude: true,
                 link: function (scope, element, attrs) {
                     element.children('.panel-heading').css({ cursor: 'pointer' }).on('click.gtui.panelsearch', element, function (e) {
-                        //e.data.find('> .panel-heading > .glyphicon').toggleClass('glyphicon-chevron-down');
-                        //e.data.children('.panel-body').toggle();
+                        e.data.find('> .panel-heading > .glyphicon').toggleClass('glyphicon-chevron-down');
+                        e.data.children('.panel-body').toggle();
                     });
                 }
             };

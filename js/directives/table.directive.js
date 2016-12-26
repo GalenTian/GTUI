@@ -138,11 +138,11 @@
 
                                 _sortBy.push({ columnField: _col.valueField, sort: _col.sort });
                             }
+
+                            e.sortBy = _sortBy;
+
+                            _scope.$emit('sort.gtui.table', e);
                         }
-
-                        e.sortBy = _sortBy;
-
-                        _scope.$emit('sort.gtui.table', e);
                     })
                     .on('linkClick.gtui.table', scope, function (e) {
                         e.data.$emit('linkClick.gtui.table', e);

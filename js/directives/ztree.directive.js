@@ -41,7 +41,7 @@
             setData = function (setting, config) {
                 setting.data.key.name = config.contentField;
                 setting.data.simpleData.idKey = config.keyField;
-                setting.data.simpleData.pIdKey = config.parendKeyField;
+                setting.data.simpleData.pIdKey = config.parentKeyField;
             },
             getSelectedNodes = function (treeId) {
                 var checkedNodes = $.fn.zTree.getZTreeObj(treeId).getCheckedNodes();
@@ -69,6 +69,7 @@
                     setData(_setting, _config);
 
                     element.addClass(ZTREE_CLASS);
+                    if (!element.attr('id')) element.attr('id', 'ztree_' + _$utils.uuid());
                     
                     if (_items && _items.length > 0)
                         _items[0].open = true;
@@ -79,6 +80,12 @@
                         _$utils.setPropertyValueByName(scope, _config, 'selectedField', selectedItems);
                         scope.$apply();
                     };
+
+                    scope.$watch(_$utils.getFieldStringByName(_config, 'items'), function (nV, oV, sc) {
+                        if (nV !== oV) {
+                            $.fn.zTree.init(element, _setting, nV);
+                        }
+                    });
 
                     $.fn.zTree.init(element, _setting, _items);
                 }

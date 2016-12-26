@@ -28,7 +28,7 @@
                 replace: true,
                 link: function link(scope, element, attrs) {
                     var _config = _$utils.getConfig(attrs);
-
+                    
                 }
             };
         });

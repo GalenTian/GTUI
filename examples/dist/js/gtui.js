@@ -1,4 +1,4 @@
-/* Packaged at 13:14 Dec 19, 2016. Version: None */
+/* Packaged at 16:46 Dec 26, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -217,6 +217,25 @@
 	            Browser: _browser
 	        }
 	    });
+
+	    $.format = function (source, params) { 
+	        if (arguments.length == 1) 
+	            return function () { 
+	                var args = $.makeArray(arguments); 
+	                args.unshift(source); 
+	                return $.format.apply(this, args); 
+	            }; 
+	        if (arguments.length > 2 && params.constructor != Array) { 
+	            params = $.makeArray(arguments).slice(1); 
+	        }
+	        if (params.constructor != Array) { 
+	            params = [params]; 
+	        }
+	        $.each(params, function (i, n) { 
+	            source = source.replace(new RegExp("\\{" + i + "\\}", "g"), n); 
+	        });
+	        return source; 
+	    };
 
 	    window.gtui = _gtui;
 	})(jQuery);
@@ -4269,13 +4288,13 @@
 	                    var _chart = echarts.init(element[0], CHART_THEME),
 	                        _config = _$utils.getConfig(attrs);
 
-	                    $(document).ready(function () {
+	                    window.setTimeout(function () {
 	                        var _option = _$utils.getFieldValueByName(scope, _config, 'option');
 
 	                        if (angular.isObject(_option)) {
 	                            _chart.setOption(_option);
 	                        }
-	                    });
+	                    }, 0);
 
 	                    _$utils.setPropertyValueByName(scope, _config, 'meta', _chart);
 
@@ -4864,8 +4883,8 @@
 	                transclude: true,
 	                link: function (scope, element, attrs) {
 	                    element.children('.panel-heading').css({ cursor: 'pointer' }).on('click.gtui.panelsearch', element, function (e) {
-	                        //e.data.find('> .panel-heading > .glyphicon').toggleClass('glyphicon-chevron-down');
-	                        //e.data.children('.panel-body').toggle();
+	                        e.data.find('> .panel-heading > .glyphicon').toggleClass('glyphicon-chevron-down');
+	                        e.data.children('.panel-body').toggle();
 	                    });
 	                }
 	            };
@@ -4957,7 +4976,7 @@
 	                replace: true,
 	                link: function link(scope, element, attrs) {
 	                    var _config = _$utils.getConfig(attrs);
-
+	                    
 	                }
 	            };
 	        });
@@ -5013,8 +5032,10 @@
 	                    var _config = _$utils.getConfig(attrs);
 
 	                    $(document).ready(function () {
-	                        element.tab({
-	                            selectedIndex: _$utils.getFieldValueByName(scope, _config, 'selected')
+	                        window.setTimeout(function () {
+	                            element.tab({
+	                                selectedIndex: _$utils.getFieldValueByName(scope, _config, 'selected')
+	                            });
 	                        });
 	                    })
 
@@ -5192,11 +5213,11 @@
 
 	                                _sortBy.push({ columnField: _col.valueField, sort: _col.sort });
 	                            }
+
+	                            e.sortBy = _sortBy;
+
+	                            _scope.$emit('sort.gtui.table', e);
 	                        }
-
-	                        e.sortBy = _sortBy;
-
-	                        _scope.$emit('sort.gtui.table', e);
 	                    })
 	                    .on('linkClick.gtui.table', scope, function (e) {
 	                        e.data.$emit('linkClick.gtui.table', e);
@@ -5468,7 +5489,7 @@
 	            setData = function (setting, config) {
 	                setting.data.key.name = config.contentField;
 	                setting.data.simpleData.idKey = config.keyField;
-	                setting.data.simpleData.pIdKey = config.parendKeyField;
+	                setting.data.simpleData.pIdKey = config.parentKeyField;
 	            },
 	            getSelectedNodes = function (treeId) {
 	                var checkedNodes = $.fn.zTree.getZTreeObj(treeId).getCheckedNodes();
@@ -5496,6 +5517,7 @@
 	                    setData(_setting, _config);
 
 	                    element.addClass(ZTREE_CLASS);
+	                    if (!element.attr('id')) element.attr('id', 'ztree_' + _$utils.uuid());
 	                    
 	                    if (_items && _items.length > 0)
 	                        _items[0].open = true;
@@ -5506,6 +5528,12 @@
 	                        _$utils.setPropertyValueByName(scope, _config, 'selectedField', selectedItems);
 	                        scope.$apply();
 	                    };
+
+	                    scope.$watch(_$utils.getFieldStringByName(_config, 'items'), function (nV, oV, sc) {
+	                        if (nV !== oV) {
+	                            $.fn.zTree.init(element, _setting, nV);
+	                        }
+	                    });
 
 	                    $.fn.zTree.init(element, _setting, _items);
 	                }
