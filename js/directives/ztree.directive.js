@@ -43,8 +43,8 @@
                 setting.data.simpleData.idKey = config.keyField;
                 setting.data.simpleData.pIdKey = config.parentKeyField;
             },
-            getSelectedNodes = function (tree) {
-                var checkedNodes = tree.getCheckedNodes();
+            getSelectedNodes = function (treeId) {
+                var checkedNodes = $.fn.zTree.getZTreeObj(treeId).getCheckedNodes();
 
                 for (var i = 0; i < checkedNodes.length; i++) {
                     if (checkedNodes[i].check_Child_State === 1) {
@@ -69,13 +69,13 @@
                     setData(_setting, _config);
 
                     element.addClass(ZTREE_CLASS);
-                    //if (!element.attr('id')) element.attr('id', 'ztree_' + _$utils.uuid());
+                    if (!element.attr('id')) element.attr('id', 'ztree_' + _$utils.uuid());
                     
                     if (_items && _items.length > 0)
                         _items[0].open = true;
 
                     _setting.callback.onCheck = function (e, tId, node) {
-                        var selectedItems = getSelectedNodes(_ztree$);
+                        var selectedItems = getSelectedNodes(tId);
 
                         _$utils.setPropertyValueByName(scope, _config, 'selectedField', selectedItems);
                         scope.$apply();
@@ -87,10 +87,10 @@
                         }
                     });
 
-                    var _ztree$ = $.fn.zTree.init(element, _setting, _items);
+                    var _ztree = $.fn.zTree.init(element, _setting, _items);
 
                     if (_config.meta) {
-                        _$utils.setPropertyValueByName(scope, _config, 'meta', _ztree$);
+                        _$utils.setPropertyValueByName(scope, _config, 'meta', _ztree);
                     }
                 }
             };
