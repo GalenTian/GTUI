@@ -1,4 +1,4 @@
-/* Packaged at 16:46 Dec 26, 2016. Version: None */
+/* Packaged at 21:3 Dec 27, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -5535,7 +5535,11 @@
 	                        }
 	                    });
 
-	                    $.fn.zTree.init(element, _setting, _items);
+	                    var ztree = $.fn.zTree.init(element, _setting, _items);
+
+	                    if (_config.meta) {
+	                        _$utils.setPropertyValueByName(scope, _config, 'meta', ztree);
+	                    }
 	                }
 	            };
 	        });
