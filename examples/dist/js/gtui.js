@@ -1,4 +1,4 @@
-/* Packaged at 9:39 Dec 30, 2016. Version: None */
+/* Packaged at 15:0 Dec 30, 2016. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -4212,6 +4212,7 @@
 	                            format: "yyyy-mm-dd",
 	                            language: "zh-CN",
 	                            autoclose: true,
+	                            clearBtn: true,
 	                            keepEmptyValues: true,
 	                            todayHighlight: true
 	                        };

@@ -1,4 +1,4 @@
-/* Packaged at 9:39 Dec 30, 2016. Version: None */
+/* Packaged at 15:0 Dec 30, 2016. Version: None */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 html {
   font-family: sans-serif;
@@ -4300,7 +4300,8 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.focus {
   -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   background-clip: padding-box;
-  max-height: 500px;
+  max-height: 350px;
+  max-width: 300px;
   overflow: auto;
 }
 .dropdown-menu.pull-right {
