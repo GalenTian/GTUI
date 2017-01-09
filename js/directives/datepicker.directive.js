@@ -69,6 +69,8 @@
                             .off('changeDate')
                             .on('changeDate', { scope: scope, config: _config, element: element }, function (e) {
                                 _$utils.setPropertyValueByName(e.data.scope, e.data.config, 'dateField', e.data.element.val());
+
+                                scope.$apply();
                             });
                     }
                     else {
@@ -87,12 +89,16 @@
                             .off('changeDate')
                             .on('changeDate', { scope: scope, config: _config, element: element }, function (e) {
                                 _$utils.setPropertyValueByName(e.data.scope, e.data.config, 'startField', e.data.element.children('input:first').val());
+
+                                scope.$apply();
                             });
 
                         element.children('input:last')
                             .off('changeDate')
                             .on('changeDate', { scope: scope, config: _config, element: element }, function (e) {
                                 _$utils.setPropertyValueByName(e.data.scope, e.data.config, 'endField', e.data.element.children('input:last').val());
+
+                                scope.$apply();
                             });
                     }
                 }
