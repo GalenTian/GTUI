@@ -183,6 +183,9 @@
                 $(tr).outerHeight(tr.offsetHeight);
             });
         },
+        _dealWidthContent: function () {
+            this._originTableContainer.outerHeight(this.element.outerHeight() - this._frozenHeaderContainer.outerHeight());
+        },
         _getFrozenColumnsCount: function () {
             var count = parseInt(this.options.frozenColumnsCount);
             return count ? count : 0;
@@ -224,6 +227,7 @@
             _self._dealWithFrozenHeader();
             _self._dealWithFrozenColumns();
             _self._dealWithFrozenColumnsHeader();
+            _self._dealWidthContent();
 
             _self._hideRedundancy();
         },

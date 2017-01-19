@@ -1,4 +1,4 @@
-/* Packaged at 10:14 Jan 9, 2017. Version: None */
+/* Packaged at 13:32 Jan 19, 2017. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -3791,6 +3791,9 @@
 	                $(tr).outerHeight(tr.offsetHeight);
 	            });
 	        },
+	        _dealWidthContent: function () {
+	            this._originTableContainer.outerHeight(this.element.outerHeight() - this._frozenHeaderContainer.outerHeight());
+	        },
 	        _getFrozenColumnsCount: function () {
 	            var count = parseInt(this.options.frozenColumnsCount);
 	            return count ? count : 0;
@@ -3832,6 +3835,7 @@
 	            _self._dealWithFrozenHeader();
 	            _self._dealWithFrozenColumns();
 	            _self._dealWithFrozenColumnsHeader();
+	            _self._dealWidthContent();
 
 	            _self._hideRedundancy();
 	        },
@@ -4227,7 +4231,7 @@
 
 	                    if (element[0].nodeName === 'INPUT') {
 	                        scope.$watch(_$utils.getFieldStringByName(_config, 'date'), function (nVal, oVal, scope) {
-	                            if (nVal !== oVal || !element.datepicker('getDate')) {
+	                            if (element.data('datepicker') && (nVal !== oVal || !element.datepicker('getDate'))) {
 	                                element.datepicker('update', nVal);
 	                            }
 	                        });
@@ -4242,12 +4246,12 @@
 	                    }
 	                    else {
 	                        scope.$watch(_$utils.getFieldStringByName(_config, 'start'), function (nVal, oVal, scope) {
-	                            if (nVal !== oVal || !element.children('input:first').datepicker('getDate')) {
+	                            if (element.data('datepicker') && (nVal !== oVal || !element.children('input:first').datepicker('getDate'))) {
 	                                element.children('input:first').datepicker('update', nVal);
 	                            }
 	                        });
 	                        scope.$watch(_$utils.getFieldStringByName(_config, 'end'), function (nVal, oVal, scope) {
-	                            if (nVal !== oVal || !element.children('input:last').datepicker('getDate')) {
+	                            if (element.data('datepicker') && (nVal !== oVal || !element.children('input:last').datepicker('getDate'))) {
 	                                element.children('input:last').datepicker('update', nVal);
 	                            }
 	                        });
@@ -4880,7 +4884,7 @@
 	                    _template.push('    <span class="glyphicon glyphicon-chevron-up"></span>');
 	                    _template.push('    {{' + _$utils.getFieldStringByName(_config, 'title') + '}}');
 	                    _template.push('  </div>');
-	                    _template.push('  <div class="panel-body" ng-transclude>');
+	                    _template.push('  <div class="panel-body" ng-transclude style="display: ' + (_config.display ? _config.display : 'block') + ';">');
 	                    _template.push('  </div>');
 	                    _template.push('</div>');
 

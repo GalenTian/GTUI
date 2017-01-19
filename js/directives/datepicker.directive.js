@@ -60,7 +60,7 @@
 
                     if (element[0].nodeName === 'INPUT') {
                         scope.$watch(_$utils.getFieldStringByName(_config, 'date'), function (nVal, oVal, scope) {
-                            if (nVal !== oVal || !element.datepicker('getDate')) {
+                            if (element.data('datepicker') && (nVal !== oVal || !element.datepicker('getDate'))) {
                                 element.datepicker('update', nVal);
                             }
                         });
@@ -75,12 +75,12 @@
                     }
                     else {
                         scope.$watch(_$utils.getFieldStringByName(_config, 'start'), function (nVal, oVal, scope) {
-                            if (nVal !== oVal || !element.children('input:first').datepicker('getDate')) {
+                            if (element.data('datepicker') && (nVal !== oVal || !element.children('input:first').datepicker('getDate'))) {
                                 element.children('input:first').datepicker('update', nVal);
                             }
                         });
                         scope.$watch(_$utils.getFieldStringByName(_config, 'end'), function (nVal, oVal, scope) {
-                            if (nVal !== oVal || !element.children('input:last').datepicker('getDate')) {
+                            if (element.data('datepicker') && (nVal !== oVal || !element.children('input:last').datepicker('getDate'))) {
                                 element.children('input:last').datepicker('update', nVal);
                             }
                         });

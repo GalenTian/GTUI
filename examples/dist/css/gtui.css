@@ -1,4 +1,4 @@
-/* Packaged at 10:14 Jan 9, 2017. Version: None */
+/* Packaged at 13:32 Jan 19, 2017. Version: None */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 html {
   font-family: sans-serif;
@@ -2293,7 +2293,7 @@ th {
 }
 .table-fixed th,
 .table-fixed td {
-  word-break: break-all;
+  word-break: break-word;
   word-wrap: break-word;
 }
 .table-condensed > thead > tr > th,
@@ -4748,7 +4748,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav > li > a {
   position: relative;
   display: block;
-  padding: 10px 15px;
+  padding: 3px 15px;
 }
 .nav > li > a:hover,
 .nav > li > a:focus {

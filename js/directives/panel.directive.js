@@ -18,7 +18,7 @@
                     _template.push('    <span class="glyphicon glyphicon-chevron-up"></span>');
                     _template.push('    {{' + _$utils.getFieldStringByName(_config, 'title') + '}}');
                     _template.push('  </div>');
-                    _template.push('  <div class="panel-body" ng-transclude>');
+                    _template.push('  <div class="panel-body" ng-transclude style="display: ' + (_config.display ? _config.display : 'block') + ';">');
                     _template.push('  </div>');
                     _template.push('</div>');
 
