@@ -22,14 +22,16 @@
         gta.directive('gtuiPager', function (_$utils, $log) {
 
             var _getTemplate = function (el, config) {
+                var langDic = window.gtui.i18n[window.gtui.lang] ? window.gtui.i18n[window.gtui.lang] : window.gtui.i18n['zh-cn'];
+
                 // Template outer element
                 var _div = $(_DIV_HTML);
 
                 var _ul = $(_UL_HTML).addClass('pagination');
 
-                var _firstLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text('首页').addClass(_FIRST_CLASS)));
-                var _prevGoupLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text('前一组').addClass(_PREVIOUS_GOUP_CLASS)));
-                var _prevLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text('前一页').addClass(_PREVIOUS_CLASS)));
+                var _firstLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text(langDic['firstPage']).addClass(_FIRST_CLASS)));
+                var _prevGoupLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text(langDic['prevGroup']).addClass(_PREVIOUS_GOUP_CLASS)));
+                var _prevLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text(langDic['prevPage']).addClass(_PREVIOUS_CLASS)));
 
                 var _itemsLi = $(_LI_HTML).attr({
                     'ng-repeat': '__item__ in ' + (config.converAs ? config.converAs + '.__pager__.__items__' : '__pager__.__items__'),
@@ -37,11 +39,11 @@
                 })
                     .append($(_A_HTML).attr({ 'ng-bind': '__item__', 'href': 'javascript: void(0);' }));
 
-                var _nextLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text('下一页').addClass(_NEXT_CLASS)));
-                var _nextGoupLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text('下一组').addClass(_NEXT_GROUP_CLASS)));
-                var _lastLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text('末页').addClass(_LAST_CLASS)));
-                var _totalPagesLi = $(_LI_HTML).append($(_SPAN_HTML).text('{{\'共\' + ' + _$utils.getFieldStringByName(config, 'total') + '+ \'页\'}}'));
-                var _totalLi = $(_LI_HTML).append($(_SPAN_HTML).text('{{\'共\' + ' + _$utils.getFieldStringByName(config, 'count') + '+ \'条\'}}'));
+                var _nextLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text(langDic['nextPage']).addClass(_NEXT_CLASS)));
+                var _nextGoupLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text(langDic['nextGroup']).addClass(_NEXT_GROUP_CLASS)));
+                var _lastLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text(langDic['lastPage']).addClass(_LAST_CLASS)));
+                var _totalPagesLi = $(_LI_HTML).append($(_SPAN_HTML).text('{{\'' + langDic['totalPages'] + '\' + ' + _$utils.getFieldStringByName(config, 'total') + '}}'));
+                var _totalLi = $(_LI_HTML).append($(_SPAN_HTML).text('{{\'' + langDic['totalCount'] + '\' + ' + _$utils.getFieldStringByName(config, 'count') + '}}'));
 
                 _div.append(
                     _ul.append(_firstLi)

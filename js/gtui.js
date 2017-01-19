@@ -1,5 +1,6 @@
 ﻿// Core
 require('./core.js');
+require('./i18n.js');
 
 // Util-ish widgets
 require('./mousewheel.js');

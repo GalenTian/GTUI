@@ -43,7 +43,7 @@
                     var _config = _$utils.getConfig(attrs),
                         _options = {
                             format: "yyyy-mm-dd",
-                            language: "zh-CN",
+                            language: window.gtui.lang === "zh-cn" ? "zh-CN" : undefined,
                             autoclose: true,
                             clearBtn: true,
                             keepEmptyValues: true,

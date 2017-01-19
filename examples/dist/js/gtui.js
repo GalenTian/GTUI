@@ -1,4 +1,4 @@
-/* Packaged at 13:32 Jan 19, 2017. Version: None */
+/* Packaged at 17:18 Jan 19, 2017. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -55,25 +55,26 @@
 
 	// Core
 	__webpack_require__(2);
-
-	// Util-ish widgets
 	__webpack_require__(3);
 
-	// Widget Base
-	__webpack_require__(4);
-	__webpack_require__(5);
+	// Util-ish widgets
 	__webpack_require__(6);
 
-	// Widgets
+	// Widget Base
 	__webpack_require__(7);
 	__webpack_require__(8);
 	__webpack_require__(9);
+
+	// Widgets
 	__webpack_require__(10);
 	__webpack_require__(11);
 	__webpack_require__(12);
+	__webpack_require__(13);
+	__webpack_require__(14);
+	__webpack_require__(15);
 
 	// Angular
-	__webpack_require__(13);
+	__webpack_require__(16);
 
 /***/ },
 /* 2 */
@@ -242,6 +243,62 @@
 
 /***/ },
 /* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	__webpack_require__(4);
+	__webpack_require__(5);
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	(function ($) {
+	    var _gtui = window.gtui;
+	    
+	    if (!_gtui) _gtui = { i18n: {} }
+	    else if (!_gtui.i18n) _gtui.i18n = {}
+
+	    _gtui.i18n['zh-cn'] = {
+	        "firstPage": "首页",
+	        "prevGroup": "前一组",
+	        "prevPage": "前一页",
+	        "nextPage": "后一页",
+	        "nextGroup": "后一组",
+	        "lastPage": "末页",
+	        "totalPages": "总页数: ",
+	        "totalCount": "总条数: "
+	    }
+
+	    window.gtui = _gtui;
+	})(jQuery);
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	(function ($) {
+	    var _gtui = window.gtui;
+	    
+	    if (!_gtui) _gtui = { i18n: {} }
+	    else if (!_gtui.i18n) _gtui.i18n = {}
+
+	    _gtui.i18n['en-us'] = {
+	        "firstPage": "First",
+	        "prevGroup": "Prev Group",
+	        "prevPage": "Prev Page",
+	        "nextPage": "Next Page",
+	        "nextGroup": "Next Group",
+	        "lastPage": "Last",
+	        "totalPages": "Total Pages: ",
+	        "totalCount": "Total Count: "
+	    }
+
+	    window.gtui = _gtui;
+	})(jQuery);
+
+/***/ },
+/* 6 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -444,7 +501,7 @@
 	})(jQuery);
 
 /***/ },
-/* 4 */
+/* 7 */
 /***/ function(module, exports) {
 
 	window.url = (function() {
@@ -637,7 +694,7 @@
 	}
 
 /***/ },
-/* 5 */
+/* 8 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -834,7 +891,7 @@
 	}(jQuery));
 
 /***/ },
-/* 6 */
+/* 9 */
 /***/ function(module, exports) {
 
 	/* ========================================================================
@@ -899,7 +956,7 @@
 
 
 /***/ },
-/* 7 */
+/* 10 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -2990,7 +3047,7 @@
 	})(jQuery);
 
 /***/ },
-/* 8 */
+/* 11 */
 /***/ function(module, exports) {
 
 	/* ========================================================================
@@ -3165,7 +3222,7 @@
 
 
 /***/ },
-/* 9 */
+/* 12 */
 /***/ function(module, exports) {
 
 	/* ========================================================================
@@ -3508,7 +3565,7 @@
 
 
 /***/ },
-/* 10 */
+/* 13 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -3603,7 +3660,7 @@
 	}(jQuery));
 
 /***/ },
-/* 11 */
+/* 14 */
 /***/ function(module, exports) {
 
 	/**
@@ -3850,7 +3907,7 @@
 	})(jQuery);
 
 /***/ },
-/* 12 */
+/* 15 */
 /***/ function(module, exports) {
 
 	/**
@@ -3909,7 +3966,7 @@
 	})(jQuery);
 
 /***/ },
-/* 13 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	if (window.angular) {
@@ -3917,23 +3974,23 @@
 	    // So here module will be defined once.
 	    var gta = angular.module('gtui', []);
 
-	    __webpack_require__(14);
-	    __webpack_require__(18);
+	    __webpack_require__(17);
+	    __webpack_require__(21);
 	}
 
 /***/ },
-/* 14 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Core
-	__webpack_require__(15);
+	__webpack_require__(18);
 
 	// Directives
-	__webpack_require__(16);
-	__webpack_require__(17);
+	__webpack_require__(19);
+	__webpack_require__(20);
 
 /***/ },
-/* 15 */
+/* 18 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4089,7 +4146,7 @@
 	})(jQuery);
 
 /***/ },
-/* 16 */
+/* 19 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4107,7 +4164,7 @@
 	})(jQuery);
 
 /***/ },
-/* 17 */
+/* 20 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4127,16 +4184,13 @@
 	})(jQuery);
 
 /***/ },
-/* 18 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Core
-	__webpack_require__(19);
+	__webpack_require__(22);
 
 	// Directives
-	__webpack_require__(20);
-	__webpack_require__(21);
-	__webpack_require__(22);
 	__webpack_require__(23);
 	__webpack_require__(24);
 	__webpack_require__(25);
@@ -4152,9 +4206,12 @@
 	__webpack_require__(35);
 	__webpack_require__(36);
 	__webpack_require__(37);
+	__webpack_require__(38);
+	__webpack_require__(39);
+	__webpack_require__(40);
 
 /***/ },
-/* 19 */
+/* 22 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4166,7 +4223,7 @@
 	})(jQuery);
 
 /***/ },
-/* 20 */
+/* 23 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4214,7 +4271,7 @@
 	                    var _config = _$utils.getConfig(attrs),
 	                        _options = {
 	                            format: "yyyy-mm-dd",
-	                            language: "zh-CN",
+	                            language: window.gtui.lang === "zh-cn" ? "zh-CN" : undefined,
 	                            autoclose: true,
 	                            clearBtn: true,
 	                            keepEmptyValues: true,
@@ -4279,7 +4336,7 @@
 	})(jQuery);
 
 /***/ },
-/* 21 */
+/* 24 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4338,7 +4395,7 @@
 	})(jQuery);
 
 /***/ },
-/* 22 */
+/* 25 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4410,7 +4467,7 @@
 	})(jQuery);
 
 /***/ },
-/* 23 */
+/* 26 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4451,7 +4508,7 @@
 	})(jQuery);
 
 /***/ },
-/* 24 */
+/* 27 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4488,7 +4545,7 @@
 	})(jQuery);
 
 /***/ },
-/* 25 */
+/* 28 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4532,7 +4589,7 @@
 	})(jQuery);
 
 /***/ },
-/* 26 */
+/* 29 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4650,7 +4707,7 @@
 	})(jQuery);
 
 /***/ },
-/* 27 */
+/* 30 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4677,14 +4734,16 @@
 	        gta.directive('gtuiPager', function (_$utils, $log) {
 
 	            var _getTemplate = function (el, config) {
+	                var langDic = window.gtui.i18n[window.gtui.lang] ? window.gtui.i18n[window.gtui.lang] : window.gtui.i18n['zh-cn'];
+
 	                // Template outer element
 	                var _div = $(_DIV_HTML);
 
 	                var _ul = $(_UL_HTML).addClass('pagination');
 
-	                var _firstLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text('首页').addClass(_FIRST_CLASS)));
-	                var _prevGoupLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text('前一组').addClass(_PREVIOUS_GOUP_CLASS)));
-	                var _prevLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text('前一页').addClass(_PREVIOUS_CLASS)));
+	                var _firstLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text(langDic['firstPage']).addClass(_FIRST_CLASS)));
+	                var _prevGoupLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text(langDic['prevGroup']).addClass(_PREVIOUS_GOUP_CLASS)));
+	                var _prevLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text(langDic['prevPage']).addClass(_PREVIOUS_CLASS)));
 
 	                var _itemsLi = $(_LI_HTML).attr({
 	                    'ng-repeat': '__item__ in ' + (config.converAs ? config.converAs + '.__pager__.__items__' : '__pager__.__items__'),
@@ -4692,11 +4751,11 @@
 	                })
 	                    .append($(_A_HTML).attr({ 'ng-bind': '__item__', 'href': 'javascript: void(0);' }));
 
-	                var _nextLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text('下一页').addClass(_NEXT_CLASS)));
-	                var _nextGoupLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text('下一组').addClass(_NEXT_GROUP_CLASS)));
-	                var _lastLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text('末页').addClass(_LAST_CLASS)));
-	                var _totalPagesLi = $(_LI_HTML).append($(_SPAN_HTML).text('{{\'共\' + ' + _$utils.getFieldStringByName(config, 'total') + '+ \'页\'}}'));
-	                var _totalLi = $(_LI_HTML).append($(_SPAN_HTML).text('{{\'共\' + ' + _$utils.getFieldStringByName(config, 'count') + '+ \'条\'}}'));
+	                var _nextLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text(langDic['nextPage']).addClass(_NEXT_CLASS)));
+	                var _nextGoupLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text(langDic['nextGroup']).addClass(_NEXT_GROUP_CLASS)));
+	                var _lastLi = $(_LI_HTML).append($(_A_HTML).attr('href', 'javascript: void(0);').append($(_SPAN_HTML).text(langDic['lastPage']).addClass(_LAST_CLASS)));
+	                var _totalPagesLi = $(_LI_HTML).append($(_SPAN_HTML).text('{{\'' + langDic['totalPages'] + '\' + ' + _$utils.getFieldStringByName(config, 'total') + '}}'));
+	                var _totalLi = $(_LI_HTML).append($(_SPAN_HTML).text('{{\'' + langDic['totalCount'] + '\' + ' + _$utils.getFieldStringByName(config, 'count') + '}}'));
 
 	                _div.append(
 	                    _ul.append(_firstLi)
@@ -4861,7 +4920,7 @@
 	})(jQuery);
 
 /***/ },
-/* 28 */
+/* 31 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4954,7 +5013,7 @@
 	})(jQuery);
 
 /***/ },
-/* 29 */
+/* 32 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -4995,7 +5054,7 @@
 	})(jQuery);
 
 /***/ },
-/* 30 */
+/* 33 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -5061,7 +5120,7 @@
 	})(jQuery);
 
 /***/ },
-/* 31 */
+/* 34 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -5081,7 +5140,7 @@
 	})(jQuery);
 
 /***/ },
-/* 32 */
+/* 35 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -5249,7 +5308,7 @@
 	})(jQuery);
 
 /***/ },
-/* 33 */
+/* 36 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -5328,7 +5387,7 @@
 	})(jQuery);
 
 /***/ },
-/* 34 */
+/* 37 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -5398,7 +5457,7 @@
 	})(jQuery);
 
 /***/ },
-/* 35 */
+/* 38 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -5428,7 +5487,7 @@
 	})(jQuery);
 
 /***/ },
-/* 36 */
+/* 39 */
 /***/ function(module, exports) {
 
 	(function ($) {
@@ -5454,7 +5513,7 @@
 	})(jQuery);
 
 /***/ },
-/* 37 */
+/* 40 */
 /***/ function(module, exports) {
 
 	(function ($) {
