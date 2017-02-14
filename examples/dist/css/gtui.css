@@ -1,4 +1,4 @@
-/* Packaged at 17:18 Jan 19, 2017. Version: None */
+/* Packaged at 15:36 Feb 14, 2017. Version: None */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 html {
   font-family: sans-serif;
@@ -2284,6 +2284,11 @@ th {
 }
 .table .table {
   background-color: #fff;
+  margin-bottom: 0;
+  border: none;
+}
+.table .group-content > td {
+  padding: 0;
 }
 .table button {
   margin-right: 3px;

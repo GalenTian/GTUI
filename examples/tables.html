@@ -4,15 +4,15 @@
     <title></title>
 	<meta charset="utf-8" />
 
-    <link type="text/css" rel="stylesheet" href="../dist/css/gtui.css" />
+    <link type="text/css" rel="stylesheet" href="dist/css/gtui.css" />
 </head>
 <body ng-app="GTUIComponent">
     <div>
         <h1>Table</h1>
         <div ng-controller="TableController as tc" id="demo-table">
             <div gtui-table gtui-vertical-tile
-                 data-config="{ frozenColumnsCount: 3, tableBordered: true, tableStriped: true, controllerAs: 'tc', headersField: 'headers', itemsField: 'items' }">
-                <table>
+                 data-config="{ frozenColumnsCount: 0, tableBordered: true, tableStriped: true, controllerAs: 'tc', headersField: 'headers', itemsField: 'items' }">
+                <!--<table>
                     <thead>
                         <tr>
                             <th ng-repeat="header in tc.headers" ng-bind="header.displayContent"></th>
@@ -23,7 +23,7 @@
                             <td gtui-table-td ng-repeat="column in tc.headers" data-config="{ itemProp: 'row', headerProp: 'column' }"></td>
                         </tr>
                     </tbody>
-                </table>
+                </table>-->
             </div>
         </div>
         <div><button class="btn" onclick="button_click()">Change ItemsSource</button></div>
@@ -32,7 +32,7 @@
     <script src="lib/jquery-1.9.0.js"></script>
     <script src="lib/jquery-ui-1.9.2.js"></script>
     <script src="lib/angular-1.28.js"></script>
-    <script src="../dist/js/gtui.js"></script>
+    <script src="dist/js/gtui.js"></script>
     <script type="text/javascript">
         function button_click(e) {
             var scope = $('#demo-table').scope(),
@@ -51,11 +51,11 @@
                 { visible: true, displayContent: '是否有效', valueField: 'isValid', type: 'text', filterField: '' },
                 { visible: true, displayContent: '操作', valueField: 'actions', type: 'button-group' }
             ];
-            tc.actions = [
-                { displayContent: '配置权限' },
-                { displayContent: '配置人员' },
-                { displayContent: '删除' }
-            ];
+            // tc.actions = [
+            //     { displayContent: '配置权限' },
+            //     { displayContent: '配置人员' },
+            //     { displayContent: '删除' }
+            // ];
 
             tc.items = [
                 {

@@ -1,4 +1,4 @@
-/* Packaged at 17:18 Jan 19, 2017. Version: None */
+/* Packaged at 15:36 Feb 14, 2017. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -5174,14 +5174,10 @@
 	                    // tables
 	                    _originTableTemplate = el.children('table'),
 	                    _frozenHeaderTemplate,
-	                    _frozenColumnsTemplate,
-	                    _frozenColumnsHeaderTemplate,
 
 	                    // table wrapers
 	                    _originTableWrapper = $(_divHTML).addClass(gtui.table.constant.ORIGIN_TABLE_CONTAINER_CLASS),
 	                    _frozenHeaderWrapper = $(_divHTML).addClass(gtui.table.constant.FROZEN_HEADER_TABLE_CONTAINER_CLASS),
-	                    _frozenColumnsTableWrapper = $(_divHTML).addClass(gtui.table.constant.FROZEN_COLUMNS_TABLE_CONTAINER_CLASS),
-	                    _frozenColumnsHeaderWrapper = $(_divHTML).addClass(gtui.table.constant.FROZEN_COLUMNS_TABLE_HEADER_CONTAINER_CLASS),
 
 	                    _frozenColumnsCount = parseInt(config.frozenColumnsCount);
 
@@ -5197,18 +5193,28 @@
 	                _frozenHeaderTemplate = _originTableTemplate.clone();
 	                _frozenHeaderTemplate.children(_tbodyHTML).remove();
 
-	                // Generate table which holds the frozen columns on left of this table-ish component based on the original table.
-	                _frozenColumnsTemplate = _originTableTemplate.clone();
-
-	                // Generate the table holds the headers of the table holds the frozen columns.
-	                // This table is fixed on top, and fixed on left.
-	                _frozenColumnsHeaderTemplate = _frozenColumnsTemplate.clone();
-	                _frozenColumnsHeaderTemplate.children(_tbodyHTML).remove();
-
 	                _div.append(_originTableWrapper.append(_originTableTemplate))
 	                    .append(_frozenHeaderWrapper.append(_frozenHeaderTemplate))
-	                    .append(_frozenColumnsTableWrapper.append(_frozenColumnsTemplate))
-	                    .append(_frozenColumnsHeaderWrapper.append(_frozenColumnsHeaderTemplate));
+
+	                if (_frozenColumnsCount > 0) {
+	                    var _frozenColumnsTemplate,
+	                        _frozenColumnsHeaderTemplate,
+
+	                        _frozenColumnsTableWrapper = $(_divHTML).addClass(gtui.table.constant.FROZEN_COLUMNS_TABLE_CONTAINER_CLASS),
+	                        _frozenColumnsHeaderWrapper = $(_divHTML).addClass(gtui.table.constant.FROZEN_COLUMNS_TABLE_HEADER_CONTAINER_CLASS),
+
+
+	                    // Generate table which holds the frozen columns on left of this table-ish component based on the original table.
+	                    _frozenColumnsTemplate = _originTableTemplate.clone();
+
+	                    // Generate the table holds the headers of the table holds the frozen columns.
+	                    // This table is fixed on top, and fixed on left.
+	                    _frozenColumnsHeaderTemplate = _frozenColumnsTemplate.clone();
+	                    _frozenColumnsHeaderTemplate.children(_tbodyHTML).remove();
+
+	                    _div.append(_frozenColumnsTableWrapper.append(_frozenColumnsTemplate))
+	                        .append(_frozenColumnsHeaderWrapper.append(_frozenColumnsHeaderTemplate));
+	                }
 
 	                return _div.prop("outerHTML");
 	            };
@@ -5294,6 +5300,19 @@
 	                    })
 	                    .on('buttonClick.gtui.table', scope, function (e) {
 	                        e.data.$emit('buttonClick.gtui.table', e);
+	                    });
+
+	                    // if (_config.meta) {
+	                    //     _$utils.setPropertyValueByName(scope, _config, 'meta', element);
+	                    // }
+
+	                    scope.$on('updateLayout.table.gtui', function (sc, e) {
+	                        if (element.data('table')) {
+	                            window.setTimeout(function () {
+	                                element.table('updateLayout');
+	                            }, 0);
+	                            
+	                        }
 	                    });
 
 	                    $(document).ready(function () {
