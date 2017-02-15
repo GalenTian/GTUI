@@ -85,7 +85,7 @@
                         if (nV !== oV) {
                             $.fn.zTree.init(element, _setting, nV);
                         }
-                    });
+                    }, true);
 
                     var _ztree = $.fn.zTree.init(element, _setting, _items);
 

@@ -1,4 +1,4 @@
-/* Packaged at 15:36 Feb 14, 2017. Version: None */
+/* Packaged at 13:41 Feb 15, 2017. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -5622,7 +5622,7 @@
 	                        if (nV !== oV) {
 	                            $.fn.zTree.init(element, _setting, nV);
 	                        }
-	                    });
+	                    }, true);
 
 	                    var _ztree = $.fn.zTree.init(element, _setting, _items);
 
