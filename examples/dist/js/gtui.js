@@ -1,4 +1,4 @@
-/* Packaged at 13:41 Feb 15, 2017. Version: None */
+/* Packaged at 10:25 Mar 7, 2017. Version: None */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -4406,7 +4406,9 @@
 	            var DIV = '<div></div>',
 	                COL_CETNER_FIRST_CLASS = 'col-lg-offset-2',
 	                COL_CETNER_CLASS = 'col-lg-4 col-md-6',
-	                COL_BASE_CLASS = 'col-sm-6';
+	                COL_SPAN_CENTER_CLASS = 'col-lg-8 col-md-12',
+	                COL_BASE_CLASS = 'col-sm-6',
+	                COL_SPAN_BASE_CLASS = 'col-sm-12';
 
 	            var _getTemplate = function (config, el) {
 	                var _outerDiv = $(DIV).addClass('form-horizontal');;
@@ -4423,9 +4425,16 @@
 	                    _row$ = $(DIV).addClass('row');
 
 	                    for (var j = 0, itemsLength = _items$.length; j < itemsLength; j++) {
-	                        var _col$ = $(DIV).addClass(COL_BASE_CLASS);
+	                        var _colspan = _items$[j].getAttribute('data-colspan');
+	                        if (_colspan > 0) 
+	                            var _col$ = $(DIV).addClass(COL_SPAN_BASE_CLASS);
+	                        else
+	                            var _col$ = $(DIV).addClass(COL_BASE_CLASS);
 	                        if (config.display.toLowerCase() === 'center') {
-	                            _col$.addClass(COL_CETNER_CLASS);
+	                            if (_colspan > 0) 
+	                                _col$.addClass(COL_SPAN_CENTER_CLASS);
+	                            else
+	                                _col$.addClass(COL_CETNER_CLASS);
 	                            if (j % 2 === 0) _col$.addClass(COL_CETNER_FIRST_CLASS);
 	                        }
 
